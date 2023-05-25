@@ -1,0 +1,9 @@
+/checkpoints/
+/log/
+__pycache__/
+.vscode/
+*.zip
+/data/
+*.ipynb
+
+idea.txt
