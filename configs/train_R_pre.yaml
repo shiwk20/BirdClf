@@ -1,0 +1,25 @@
+model:
+  dest: model.BirdClf_R
+  paras:
+    ckpt_path: 'checkpoints/resnet50-0676ba61.pth'
+    save_ckpt_path: 'log/ckpt'
+    embed_size: 525
+
+data:
+  img_size: 224
+  data_path: 'data'
+  augment: False
+  batch_size: 64
+  num_workers: 8
+  
+loss:
+  type: 'cross'
+
+optimizer:
+  type: 'AdamW'  # AdamW, SGD, Adam
+  lr: 1e-3
+  weight_decay: 1e-2
+
+max_epochs: 30
+val_interval: 1
+random_seed: 42

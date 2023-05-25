@@ -52,9 +52,9 @@ class Block(nn.Module):
         out = F.relu(out)
         return out
 
-
+# use ResNet50 as backbone
 class BirdClf_R(nn.Module):
-    def __init__(self, ckpt_path, save_ckpt_path, embed_size: int = 525):
+    def __init__(self, ckpt_path='', save_ckpt_path='log/ckpt', embed_size: int = 525):
         super().__init__()
         self.start_time = None
         self.ckpt_path = ckpt_path
@@ -108,22 +108,21 @@ class BirdClf_R(nn.Module):
         
         return cur_epoch, optim_state_dict
         
-
-    def save_ckpt(self, save_path, epoch, best_accuracy, optimizer, logger, start_time):
+    def save_ckpt(self, save_path, epoch, best_accuracy, optimizer, logger, start_time, is_final = False):
         states = {'state_dict': self.state_dict(), 'epoch': epoch, 
                 'best_accuracy': best_accuracy, 'optimizer': optimizer.state_dict()}
         if self.start_time is not None:
             start_time = self.start_time
         save_path = os.path.join(save_path, start_time)
         os.makedirs(save_path, exist_ok = True)
-        if epoch == -1:
-            save_path = os.path.join(save_path, "last_acc_{:.4f}.pth".format(best_accuracy))
+        if is_final:
+            save_path = os.path.join(save_path, "last_epoch_{}_acc_{:.4f}.pth".format(epoch, best_accuracy))
         else:
             save_path = os.path.join(save_path, "epoch_{}_acc_{:4f}.pth".format(epoch, best_accuracy))
         torch.save(states, save_path)
         logger.info('save ckpt to {}'.format(save_path))
 
 if __name__ == "__main__":
-    model = FaceRecg(embed_size = 512)
-    x = torch.randn(64, 3, 112, 112)
+    model = BirdClf_R()
+    x = torch.randn(64, 3, 224, 224)
     print(model(x).shape)

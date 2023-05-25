@@ -1,34 +1,27 @@
 from torch import nn
-from utils import L2_dist
 import torch
 import numpy as np
 
-class TripletLoss(nn.Module):
-    def __init__(self, alpha):
+class CrossEntropyLoss(nn.Module):
+    def __init__(self, weight=None, reduction='mean', label_smoothing=0.0):
+        """
+        weight: 每个类别的权重, (n_classes,)
+        reduction: 'none', 'mean', 'sum'
+        label_smoothing: 标签平滑, 用于解决过拟合问题
+        """
         super().__init__()
-        self.alpha = alpha
-    
-    def forward(self, anc, pos, neg):
-        pos_dist = L2_dist(anc, pos)
-        neg_dist = L2_dist(anc, neg)
-        
-        hard_indexes = self.get_hard(pos_dist, neg_dist)
-        
-        pos_hard_dist = pos_dist[hard_indexes]
-        neg_hard_dist = neg_dist[hard_indexes]
+        self.criterion = nn.CrossEntropyLoss(weight=weight, reduction=reduction, label_smoothing=label_smoothing)
 
-        return torch.sum(pos_hard_dist - neg_hard_dist + self.alpha) / max(1, len(hard_indexes[0])), len(hard_indexes[0])
-
-    def get_hard(self, pos_dist, neg_dist):
-        hard_mask = (pos_dist - neg_dist + self.alpha > 0).cpu().numpy().flatten()
-        hard_indexes = np.where(hard_mask == True)
-        return hard_indexes
+    def forward(self, logits, labels):
+        """
+        logits: (b, n_classes)
+        labels: (b,)
+        """
+        return self.criterion(logits, labels)
     
 if __name__ == '__main__':
-    criterion = TripletLoss(1)
-    a = torch.randn(64, 512)
-    b = torch.randn(64, 512)
-    c = torch.randn(64, 512)
-    
-    loss = criterion(a, b, c)
+    criterion = CrossEntropyLoss()
+    logits = torch.randn(10, 5)
+    labels = torch.randint(0, 5, (10,))
+    loss = criterion(logits, labels)
     print(loss)
