@@ -136,58 +136,62 @@ def main():
     accuracy_flag = 0
     epoch_loss = 0
     accuracy = 0
-    try:
-        for epoch in range(cur_epoch, config.max_epochs):
-            train_sampler.set_epoch(epoch)
-            # train
-            model.train()
-            epoch_loss = train(optimizer, scheduler, epoch, model, criterion, train_dataloader, logger)
-            
-            logger.info('Epoch: {}, Loss: {:.4f}, lr: {:.4f}'.format(epoch, epoch_loss, optimizer.param_groups[0]['lr']))
-            
-            if dist.get_rank() == 0 and (epoch + 1) % config.val_interval == 0:
-                # validation
-                model.eval()
-                accuracy, _ = evaluate(model, val_dataloader, logger, device)
-                if accuracy > best_accuracy:
-                    accuracy_flag = 0
-                    best_accuracy = accuracy
-                    # save ckpt
-                    model.module.save_ckpt(model.module.save_ckpt_path, epoch + 1, best_accuracy, optimizer, logger, start_time)
-                else:
-                    accuracy_flag += 1
-                    logger.info('accuracy_flag: {}'.format(accuracy_flag))
-                    if accuracy_flag >= 5:
-                        break
-                logger.info('Epoch: {}, Loss: {:.4f}, lr: {:.4f}, Accuracy: {:.4f}, Best Accuracy: {:.4f}'.format(epoch, epoch_loss, optimizer.param_groups[0]['lr'], accuracy, best_accuracy))
+    # try:
+    for epoch in range(cur_epoch, config.max_epochs):
+        train_sampler.set_epoch(epoch)
+        # train
+        model.train()
+        epoch_loss = train(optimizer, scheduler, epoch, model, criterion, train_dataloader, logger)
+        
+        logger.info('Epoch: {}, Loss: {:.4f}, lr: {:.4f}'.format(epoch, epoch_loss, optimizer.param_groups[0]['lr']))
+        
+        if dist.get_rank() == 0 and (epoch + 1) % config.val_interval == 0:
+            # validation
+            model.eval()
+            accuracy = evaluate(model, val_dataloader, logger, device)
+            if accuracy > best_accuracy:
+                accuracy_flag = 0
+                best_accuracy = accuracy
+                # save ckpt
+                model.module.save_ckpt(model.module.save_ckpt_path, epoch + 1, best_accuracy, optimizer, logger, start_time)
+            else:
+                accuracy_flag += 1
+                logger.info('accuracy_flag: {}'.format(accuracy_flag))
+                if accuracy_flag >= 5:
+                    break
+            logger.info('Epoch: {}, Loss: {:.4f}, lr: {:.4f}, Accuracy: {:.4f}, Best Accuracy: {:.4f}'.format(epoch, epoch_loss, optimizer.param_groups[0]['lr'], accuracy, best_accuracy))
 
-    except Exception as e:
-        logger.error(e)
-    finally:
-        if dist.get_rank() == 0:
-            logger.info('Final epoch: {}, Loss: {:.4f}, lr: {:.4f}, Accuracy: {:.4f}, Best Accuracy: {:.4f}'.format(epoch, epoch_loss, optimizer.param_groups[0]['lr'], accuracy, best_accuracy))
-            model.module.save_ckpt(model.module.save_ckpt_path, epoch + 1, accuracy, optimizer, logger, start_time, is_final = True)
+    # except Exception as e:
+    #     logger.error(e)
+    # finally:
+    #     if dist.get_rank() == 0:
+    #         logger.info('Final epoch: {}, Loss: {:.4f}, lr: {:.4f}, Accuracy: {:.4f}, Best Accuracy: {:.4f}'.format(epoch, epoch_loss, optimizer.param_groups[0]['lr'], accuracy, best_accuracy))
+    #         model.module.save_ckpt(model.module.save_ckpt_path, epoch + 1, accuracy, optimizer, logger, start_time, is_final = True)
     
 def train(optimizer, scheduler, epoch, model, criterion, train_dataloader, logger):
     # loss of an epoch
+    count = 0
     ave_loss = 0
     tqdm_iter = tqdm(train_dataloader, leave=False)
-    for count, (imgs, labels) in enumerate(tqdm_iter):
+    for idx, (imgs, labels) in enumerate(tqdm_iter):
         imgs = imgs.to(device)
         labels = labels.to(device)
         
         outputs = model(imgs)
         loss = criterion(outputs, labels)
         
+        count += len(imgs)
         ave_loss += loss.item() * len(imgs)
         
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
         tqdm_iter.set_description('Epoch: {}, Loss: {:.4f}, lr: {:.6f}'.format(epoch, loss, optimizer.param_groups[0]['lr']))
+        
     
     scheduler.step(epoch)
-    return ave_loss / len(train_dataloader.dataset)
+    print(count)
+    return ave_loss / count
     
     
 if __name__ == '__main__':

@@ -15,8 +15,9 @@ def evaluate(model, val_dataloader, logger, device):
         all_labels = []
         all_outputs = []
         for batch in val_dataloader:
-            labels = batch['label'].to(device)
-            outputs = model(batch['img'].to(device))
+            imgs, labels = batch
+            labels = labels.to(device)
+            outputs = model(imgs.to(device))
             all_labels.append(labels)
             all_outputs.append(outputs)
         all_labels = torch.cat(all_labels, dim = 0)

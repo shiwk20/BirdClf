@@ -1,7 +1,7 @@
 model:
   dest: model.BirdClf_R
   paras:
-    ckpt_path: 'checkpoints/resnet50-0676ba61.pth'
+    ckpt_path: ''
     save_ckpt_path: 'log/ckpt'
     embed_size: 525
 
@@ -9,7 +9,7 @@ data:
   img_size: 224
   data_path: 'data'
   augment: False
-  batch_size: 128
+  batch_size: 100
   num_workers: 8
   
 loss:
