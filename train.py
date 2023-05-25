@@ -68,30 +68,6 @@ def init_distributed_mode(args):
                                         world_size=args.world_size, rank=args.rank)
     torch.distributed.barrier()
     setup_for_distributed(args.rank == 0)
-    
-def get_dataloader(align_type, config, device):
-    train_indexes, val_indexes = divide_train_val(seed = config.data.divide_seed, align_type = align_type, train_ratio = config.data.train_ratio, device = device)
-    train_indexes = {'train_indexes': train_indexes}
-    val_indexes = {'val_indexes': val_indexes}
-    
-    train_dataset = instantiation(config.data.train, train_indexes)
-    train_sampler = DistributedSampler(train_dataset)
-    train_dataloader = DataLoader(train_dataset,
-                                batch_size = config.data.batch_size,
-                                shuffle = False, # must use False, see https://blog.csdn.net/Caesar6666/article/details/126893353
-                                sampler = train_sampler,
-                                num_workers = config.data.num_workers,
-                                pin_memory = True,
-                                drop_last = False)
-    
-    val_dataset = instantiation(config.data.validation, val_indexes)
-    val_dataloader = DataLoader(val_dataset,
-                                batch_size = config.data.batch_size,
-                                shuffle = True, 
-                                num_workers = config.data.num_workers,
-                                pin_memory = True,
-                                drop_last = False)
-    return train_sampler, train_dataloader, val_dataloader
 
 def main():
     logger = get_logger('train')
@@ -148,7 +124,7 @@ def main():
     
     # optimizer
     params = list(model.module.parameters())
-    optimizer = torch.optim.AdamW(params = params, lr = config.optimizer.max_lr, weight_decay = config.optimizer.weight_decay)
+    optimizer = torch.optim.AdamW(params = params, lr = config.optimizer.lr, weight_decay = config.optimizer.weight_decay)
     
     if optim_state_dict is not None:
         optimizer.load_state_dict(optim_state_dict)
@@ -158,6 +134,8 @@ def main():
     # start loop
     best_accuracy = 0
     accuracy_flag = 0
+    epoch_loss = 0
+    accuracy = 0
     try:
         for epoch in range(cur_epoch, config.max_epochs):
             train_sampler.set_epoch(epoch)
@@ -206,9 +184,9 @@ def train(optimizer, scheduler, epoch, model, criterion, train_dataloader, logge
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        tqdm_iter.set_description('Epoch: {}, Loss: {:.4f}, lr: {:.6f}, Count: {}'.format(epoch, loss, optimizer.param_groups[0]['lr'], count))
+        tqdm_iter.set_description('Epoch: {}, Loss: {:.4f}, lr: {:.6f}'.format(epoch, loss, optimizer.param_groups[0]['lr']))
     
-    scheduler.step()
+    scheduler.step(epoch)
     return ave_loss / len(train_dataloader.dataset)
     
     

@@ -9,11 +9,14 @@ data:
   img_size: 224
   data_path: 'data'
   augment: False
-  batch_size: 64
+  batch_size: 128
   num_workers: 8
   
 loss:
-  type: 'cross'
+  dest: loss.CrossEntropyLoss
+  weight: None
+  reduction: 'mean'
+  label_smoothing: 0.0
 
 optimizer:
   type: 'AdamW'  # AdamW, SGD, Adam

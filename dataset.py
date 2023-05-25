@@ -51,7 +51,7 @@ def TrainDataset(img_size, data_path, augment=False):
     dataset = datasets.ImageFolder(data_path, transform=transform)
     return dataset
 
-def ValidDataset(img_size, data_path):
+def ValDataset(img_size, data_path):
     data_path = os.path.join(data_path, "valid")
     if not os.path.exists(data_path):
         raise FileNotFoundError("valid dataset not found")

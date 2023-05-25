@@ -29,6 +29,7 @@ def set_seed(seed=42):
     torch.backends.cudnn.deterministic = True
 
 def get_logger(type, log_path = 'log/logs'):
+    os.makedirs(log_path, exist_ok=True)
     logger = logging.getLogger()
     logfile = os.path.join(log_path, '{}_{}.log'.format(type, time.strftime('%m-%d-%H-%M-%S')))
     logging.basicConfig(level = logging.INFO, format = \
