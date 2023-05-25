@@ -13,20 +13,19 @@ import argparse
 def evaluate(model, val_dataloader, logger, device):
     with torch.no_grad():
         all_labels = []
-        for i, (imgs, labels) in enumerate(val_dataloader):
-            imgs = imgs.to(device)
-            labels = labels.to(device)
-            outputs = model(imgs)
-            if i == 0:
-                all_outputs = outputs
-                all_labels = labels
-            else:   
-                all_outputs = torch.cat((all_outputs, outputs), dim = 0)
-                all_labels = torch.cat((all_labels, labels), dim = 0)
-        all_outputs = all_outputs.cpu().numpy()
+        all_outputs = []
+        for batch in val_dataloader:
+            labels = batch['label'].to(device)
+            outputs = model(batch['img'].to(device))
+            all_labels.append(labels)
+            all_outputs.append(outputs)
+        all_labels = torch.cat(all_labels, dim = 0)
+        all_outputs = torch.cat(all_outputs, dim = 0)
         all_labels = all_labels.cpu().numpy()
+        all_outputs = all_outputs.cpu().numpy()
         all_outputs = np.argmax(all_outputs, axis = 1)
-        acc = np.sum(all_outputs == all_labels) / len(all_labels)
+        acc = np.mean(all_labels == all_outputs)
         return acc
 
+    
     
