@@ -144,7 +144,7 @@ def main():
         model.train()
         epoch_loss = train(optimizer, scheduler, epoch, model, criterion, train_dataloader, logger)
         
-        logger.info('Epoch: {}, Loss: {:.4f}, lr: {:.4f}'.format(epoch, epoch_loss, optimizer.param_groups[0]['lr']))
+        logger.info('Epoch: {}, Loss: {:.6f}, lr: {:.4f}'.format(epoch, epoch_loss, optimizer.param_groups[0]['lr']))
         
         if dist.get_rank() == 0 and (epoch + 1) % config.val_interval == 0:
             # validation
@@ -158,15 +158,15 @@ def main():
             else:
                 accuracy_flag += 1
                 logger.info('accuracy_flag: {}'.format(accuracy_flag))
-                if accuracy_flag >= 5:
+                if accuracy_flag >= config.accuracy_thre:
                     break
-            logger.info('Epoch: {}, Loss: {:.4f}, lr: {:.4f}, Accuracy: {:.4f}, Best Accuracy: {:.4f}'.format(epoch, epoch_loss, optimizer.param_groups[0]['lr'], accuracy, best_accuracy))
+            logger.info('Epoch: {}, Loss: {:.6f}, lr: {:.4f}, Accuracy: {:.4f}, Best Accuracy: {:.4f}'.format(epoch, epoch_loss, optimizer.param_groups[0]['lr'], accuracy, best_accuracy))
 
     # except Exception as e:
     #     logger.error(e)
     # finally:
     #     if dist.get_rank() == 0:
-    #         logger.info('Final epoch: {}, Loss: {:.4f}, lr: {:.4f}, Accuracy: {:.4f}, Best Accuracy: {:.4f}'.format(epoch, epoch_loss, optimizer.param_groups[0]['lr'], accuracy, best_accuracy))
+    #         logger.info('Final epoch: {}, Loss: {:.6f}, lr: {:.4f}, Accuracy: {:.4f}, Best Accuracy: {:.4f}'.format(epoch, epoch_loss, optimizer.param_groups[0]['lr'], accuracy, best_accuracy))
     #         model.module.save_ckpt(model.module.save_ckpt_path, epoch + 1, accuracy, optimizer, logger, start_time, is_final = True)
     
 def train(optimizer, scheduler, epoch, model, criterion, train_dataloader, logger):
@@ -187,7 +187,7 @@ def train(optimizer, scheduler, epoch, model, criterion, train_dataloader, logge
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        tqdm_iter.set_description('Epoch: {}, Loss: {:.4f}, lr: {:.6f}'.format(epoch, loss, optimizer.param_groups[0]['lr']))
+        tqdm_iter.set_description('Epoch: {}, Loss: {:.6f}, lr: {:.6f}'.format(epoch, loss, optimizer.param_groups[0]['lr']))
         
     
     scheduler.step(epoch)

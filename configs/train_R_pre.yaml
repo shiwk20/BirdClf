@@ -25,4 +25,5 @@ optimizer:
 
 max_epochs: 20
 val_interval: 1
+accuracy_thre: 3
 random_seed: 42

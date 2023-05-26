@@ -1,6 +1,4 @@
-dlib
 imutils
-mtcnn
 numpy
 omegaconf
 opencv-python
