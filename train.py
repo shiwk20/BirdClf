@@ -72,9 +72,6 @@ def init_distributed_mode(args):
 
 def main():
     # model
-    config = OmegaConf.load(config_path)
-    set_seed(config.random_seed)
-    
     model = instantiation(config.model)
     
     cur_epoch = 0
@@ -83,12 +80,9 @@ def main():
     train_losses = []
     lrs = []
     optim_state_dict = None
-    if os.path.isfile(model.ckpt_path):
-        cur_epoch, optim_state_dict, train_accs, val_accs, train_losses, lrs = model.load_ckpt(model.ckpt_path, logger)
-    if model.config_type == None:
-        model.config_type = config_type
-    if model.start_time == None:
-        model.start_time = start_time_str
+    
+    if config.resume:
+        cur_epoch, optim_state_dict, train_accs, val_accs, train_losses, lrs = model.load_ckpt(config.ckpt_path, logger)
         
     model.train()
     model.to(device)
@@ -132,16 +126,16 @@ def main():
     scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', verbose=True) 
     
     # start loop
-    best_accuracy = 0
+    best_accuracy = 0 if len(val_accs) == 0 else max(val_accs)
     accuracy_flag = 0
     for epoch in range(cur_epoch, config.max_epochs):
         train_sampler.set_epoch(epoch)
         # train
         model.train()
-        train_losses.append(train(optimizer, scheduler, epoch, model, criterion, train_dataloader, logger))
+        train_losses.append(train(optimizer, scheduler, epoch, model, criterion, train_dataloader))
         lrs.append(optimizer.param_groups[0]['lr'])
         
-        logger.info('Epoch: {}, Loss: {:.4f}, lr: {:.6f}'.format(epoch, train_losses[-1], lrs[-1]))
+        logger.info('Epoch: {}, Loss: {:.6f}, lr: {:.8f}'.format(epoch, train_losses[-1], lrs[-1]))
         
         if dist.get_rank() == 0 and (epoch + 1) % config.val_interval == 0:
             # validation
@@ -153,7 +147,7 @@ def main():
                 accuracy_flag = 0
                 best_accuracy = val_accs[-1]
                 # save ckpt
-                model.module.save_ckpt(model.module.save_ckpt_path, epoch, train_accs, val_accs, train_losses, lrs, optimizer, logger)
+                model.module.save_ckpt(save_ckpt_path, epoch, train_accs, val_accs, train_losses, lrs, optimizer, logger)
             else:
                 accuracy_flag += 1
                 logger.info('accuracy_flag: {}'.format(accuracy_flag))
@@ -162,14 +156,14 @@ def main():
             
     # save final ckpt
     if dist.get_rank() == 0:
-        model.module.save_ckpt(model.module.save_ckpt_path, epoch, train_accs, val_accs, train_losses, lrs, optimizer, logger)
-        logger.info('Training finished! Training time: {}'.format(datetime.datetime.now() - ori_start_time))
+        model.module.save_ckpt(save_ckpt_path, epoch, train_accs, val_accs, train_losses, lrs, optimizer, logger)
+        logger.info('Training finished! Training time: {}'.format(datetime.datetime.now() - start_time))
     
     
-def train(optimizer, scheduler, epoch, model, criterion, train_dataloader, logger):
-    # loss of an epoch
-    count = 0
+def train(optimizer, scheduler, epoch, model, criterion, train_dataloader):
+    # average loss of an epoch
     ave_loss = 0
+    count = 0
     tqdm_iter = tqdm(train_dataloader, leave=False)
     for idx, (imgs, labels) in enumerate(tqdm_iter):
         imgs = imgs.to(device)
@@ -184,15 +178,14 @@ def train(optimizer, scheduler, epoch, model, criterion, train_dataloader, logge
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
-        tqdm_iter.set_description('Epoch: {}, Loss: {:.6f}, lr: {:.6f}'.format(epoch, loss, optimizer.param_groups[0]['lr']))
+        tqdm_iter.set_description('Epoch: {}, Loss: {:.6f}, lr: {:.8f}'.format(epoch, loss, optimizer.param_groups[0]['lr']))
         
-    
     scheduler.step(epoch)
     return ave_loss / count
     
     
 if __name__ == '__main__':
-    
+    # 训练前的准备
     res_path = 'res'
     parser = argparse.ArgumentParser()
     # for distributed training
@@ -202,12 +195,24 @@ if __name__ == '__main__':
     parser.add_argument('--dist_on_itp', action = 'store_true')
     parser.add_argument('-c', '--config', help = 'config files containing all configs', type = str, default = '')
     args = parser.parse_args()
+    
     config_path = args.config
+    config = OmegaConf.load(config_path)
+    set_seed(config.random_seed)
     
     start_time = datetime.datetime.now()
     start_time_str = start_time.strftime("%m-%d_%H-%M-%S")
     config_type = os.path.basename(config_path).split('.')[0]
     res_path = os.path.join(res_path, config_type + '_' + start_time_str)
+    
+    if config.resume:
+        if os.path.isfile(config.ckpt_path):
+            if config.ckpt_path.find('train') != -1:
+                res_path = os.path.dirname(os.pth.dirname(config.ckpt_path))
+        else:
+            print(f'=> set to resume, but {config.ckpt_path} is not a file')
+            exit(1)
+        
     log_path = os.path.join(res_path, 'logs')
     save_ckpt_path = os.path.join(res_path, 'ckpts')
     
@@ -217,6 +222,6 @@ if __name__ == '__main__':
     setup_for_distributed(get_rank() == 0)
     device = get_rank()
     
-    # 设置模型
+    # 训练的主函数
     main()
     

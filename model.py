@@ -54,12 +54,8 @@ class Block(nn.Module):
 
 # use ResNet50 as backbone
 class BirdClf_R(nn.Module):
-    def __init__(self, ckpt_path='', save_ckpt_path='log/ckpt', embed_size: int = 525):
+    def __init__(self, embed_size: int = 525):
         super().__init__()
-        self.start_time = None
-        self.config_type = None
-        self.ckpt_path = ckpt_path
-        self.save_ckpt_path = save_ckpt_path
         self.conv1 = nn.Conv2d(3, 64, kernel_size = 7, stride = 2, padding = 3, bias = False)
         self.bn1 = nn.BatchNorm2d(64)
         self.maxpool = nn.MaxPool2d(kernel_size = 3, stride = 2, padding = 1)
@@ -106,10 +102,7 @@ class BirdClf_R(nn.Module):
             optim_state_dict = states['optimizer']
         else:
             optim_state_dict = None
-        if 'config_type' in list(states.keys()):
-            self.config_type = states['config_type']
-        if 'start_time' in list(states.keys()):
-            self.start_time = states['start_time']
+        
         if 'train_accs' in list(states.keys()):
             train_accs = states['train_accs']
         else:
@@ -130,7 +123,6 @@ class BirdClf_R(nn.Module):
         return cur_epoch, optim_state_dict, train_accs, val_accs, train_losses, lrs
         
     def save_ckpt(self, save_path, epoch, train_accs, val_accs, train_losses, lrs, optimizer, logger):
-        save_path = os.path.join(save_path, self.config_type + '_' + self.start_time)
         os.makedirs(save_path, exist_ok = True)
         save_path = os.path.join(save_path, "epoch_{}_acc_{:4f}.pth".format(epoch, val_accs[-1]))
         
@@ -141,9 +133,7 @@ class BirdClf_R(nn.Module):
             'val_accs': val_accs,
             'train_losses': train_losses,
             'lrs': lrs,
-            'optimizer': optimizer.state_dict(),
-            'config_type': self.config_type,
-            'start_time': self.start_time
+            'optimizer': optimizer.state_dict()
         }
 
         torch.save(states, save_path)
