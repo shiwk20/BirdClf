@@ -29,7 +29,6 @@ def set_seed(seed=42):
     torch.cuda.manual_seed_all(seed)  # if you are using multi-GPU.   torch的GPU随机性，为所有GPU设置随机种子
     torch.backends.cudnn.deterministic = True # 选择确定性算法
     torch.backends.cudnn.benchmark = False # if benchmark=True, deterministic will be False
-    torch.backends.cudnn.enabled = False
 
 def get_logger(type, log_path = 'log/logs'):
     os.makedirs(log_path, exist_ok=True)

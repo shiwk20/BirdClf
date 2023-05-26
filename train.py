@@ -5,6 +5,7 @@ from utils import get_logger, instantiation, set_seed
 from torch import nn
 import torch
 import os
+from torch.cuda.amp import autocast
 import numpy as np
 from omegaconf import OmegaConf
 from torch.utils.data.distributed import DistributedSampler
@@ -70,7 +71,6 @@ def init_distributed_mode(args):
     setup_for_distributed(args.rank == 0)
 
 def main():
-    logger = get_logger('train')
     parser = argparse.ArgumentParser()
     # for distributed training
     parser.add_argument('--local_rank', default = -1, type = int)
@@ -80,6 +80,7 @@ def main():
     parser.add_argument('-c', '--config', help = 'config files containing all configs', type = str, default = '')
     args = parser.parse_args()
     config_path = args.config
+    logger = get_logger(os.path.basename(config_path).split('.')[0])
     
     init_distributed_mode(args)
     setup_for_distributed(get_rank() == 0)
@@ -129,7 +130,7 @@ def main():
     if optim_state_dict is not None:
         optimizer.load_state_dict(optim_state_dict)
     
-    scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', verbose=True) 
+    scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', verbose=True) 
     
     # start loop
     best_accuracy = 0
@@ -190,7 +191,6 @@ def train(optimizer, scheduler, epoch, model, criterion, train_dataloader, logge
         
     
     scheduler.step(epoch)
-    print(count)
     return ave_loss / count
     
     

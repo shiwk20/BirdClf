@@ -1,7 +1,7 @@
 model:
   dest: model.BirdClf_R
   paras:
-    ckpt_path: 'checkpoints/resnet50-0676ba61.pth'
+    ckpt_path: ''
     save_ckpt_path: 'log/ckpt'
     embed_size: 525
 
@@ -23,6 +23,6 @@ optimizer:
   lr: 1e-4
   weight_decay: 1e-2
 
-max_epochs: 20
+max_epochs: 40
 val_interval: 1
 random_seed: 42

@@ -1,5 +1,3 @@
-import torch.backends.cudnn as cudnn
-cudnn.benchmark = True
 import torch
 import numpy as np
 from omegaconf import OmegaConf
