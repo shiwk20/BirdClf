@@ -130,9 +130,7 @@ def main():
     # start loop
     best_accuracy = 0 if len(val_accs) == 0 else max(val_accs)
     accuracy_flag = 0
-    last_epoch = 0
     for epoch in range(cur_epoch, config.max_epochs):
-        last_epoch = epoch
         train_sampler.set_epoch(epoch)
         # train
         model.train()
@@ -161,7 +159,7 @@ def main():
     if dist.get_rank() == 0:
         model.module.save_ckpt(save_ckpt_path, epoch, train_accs, val_accs, train_losses, lrs, optimizer, logger)
         logger.info('Training finished! Training time: {}'.format(datetime.datetime.now() - start_time))
-        plot_curve(config.val_interval, last_epoch, train_accs, val_accs, train_losses, lrs, res_path)
+        plot_curve(config.val_interval, epoch, train_accs, val_accs, train_losses, lrs, res_path)
     
     
 def train(optimizer, scheduler, epoch, model, criterion, train_dataloader):
