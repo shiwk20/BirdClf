@@ -57,6 +57,7 @@ class BirdClf_R(nn.Module):
     def __init__(self, ckpt_path='', save_ckpt_path='log/ckpt', embed_size: int = 525):
         super().__init__()
         self.start_time = None
+        self.config_type = None
         self.ckpt_path = ckpt_path
         self.save_ckpt_path = save_ckpt_path
         self.conv1 = nn.Conv2d(3, 64, kernel_size = 7, stride = 2, padding = 3, bias = False)
@@ -92,33 +93,59 @@ class BirdClf_R(nn.Module):
         states = torch.load(ckpt_path, map_location="cpu")
         if "state_dict" in list(states.keys()):
             state_dict = states["state_dict"]
-            self.start_time = os.path.dirname(ckpt_path).split('/')[-1]
         else:
             state_dict = states
         missing, unexpected = self.load_state_dict(state_dict, strict = False)
         logger.info(f"load checkpoint from {ckpt_path}, missing keys: {missing}, unexpected keys: {unexpected}")
+        
         if "epoch" in list(states.keys()):
-            cur_epoch = states["epoch"]
+            cur_epoch = states["epoch"] + 1
         else:
             cur_epoch = 0
         if 'optimizer' in list(states.keys()):
             optim_state_dict = states['optimizer']
         else:
             optim_state_dict = None
-        
-        return cur_epoch, optim_state_dict
-        
-    def save_ckpt(self, save_path, epoch, best_accuracy, optimizer, logger, start_time, is_final = False):
-        states = {'state_dict': self.state_dict(), 'epoch': epoch, 
-                'best_accuracy': best_accuracy, 'optimizer': optimizer.state_dict()}
-        if self.start_time is not None:
-            start_time = self.start_time
-        save_path = os.path.join(save_path, start_time)
-        os.makedirs(save_path, exist_ok = True)
-        if is_final:
-            save_path = os.path.join(save_path, "last_epoch_{}_acc_{:.4f}.pth".format(epoch, best_accuracy))
+        if 'config_type' in list(states.keys()):
+            self.config_type = states['config_type']
+        if 'start_time' in list(states.keys()):
+            self.start_time = states['start_time']
+        if 'train_accs' in list(states.keys()):
+            train_accs = states['train_accs']
         else:
-            save_path = os.path.join(save_path, "epoch_{}_acc_{:4f}.pth".format(epoch, best_accuracy))
+            train_accs = []
+        if 'val_accs' in list(states.keys()):
+            val_accs = states['val_accs']
+        else:
+            val_accs = []
+        if 'train_losses' in list(states.keys()):
+            train_losses = states['train_losses']
+        else:
+            train_losses = []
+        if 'lrs' in list(states.keys()):
+            lrs = states['lrs']
+        else:
+            lrs = []
+        
+        return cur_epoch, optim_state_dict, train_accs, val_accs, train_losses, lrs
+        
+    def save_ckpt(self, save_path, epoch, train_accs, val_accs, train_losses, lrs, optimizer, logger):
+        save_path = os.path.join(save_path, self.config_type + '_' + self.start_time)
+        os.makedirs(save_path, exist_ok = True)
+        save_path = os.path.join(save_path, "epoch_{}_acc_{:4f}.pth".format(epoch, val_accs[-1]))
+        
+        states = {
+            'epoch': epoch,
+            'state_dict': self.state_dict(),
+            'train_accs': train_accs,
+            'val_accs': val_accs,
+            'train_losses': train_losses,
+            'lrs': lrs,
+            'optimizer': optimizer.state_dict(),
+            'config_type': self.config_type,
+            'start_time': self.start_time
+        }
+
         torch.save(states, save_path)
         logger.info('save ckpt to {}'.format(save_path))
 

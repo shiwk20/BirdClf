@@ -80,7 +80,8 @@ def main():
     parser.add_argument('-c', '--config', help = 'config files containing all configs', type = str, default = '')
     args = parser.parse_args()
     config_path = args.config
-    logger = get_logger(os.path.basename(config_path).split('.')[0])
+    config_type = os.path.basename(config_path).split('.')[0]
+    logger = get_logger(config_type)
     
     init_distributed_mode(args)
     setup_for_distributed(get_rank() == 0)
@@ -88,14 +89,24 @@ def main():
     device = get_rank()
     
     # model
-    cur_epoch = 0
     config = OmegaConf.load(config_path)
     set_seed(config.random_seed)
     
     model = instantiation(config.model)
+    
+    cur_epoch = 0
+    train_accs = []
+    val_accs = []
+    train_losses = []
+    lrs = []
     optim_state_dict = None
     if os.path.isfile(model.ckpt_path):
-        cur_epoch, optim_state_dict = model.load_ckpt(model.ckpt_path, logger)
+        cur_epoch, optim_state_dict, train_accs, val_accs, train_losses, lrs = model.load_ckpt(model.ckpt_path, logger)
+    if model.config_type == None:
+        model.config_type = config_type
+    if model.start_time == None:
+        model.start_time = start_time
+        
     model.train()
     model.to(device)
     model = torch.nn.SyncBatchNorm.convert_sync_batchnorm(model)
@@ -125,8 +136,13 @@ def main():
     
     # optimizer
     params = list(model.module.parameters())
-    optimizer = torch.optim.AdamW(params = params, lr = config.optimizer.lr, weight_decay = config.optimizer.weight_decay)
-    
+    if config.optimizer.type == 'AdamW':
+        optimizer = torch.optim.AdamW(params = params, lr = config.optimizer.lr, weight_decay = config.optimizer.weight_decay)
+    elif config.optimizer.type == 'SGD':
+        optimizer = torch.optim.SGD(params = params, lr = config.optimizer.lr, momentum = config.optimizer.momentum, weight_decay = config.optimizer.weight_decay)
+    elif config.optimizer.type == 'Adam':
+        optimizer = torch.optim.Adam(params = params, lr = config.optimizer.lr, weight_decay = config.optimizer.weight_decay)
+        
     if optim_state_dict is not None:
         optimizer.load_state_dict(optim_state_dict)
     
@@ -135,39 +151,36 @@ def main():
     # start loop
     best_accuracy = 0
     accuracy_flag = 0
-    epoch_loss = 0
-    accuracy = 0
-    # try:
     for epoch in range(cur_epoch, config.max_epochs):
         train_sampler.set_epoch(epoch)
         # train
         model.train()
-        epoch_loss = train(optimizer, scheduler, epoch, model, criterion, train_dataloader, logger)
+        train_losses.append(train(optimizer, scheduler, epoch, model, criterion, train_dataloader, logger))
+        lrs.append(optimizer.param_groups[0]['lr'])
         
-        logger.info('Epoch: {}, Loss: {:.6f}, lr: {:.4f}'.format(epoch, epoch_loss, optimizer.param_groups[0]['lr']))
+        logger.info('Epoch: {}, Loss: {:.4f}, lr: {:.6f}'.format(epoch, train_losses[-1], lrs[-1]))
         
         if dist.get_rank() == 0 and (epoch + 1) % config.val_interval == 0:
             # validation
             model.eval()
-            accuracy = evaluate(model, val_dataloader, logger, device)
-            if accuracy > best_accuracy:
+            train_accs.append(evaluate(model, train_dataloader, logger, device))
+            val_accs.append(evaluate(model, val_dataloader, logger, device))
+            logger.info('Epoch: {}, Train Accuracy: {:.4f}, Val Accuracy: {:.4f}'.format(epoch, train_accs[-1], val_accs[-1]))
+            if val_accs[-1] > best_accuracy:
                 accuracy_flag = 0
-                best_accuracy = accuracy
+                best_accuracy = val_accs[-1]
                 # save ckpt
-                model.module.save_ckpt(model.module.save_ckpt_path, epoch + 1, best_accuracy, optimizer, logger, start_time)
+                model.module.save_ckpt(model.module.save_ckpt_path, epoch, train_accs, val_accs, train_losses, lrs, optimizer, logger)
             else:
                 accuracy_flag += 1
                 logger.info('accuracy_flag: {}'.format(accuracy_flag))
                 if accuracy_flag >= config.accuracy_thre:
                     break
-            logger.info('Epoch: {}, Loss: {:.6f}, lr: {:.4f}, Accuracy: {:.4f}, Best Accuracy: {:.4f}'.format(epoch, epoch_loss, optimizer.param_groups[0]['lr'], accuracy, best_accuracy))
-
-    # except Exception as e:
-    #     logger.error(e)
-    # finally:
-    #     if dist.get_rank() == 0:
-    #         logger.info('Final epoch: {}, Loss: {:.6f}, lr: {:.4f}, Accuracy: {:.4f}, Best Accuracy: {:.4f}'.format(epoch, epoch_loss, optimizer.param_groups[0]['lr'], accuracy, best_accuracy))
-    #         model.module.save_ckpt(model.module.save_ckpt_path, epoch + 1, accuracy, optimizer, logger, start_time, is_final = True)
+            
+    # save final ckpt
+    if dist.get_rank() == 0:
+        model.module.save_ckpt(model.module.save_ckpt_path, epoch, train_accs, val_accs, train_losses, lrs, optimizer, logger)
+        logger.info('Training finished! Training time: {}'.format(datetime.datetime.now() - start_time))
     
 def train(optimizer, scheduler, epoch, model, criterion, train_dataloader, logger):
     # loss of an epoch

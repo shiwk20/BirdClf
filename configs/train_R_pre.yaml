@@ -22,6 +22,7 @@ optimizer:
   type: 'AdamW'  # AdamW, SGD, Adam
   lr: 1e-4
   weight_decay: 1e-2
+  momentum: 0.9
 
 max_epochs: 20
 val_interval: 1

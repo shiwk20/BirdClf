@@ -8,11 +8,11 @@ from tqdm import tqdm
 import json
 import argparse
 
-def evaluate(model, val_dataloader, logger, device):
+def evaluate(model, dataloader, logger, device):
     with torch.no_grad():
         all_labels = []
         all_outputs = []
-        for batch in val_dataloader:
+        for batch in dataloader:
             imgs, labels = batch
             labels = labels.to(device)
             outputs = model(imgs.to(device))
