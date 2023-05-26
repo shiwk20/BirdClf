@@ -129,7 +129,7 @@ def main():
     if optim_state_dict is not None:
         optimizer.load_state_dict(optim_state_dict)
     
-    scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', verbose=True) 
+    scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, mode='max', verbose=True) 
     
     # start loop
     best_accuracy = 0
