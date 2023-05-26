@@ -24,7 +24,7 @@ optimizer:
 
 resume: False
 ckpt_path: ''
-max_epochs: 40
+max_epochs: 2
 val_interval: 1
 accuracy_thre: 3
 random_seed: 42

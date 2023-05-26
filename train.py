@@ -13,7 +13,7 @@ from omegaconf import OmegaConf
 from torch.utils.data.distributed import DistributedSampler
 from torch.utils.data import DataLoader
 from torch.optim import lr_scheduler
-from evaluate import evaluate
+from evaluate import evaluate, plot_curve
 from tqdm import tqdm
 import torch.distributed as dist
 from dataset import TrainDataset, ValDataset
@@ -159,6 +159,7 @@ def main():
     if dist.get_rank() == 0:
         model.module.save_ckpt(save_ckpt_path, epoch, train_accs, val_accs, train_losses, lrs, optimizer, logger)
         logger.info('Training finished! Training time: {}'.format(datetime.datetime.now() - start_time))
+        plot_curve(config.val_interval, config.max_epochs - 1, train_accs, val_accs, train_losses, lrs, res_path)
     
     
 def train(optimizer, scheduler, epoch, model, criterion, train_dataloader):
