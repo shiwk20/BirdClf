@@ -94,11 +94,11 @@ if __name__ == "__main__":
     
     device = torch.device('cuda:{}'.format(args.device) if torch.cuda.is_available() else 'cpu')
     config = OmegaConf.load(args.config)
-    set_seed(config.seed)
+    set_seed(config.random_seed)
     
     assert config.resume and os.path.isfile(config.ckpt_path), 'must resume from a valid checkpoint to test'
     res_path = res_path = os.path.dirname(os.path.dirname(config.ckpt_path))
     log_path = os.path.join(res_path, 'logs')
     
     logger = get_logger(log_path, 'test')
-    logger.info('config: {}'.format(config.pretty()))
+    logger.info('config: {}'.format(config))

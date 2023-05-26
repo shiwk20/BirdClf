@@ -22,8 +22,8 @@ optimizer:
   weight_decay: 1e-2
   momentum: 0.9
 
-resume: False
-ckpt_path: ''
+resume: True
+ckpt_path: 'res/train_R_05-26_23-35-32/ckpts/epoch_13_acc_0.881143.pth'
 max_epochs: 50
 val_interval: 1
 accuracy_thre: 5

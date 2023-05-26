@@ -221,6 +221,8 @@ if __name__ == '__main__':
     logger = get_logger(log_path, type = 'train')
     
     logger.info(f'res_path: {res_path}')
+    logger.info('config: {}'.format(config))
+    
     init_distributed_mode(args)
     setup_for_distributed(dist.get_rank() == 0)
     device = get_rank()
