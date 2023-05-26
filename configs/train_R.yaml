@@ -9,7 +9,7 @@ data:
   augment: False
   batch_size: 256
   num_workers: 8
-  
+
 loss:
   dest: loss.CrossEntropyLoss
   weight: None
@@ -24,7 +24,7 @@ optimizer:
 
 resume: False
 ckpt_path: ''
-max_epochs: 2
+max_epochs: 30
 val_interval: 1
-accuracy_thre: 3
+accuracy_thre: 5
 random_seed: 42

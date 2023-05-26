@@ -65,7 +65,7 @@ def plot_curve(val_interval, epoch, train_accs, val_accs, train_losses, lrs, sav
     plot1.grid(True)
     plt.title("Train and Valid Accuracies & Learning Rates")
     plt.box(True)
-    plt.savefig(save_path + "accs_lrs.png", bbox_inches = 'tight')
+    plt.savefig(os.path.join(save_path, "accs_lrs.png"), bbox_inches = 'tight')
     plt.close()
 
     # 作loss曲线
@@ -82,7 +82,7 @@ def plot_curve(val_interval, epoch, train_accs, val_accs, train_losses, lrs, sav
     plt.ylabel("Loss")
     plt.grid(True)
     plt.box(True)
-    plt.savefig(save_path + "losses.png", bbox_inches = 'tight')
+    plt.savefig(os.path.join(save_path, "losses.png"), bbox_inches = 'tight')
     plt.close()
     
     
