@@ -140,8 +140,8 @@ def main():
         if dist.get_rank() == 0 and (epoch + 1) % config.val_interval == 0:
             # validation
             model.eval()
-            train_accs.append(evaluate(model, train_dataloader, logger, device))
-            val_accs.append(evaluate(model, val_dataloader, logger, device))
+            train_accs.append(evaluate(model, train_dataloader, logger, device, type = 'train'))
+            val_accs.append(evaluate(model, val_dataloader, logger, device, type = 'val'))
             logger.info('Epoch: {}, Train Accuracy: {:.6f}, Val Accuracy: {:.6f}'.format(epoch, train_accs[-1], val_accs[-1]))
             if val_accs[-1] > best_accuracy:
                 accuracy_flag = 0

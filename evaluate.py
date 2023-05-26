@@ -6,25 +6,37 @@ import os
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 import json
+from sklearn.metrics import classification_report
 import argparse
 
-def evaluate(model, dataloader, logger, device):
+def evaluate(model, dataloader, logger, device, type):
+    logger.info('Start evaluating {} dataset'.format(type))
+    model.eval()
     with torch.no_grad():
-        all_labels = []
-        all_outputs = []
+        # 进行测试，获取预测结果及标签
+        labels = []
+        preds = []
         for batch in tqdm(dataloader, leave=False):
-            imgs, labels = batch
-            labels = labels.to(device)
-            outputs = model(imgs.to(device))
-            all_labels.append(labels)
-            all_outputs.append(outputs)
-        all_labels = torch.cat(all_labels, dim = 0)
-        all_outputs = torch.cat(all_outputs, dim = 0)
-        all_labels = all_labels.cpu().numpy()
-        all_outputs = all_outputs.cpu().numpy()
-        all_outputs = np.argmax(all_outputs, axis = 1)
-        acc = np.mean(all_labels == all_outputs)
-        return acc
+            input, label = batch
+            label = label.to(device)
+            outputs = model(input.to(device))
+            labels.append(label)
+            preds.append(outputs)
+        labels = torch.cat(labels, dim = 0)
+        preds = torch.cat(preds, dim = 0)
+        labels = labels.cpu().numpy()
+        preds = preds.cpu().numpy()
+        preds = np.argmax(preds, axis = 1)
+        
+        # 进行评估，计算Accuray, Precision, Recall, F1_score等指标
+        Accuray = np.mean(labels == preds)
+        logger.info('Accuray: {:.4f}'.format(Accuray))
+        
+        output_dict = classification_report(labels, preds, output_dict=True, digits=4)
+        logger.info(f'macro avg: {output_dict["macro avg"]}')
+        logger.info(f'weighted avg: {output_dict["weighted avg"]}')
+        
+        return Accuray
 
     
     
