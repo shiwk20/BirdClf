@@ -1,8 +1,8 @@
 model:
   dest: model.BirdClf_R
   paras:
-    resume: False
-    ckpt_path: '' 
+    ckpt_path: 'log/ckpt/train_R_05-26_13-50-06/epoch_13_acc_0.921905.pth'
+    save_ckpt_path: 'log/ckpt'
     embed_size: 525
 
 data:
@@ -19,13 +19,12 @@ loss:
   label_smoothing: 0.0
 
 optimizer:
-  type: 'Adam'  # AdamW, SGD, Adam
-  lr: 5e-4
+  type: 'AdamW'  # AdamW, SGD, Adam
+  lr: 1e-4
   weight_decay: 1e-2
   momentum: 0.9
 
-
 max_epochs: 40
 val_interval: 1
-accuracy_thre: 3
+accuracy_thre: 5
 random_seed: 42

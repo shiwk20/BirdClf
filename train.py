@@ -71,23 +71,6 @@ def init_distributed_mode(args):
     setup_for_distributed(args.rank == 0)
 
 def main():
-    parser = argparse.ArgumentParser()
-    # for distributed training
-    parser.add_argument('--local_rank', default = -1, type = int)
-    parser.add_argument('--dist_url', default = 'env://', help='url used to set up distributed training')
-    parser.add_argument('--world_size', default = 1, type = int, help = 'number of distributed processes')
-    parser.add_argument('--dist_on_itp', action = 'store_true')
-    parser.add_argument('-c', '--config', help = 'config files containing all configs', type = str, default = '')
-    args = parser.parse_args()
-    config_path = args.config
-    config_type = os.path.basename(config_path).split('.')[0]
-    logger = get_logger(config_type)
-    
-    init_distributed_mode(args)
-    setup_for_distributed(get_rank() == 0)
-    global device
-    device = get_rank()
-    
     # model
     config = OmegaConf.load(config_path)
     set_seed(config.random_seed)
@@ -105,12 +88,12 @@ def main():
     if model.config_type == None:
         model.config_type = config_type
     if model.start_time == None:
-        model.start_time = start_time
+        model.start_time = start_time_str
         
     model.train()
     model.to(device)
     model = torch.nn.SyncBatchNorm.convert_sync_batchnorm(model)
-    model = nn.parallel.DistributedDataParallel(model, broadcast_buffers = False, find_unused_parameters = True)
+    model = nn.parallel.DistributedDataParallel(model, broadcast_buffers = False, find_unused_parameters = False)
 
     # data
     train_dataset = TrainDataset(config.data.img_size, config.data.data_path, config.data.augment)
@@ -165,7 +148,7 @@ def main():
             model.eval()
             train_accs.append(evaluate(model, train_dataloader, logger, device))
             val_accs.append(evaluate(model, val_dataloader, logger, device))
-            logger.info('Epoch: {}, Train Accuracy: {:.4f}, Val Accuracy: {:.4f}'.format(epoch, train_accs[-1], val_accs[-1]))
+            logger.info('Epoch: {}, Train Accuracy: {:.6f}, Val Accuracy: {:.6f}'.format(epoch, train_accs[-1], val_accs[-1]))
             if val_accs[-1] > best_accuracy:
                 accuracy_flag = 0
                 best_accuracy = val_accs[-1]
@@ -180,7 +163,8 @@ def main():
     # save final ckpt
     if dist.get_rank() == 0:
         model.module.save_ckpt(model.module.save_ckpt_path, epoch, train_accs, val_accs, train_losses, lrs, optimizer, logger)
-        logger.info('Training finished! Training time: {}'.format(datetime.datetime.now() - start_time))
+        logger.info('Training finished! Training time: {}'.format(datetime.datetime.now() - ori_start_time))
+    
     
 def train(optimizer, scheduler, epoch, model, criterion, train_dataloader, logger):
     # loss of an epoch
@@ -208,8 +192,31 @@ def train(optimizer, scheduler, epoch, model, criterion, train_dataloader, logge
     
     
 if __name__ == '__main__':
-    start_time = datetime.datetime.now()
-    start_time = start_time.strftime("%m-%d_%H-%M-%S")
     
+    res_path = 'res'
+    parser = argparse.ArgumentParser()
+    # for distributed training
+    parser.add_argument('--local_rank', default = -1, type = int)
+    parser.add_argument('--dist_url', default = 'env://', help='url used to set up distributed training')
+    parser.add_argument('--world_size', default = 1, type = int, help = 'number of distributed processes')
+    parser.add_argument('--dist_on_itp', action = 'store_true')
+    parser.add_argument('-c', '--config', help = 'config files containing all configs', type = str, default = '')
+    args = parser.parse_args()
+    config_path = args.config
+    
+    start_time = datetime.datetime.now()
+    start_time_str = start_time.strftime("%m-%d_%H-%M-%S")
+    config_type = os.path.basename(config_path).split('.')[0]
+    res_path = os.path.join(res_path, config_type + '_' + start_time_str)
+    log_path = os.path.join(res_path, 'logs')
+    save_ckpt_path = os.path.join(res_path, 'ckpts')
+    
+    logger = get_logger(log_path, type = 'train')
+    
+    init_distributed_mode(args)
+    setup_for_distributed(get_rank() == 0)
+    device = get_rank()
+    
+    # 设置模型
     main()
     

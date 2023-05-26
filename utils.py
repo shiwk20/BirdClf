@@ -30,10 +30,11 @@ def set_seed(seed=42):
     torch.backends.cudnn.deterministic = True # 选择确定性算法
     torch.backends.cudnn.benchmark = False # if benchmark=True, deterministic will be False
 
-def get_logger(type, log_path = 'log/logs'):
+def get_logger(log_path, type):
     os.makedirs(log_path, exist_ok=True)
+    
     logger = logging.getLogger()
-    logfile = os.path.join(log_path, '{}_{}.log'.format(type, time.strftime('%m-%d-%H-%M-%S')))
+    logfile = os.path.join(log_path, f'{type}.log')
     logging.basicConfig(level = logging.INFO, format = \
         '%(asctime)s - %(levelname)s %(filename)s(%(lineno)d): %(message)s', filename = logfile)
     logging.root.addHandler(logging.StreamHandler())

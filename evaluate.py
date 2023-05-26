@@ -12,7 +12,7 @@ def evaluate(model, dataloader, logger, device):
     with torch.no_grad():
         all_labels = []
         all_outputs = []
-        for batch in dataloader:
+        for batch in tqdm(dataloader, leave=False):
             imgs, labels = batch
             labels = labels.to(device)
             outputs = model(imgs.to(device))
