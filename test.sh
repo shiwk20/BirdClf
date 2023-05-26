@@ -1,0 +1,1 @@
+python test.py --device 0 --config 'configs\test_R.yaml'
