@@ -3,9 +3,12 @@ import numpy as np
 from omegaconf import OmegaConf
 from utils import instantiation, get_logger
 import os
+import warnings
+warnings.filterwarnings("ignore")
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 import json
+from dataset import TestDataset
 from utils import get_logger, instantiation, set_seed
 from sklearn.metrics import classification_report
 import argparse
@@ -94,11 +97,28 @@ if __name__ == "__main__":
     
     device = torch.device('cuda:{}'.format(args.device) if torch.cuda.is_available() else 'cpu')
     config = OmegaConf.load(args.config)
-    set_seed(config.seed)
+    set_seed(config.random_seed)
     
     assert config.resume and os.path.isfile(config.ckpt_path), 'must resume from a valid checkpoint to test'
     res_path = res_path = os.path.dirname(os.path.dirname(config.ckpt_path))
     log_path = os.path.join(res_path, 'logs')
     
     logger = get_logger(log_path, 'test')
-    logger.info('config: {}'.format(config.pretty()))
+    logger.info('config: {}'.format(config))
+    
+    # model
+    model = instantiation(config.model)
+    _, _, _, _, _, _ = model.load_ckpt(config.ckpt_path, logger)
+    model.eval()
+    model.to(device)
+    
+    # data
+    test_dataset = TestDataset(config.data.img_size, config.data.data_path)
+    test_dataloader = DataLoader(test_dataset, 
+                                batch_size=config.data.batch_size, 
+                                shuffle=True,
+                                num_workers=config.data.num_workers,
+                                pin_memory=True,
+                                drop_last=False)
+    
+    evaluate(model, test_dataloader, logger, device, 'test')
