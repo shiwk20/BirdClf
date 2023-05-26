@@ -1,7 +1,6 @@
 model:
   dest: model.BirdClf_R
   paras:
-
     embed_size: 525
 
 data:
@@ -23,8 +22,8 @@ optimizer:
   weight_decay: 1e-2
   momentum: 0.9
 
-resume: False
-ckpt_path: '' 
+resume: True
+ckpt_path: 'res/train_R_05-26_21-37-39/ckpts/epoch_0_acc_0.086476.pth' 
 max_epochs: 40
 val_interval: 1
 accuracy_thre: 3

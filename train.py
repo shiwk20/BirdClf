@@ -208,16 +208,17 @@ if __name__ == '__main__':
     if config.resume:
         if os.path.isfile(config.ckpt_path):
             if config.ckpt_path.find('train') != -1:
-                res_path = os.path.dirname(os.pth.dirname(config.ckpt_path))
+                res_path = os.path.dirname(os.path.dirname(config.ckpt_path))
         else:
             print(f'=> set to resume, but {config.ckpt_path} is not a file')
             exit(1)
-        
+    
     log_path = os.path.join(res_path, 'logs')
     save_ckpt_path = os.path.join(res_path, 'ckpts')
     
     logger = get_logger(log_path, type = 'train')
     
+    logger.info(f'res_path: {res_path}')
     init_distributed_mode(args)
     setup_for_distributed(get_rank() == 0)
     device = get_rank()
