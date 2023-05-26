@@ -4,6 +4,8 @@ import argparse
 from utils import get_logger, instantiation, set_seed
 from torch import nn
 import torch
+import warnings
+warnings.filterwarnings("ignore")
 import os
 from torch.cuda.amp import autocast
 import numpy as np
@@ -142,7 +144,6 @@ def main():
             model.eval()
             train_accs.append(evaluate(model, train_dataloader, logger, device, type = 'train'))
             val_accs.append(evaluate(model, val_dataloader, logger, device, type = 'val'))
-            logger.info('Epoch: {}, Train Accuracy: {:.6f}, Val Accuracy: {:.6f}'.format(epoch, train_accs[-1], val_accs[-1]))
             if val_accs[-1] > best_accuracy:
                 accuracy_flag = 0
                 best_accuracy = val_accs[-1]
@@ -220,7 +221,7 @@ if __name__ == '__main__':
     
     logger.info(f'res_path: {res_path}')
     init_distributed_mode(args)
-    setup_for_distributed(get_rank() == 0)
+    setup_for_distributed(dist.get_rank() == 0)
     device = get_rank()
     
     # 训练的主函数

@@ -10,7 +10,6 @@ from sklearn.metrics import classification_report
 import argparse
 
 def evaluate(model, dataloader, logger, device, type):
-    logger.info('Start evaluating {} dataset'.format(type))
     model.eval()
     with torch.no_grad():
         # 进行测试，获取预测结果及标签
@@ -30,13 +29,14 @@ def evaluate(model, dataloader, logger, device, type):
         
         # 进行评估，计算Accuray, Precision, Recall, F1_score等指标
         Accuray = np.mean(labels == preds)
-        logger.info('Accuray: {:.4f}'.format(Accuray))
+        logger.info('{} Accuray: {:.6f}'.format(type, Accuray))
         
         output_dict = classification_report(labels, preds, output_dict=True, digits=4)
-        logger.info(f'macro avg: {output_dict["macro avg"]}')
-        logger.info(f'weighted avg: {output_dict["weighted avg"]}')
+        logger.info(f'{type} macro avg: {output_dict["macro avg"]}')
+        logger.info(f'{type} weighted avg: {output_dict["weighted avg"]}')
         
         return Accuray
+
 
     
     
