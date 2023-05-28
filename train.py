@@ -13,7 +13,7 @@ from omegaconf import OmegaConf
 from torch.utils.data.distributed import DistributedSampler
 from torch.utils.data import DataLoader
 from torch.optim import lr_scheduler
-from evaluate import evaluate, plot_curve
+from test import evaluate, plot_curve
 from tqdm import tqdm
 import torch.distributed as dist
 from dataset import TrainDataset, ValDataset
@@ -125,41 +125,49 @@ def main():
     if optim_state_dict is not None:
         optimizer.load_state_dict(optim_state_dict)
     
-    scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', verbose=True) 
+    if config.scheduler.type == 'ReduceLROnPlateau':
+        scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, mode = config.scheduler.mode, factor = config.scheduler.factor, patience=config.scheduler.patience, verbose=config.scheduler.verbose)
+    elif config.scheduler.type == 'CosineAnnealingLR':
+        scheduler = lr_scheduler.CosineAnnealingLR(optimizer, T_max = config.scheduler.T_max, eta_min = config.scheduler.eta_min)
+    elif config.scheduler.type == 'StepLR':
+        scheduler = lr_scheduler.StepLR(optimizer, step_size = config.scheduler.step_size, gamma = config.scheduler.gamma)
     
     # start loop
     best_accuracy = 0 if len(val_accs) == 0 else max(val_accs)
     accuracy_flag = 0
-    for epoch in range(cur_epoch, config.max_epochs):
-        train_sampler.set_epoch(epoch)
-        # train
-        model.train()
-        train_losses.append(train(optimizer, scheduler, epoch, model, criterion, train_dataloader))
-        lrs.append(optimizer.param_groups[0]['lr'])
-        
-        logger.info('Epoch: {}, Loss: {:.6f}, lr: {:.8f}'.format(epoch, train_losses[-1], lrs[-1]))
-        
-        if dist.get_rank() == 0 and (epoch + 1) % config.val_interval == 0:
-            # validation
-            model.eval()
-            train_accs.append(evaluate(model, train_dataloader, logger, device, type = 'train'))
-            val_accs.append(evaluate(model, val_dataloader, logger, device, type = 'val'))
-            if val_accs[-1] > best_accuracy:
-                accuracy_flag = 0
-                best_accuracy = val_accs[-1]
-                # save ckpt
-                model.module.save_ckpt(save_ckpt_path, epoch, train_accs, val_accs, train_losses, lrs, optimizer, logger)
-            else:
-                accuracy_flag += 1
-                logger.info('accuracy_flag: {}'.format(accuracy_flag))
-                if accuracy_flag >= config.accuracy_thre:
-                    break
-            
-    # save final ckpt
-    if dist.get_rank() == 0:
-        model.module.save_ckpt(save_ckpt_path, epoch, train_accs, val_accs, train_losses, lrs, optimizer, logger)
-        logger.info('Training finished! Training time: {}'.format(datetime.datetime.now() - start_time))
-        plot_curve(config.val_interval, epoch, train_accs, val_accs, train_losses, lrs, res_path)
+    try:
+        for epoch in range(cur_epoch, config.max_epochs):
+            train_sampler.set_epoch(epoch)
+            # train
+            model.train()
+            train_losses.append(train(optimizer, scheduler, epoch, model, criterion, train_dataloader))
+            lrs.append(optimizer.param_groups[0]['lr'])
+
+            logger.info('Epoch: {}, Loss: {:.6f}, lr: {:.8f}'.format(epoch, train_losses[-1], lrs[-1]))
+
+            if dist.get_rank() == 0 and (epoch + 1) % config.val_interval == 0:
+                # validation
+                model.eval()
+                train_accs.append(evaluate(model, train_dataloader, logger, device, type = 'train'))
+                val_accs.append(evaluate(model, val_dataloader, logger, device, type = 'val'))
+                if val_accs[-1] > best_accuracy:
+                    accuracy_flag = 0
+                    best_accuracy = val_accs[-1]
+                    # save ckpt
+                    model.module.save_ckpt(save_ckpt_path, epoch, train_accs, val_accs, train_losses, lrs, optimizer, logger)
+                else:
+                    accuracy_flag += 1
+                    logger.info('accuracy_flag: {}'.format(accuracy_flag))
+                    if accuracy_flag >= config.accuracy_thre:
+                        break
+    except Exception as e:
+        logger.error('Error:' + e)       
+    finally:    
+        # save final ckpt
+        if dist.get_rank() == 0:
+            model.module.save_ckpt(save_ckpt_path, epoch, train_accs, val_accs, train_losses, lrs, optimizer, logger)
+            logger.info('Training finished! Training time: {}'.format(datetime.datetime.now() - start_time))
+            plot_curve(config.val_interval, epoch, train_accs, val_accs, train_losses, lrs, res_path)
     
     
 def train(optimizer, scheduler, epoch, model, criterion, train_dataloader):

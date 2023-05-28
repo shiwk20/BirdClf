@@ -22,6 +22,17 @@ optimizer:
   weight_decay: 1e-2
   momentum: 0.9
 
+scheduler:
+  type: 'ReduceLROnPlateau'  # ReduceLROnPlateau CosineAnnealingLR, StepLR 
+  mode: 'min'
+  verbose: True
+  factor: 0.1
+  patience: 10
+  T_max: 50
+  eta_min: 1e-7
+  step_size: 10
+  gamma: 0.1
+
 resume: True
 ckpt_path: 'res/train_R_05-26_23-35-32/ckpts/epoch_13_acc_0.881143.pth'
 max_epochs: 50

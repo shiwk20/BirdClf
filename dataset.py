@@ -36,8 +36,7 @@ def TrainDataset(img_size, data_path, augment=False):
             transforms.RandomResizedCrop(img_size),
             transforms.RandomHorizontalFlip(p=0.5),
             transforms.RandomVerticalFlip(p=0.5),
-            transforms.RandomAffine(degrees=30, translate=(0.1, 0.1), scale=(0.9, 1.1), shear=15),
-            transforms.CentorCrop(img_size),
+            transforms.CenterCrop(img_size),
             transforms.ToTensor(),
             transforms.Normalize(train_mean, train_std)]
         )
