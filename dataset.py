@@ -40,7 +40,7 @@ def TrainDataset(img_size, data_path, augment=False, resized_crop=False, herizon
         if vertical_flip:
             transform.append(transforms.RandomVerticalFlip(p=0.5))
         if random_affine:
-            transform.append(transforms.RandomAffine(degrees=10, translate=(0.1, 0.1), scale=(0.9, 1.1)))
+            transform.append(transforms.RandomAffine(degrees=30, translate=(0.1, 0.1), scale=(0.9, 1.1)))
         transform.append(transforms.CenterCrop(img_size))
         transform.append(transforms.ToTensor())
         transform.append(transforms.Normalize(train_mean, train_std))

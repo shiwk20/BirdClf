@@ -162,10 +162,12 @@ def main():
                     if accuracy_flag >= config.accuracy_thre:
                         break
     except Exception as e:
-        logger.error('Error:' + e)       
+        logger.error(str(e))       
     finally:    
         # save final ckpt
         if dist.get_rank() == 0:
+            if epoch == len(train_accs):
+                epoch -= 1
             model.module.save_ckpt(save_ckpt_path, epoch, train_accs, val_accs, train_losses, lrs, optimizer, logger)
             logger.info('Training finished! Training time: {}'.format(datetime.datetime.now() - start_time))
             plot_curve(config.val_interval, epoch, train_accs, val_accs, train_losses, lrs, res_path)

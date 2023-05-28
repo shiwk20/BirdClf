@@ -21,13 +21,13 @@ loss:
   label_smoothing: 0.2
 
 optimizer:
-  type: 'AdamW'  # AdamW, SGD, Adam
+  type: 'Adam'  # AdamW, SGD, Adam
   lr: 2e-4
   weight_decay: 1e-3
   momentum: 0.9
 
 scheduler:
-  type: 'ReduceLROnPlateau'  # ReduceLROnPlateau CosineAnnealingLR, StepLR 
+  type: 'CosineAnnealingLR'  # ReduceLROnPlateau CosineAnnealingLR, StepLR 
   mode: 'min'
   verbose: True
   factor: 0.1

@@ -37,8 +37,8 @@ scheduler:
   step_size: 10
   gamma: 0.1
   
-resume: False
-ckpt_path: ''
+resume: True
+ckpt_path: 'res/train_R_optimizer_05-28_20-56-52/ckpts/epoch_24_acc_0.925714.pth'
 max_epochs: 50
 val_interval: 1
 accuracy_thre: 5

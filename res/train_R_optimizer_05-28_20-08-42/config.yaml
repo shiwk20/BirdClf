@@ -21,7 +21,7 @@ loss:
   label_smoothing: 0.2
 
 optimizer:
-  type: 'AdamW'  # AdamW, SGD, Adam
+  type: 'SGD'  # AdamW, SGD, Adam
   lr: 2e-4
   weight_decay: 1e-3
   momentum: 0.9
