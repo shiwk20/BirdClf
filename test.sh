@@ -1,1 +1,1 @@
-python test.py --device 0 --config 'configs/test_R_augment.yaml'
+python test.py --device 0 --config 'res/train_R_augment_05-28_15-21-58/config.yaml'

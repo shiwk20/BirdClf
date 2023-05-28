@@ -4,6 +4,7 @@ import argparse
 from utils import get_logger, instantiation, set_seed
 from torch import nn
 import torch
+import shutil
 import warnings
 warnings.filterwarnings("ignore")
 import os
@@ -92,7 +93,7 @@ def main():
     model = nn.parallel.DistributedDataParallel(model, broadcast_buffers = False, find_unused_parameters = False)
 
     # data
-    train_dataset = TrainDataset(config.data.img_size, config.data.data_path, config.data.augment)
+    train_dataset = TrainDataset(config.data.img_size, config.data.data_path, config.data.augment, resized_crop=config.data.resized_crop, herizon_flip= config.data.herizon_flip, vertical_flip = config.data.vertical_flip, random_affine=config.data.random_affine)
     train_sampler = DistributedSampler(train_dataset)
     train_dataloader = DataLoader(train_dataset,
                                 batch_size = config.data.batch_size,
@@ -214,14 +215,19 @@ if __name__ == '__main__':
     start_time_str = start_time.strftime("%m-%d_%H-%M-%S")
     config_type = os.path.basename(config_path).split('.')[0]
     res_path = os.path.join(res_path, config_type + '_' + start_time_str)
+    has_dir = False
     
     if config.resume:
         if os.path.isfile(config.ckpt_path):
             if config.ckpt_path.find('train') != -1:
                 res_path = os.path.dirname(os.path.dirname(config.ckpt_path))
+                has_dir = True
         else:
             print(f'=> set to resume, but {config.ckpt_path} is not a file')
             exit(1)
+    if not has_dir:
+        os.makedirs(res_path, exist_ok=True)
+        shutil.copyfile(config_path, os.path.join(res_path, 'config.yaml'))
     
     log_path = os.path.join(res_path, 'logs')
     save_ckpt_path = os.path.join(res_path, 'ckpts')

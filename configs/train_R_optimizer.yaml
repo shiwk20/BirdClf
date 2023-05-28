@@ -7,6 +7,10 @@ data:
   img_size: 224
   data_path: 'data'
   augment: True
+  resized_crop: True
+  herizon_flip: True
+  vertical_flip: True
+  random_affine: False
   batch_size: 256
   num_workers: 8
 
@@ -18,8 +22,8 @@ loss:
 
 optimizer:
   type: 'AdamW'  # AdamW, SGD, Adam
-  lr: 1e-3
-  weight_decay: 1e-4
+  lr: 5e-4
+  weight_decay: 1e-2
   momentum: 0.9
 
 scheduler:
@@ -27,7 +31,7 @@ scheduler:
   mode: 'min'
   verbose: True
   factor: 0.1
-  patience: 15
+  patience: 10
   T_max: 50
   eta_min: 1e-7
   step_size: 10

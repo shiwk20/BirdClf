@@ -7,6 +7,10 @@ data:
   img_size: 224
   data_path: 'data'
   augment: True
+  resized_crop: True
+  herizon_flip: True
+  vertical_flip: True
+  random_affine: False
   batch_size: 128
   num_workers: 8
 
@@ -34,7 +38,7 @@ scheduler:
   gamma: 0.1
   
 resume: True
-ckpt_path: 'res/train_R_augment_05-27_19-46-25/ckpts/epoch_34_acc_0.919619.pth'
+ckpt_path: 'res/train_R_augment_05-28_15-21-58/ckpts/epoch_32_acc_0.942857.pth'
 max_epochs: 50
 val_interval: 1
 accuracy_thre: 5

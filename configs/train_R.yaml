@@ -7,6 +7,10 @@ data:
   img_size: 224
   data_path: 'data'
   augment: False
+  resized_crop: True
+  herizon_flip: True
+  vertical_flip: True
+  random_affine: False
   batch_size: 256
   num_workers: 8
 
