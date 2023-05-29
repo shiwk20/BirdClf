@@ -2,6 +2,7 @@ from torch import nn
 import torch
 import torch.nn.functional as F
 import os
+from torch.nn.utils import prune
 from torchvision.models import convnext_base
 
 def make_layer(in_channel, out_channel, block_num, stride):
@@ -53,8 +54,9 @@ class BottleNeck(nn.Module):
         return out
 
 class BirdClf(nn.Module):
-    def __init__(self, embed_size: int = 525):
+    def __init__(self, embed_size: int = 525, compress=False):
         super().__init__()
+        self.compress = compress
         self.conv1 = nn.Conv2d(3, 64, kernel_size = 7, stride = 2, padding = 3, bias = False)
         self.bn1 = nn.BatchNorm2d(64)
         self.maxpool = nn.MaxPool2d(kernel_size = 3, stride = 2, padding = 1)
@@ -67,7 +69,7 @@ class BirdClf(nn.Module):
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
         self.emb = nn.Linear(2048, embed_size)
 
-    def forward(self, x):
+    def forward(self, x, visualize=False):
         x = self.conv1(x)
         x = self.bn1(x)
         x = F.relu(x)
@@ -76,12 +78,13 @@ class BirdClf(nn.Module):
         x = self.layer1(x)
         x = self.layer2(x)
         x = self.layer3(x)
-        x = self.layer4(x)
-        x = self.avgpool(x)
+        features = self.layer4(x)
+        x = self.avgpool(features)
         
         x = x.flatten(1)
         x = self.emb(x)
-        
+        if visualize:
+            return x, features
         return x
     
     def load_ckpt(self, ckpt_path, logger):
@@ -137,9 +140,48 @@ class BirdClf(nn.Module):
 
         torch.save(states, save_path)
         logger.info('save ckpt to {}'.format(save_path)) 
+        
+    # 对模型进行压缩，主要是针对模型中的卷积层应用l1_unstructured剪枝, 剪枝比例为prune_ratio, 
+    def model_compress(self, prune_ratio=0.3):
+        paras_to_prune = [(self.conv1, 'weight')] + \
+                                [(self.layer1[i].conv1, 'weight') for i in range(3)] + \
+                                [(self.layer1[i].conv2, 'weight') for i in range(3)] + \
+                                [(self.layer1[i].conv3, 'weight') for i in range(3)] + \
+                                [(self.layer2[i].conv1, 'weight') for i in range(4)] + \
+                                [(self.layer2[i].conv2, 'weight') for i in range(4)] + \
+                                [(self.layer2[i].conv3, 'weight') for i in range(4)] + \
+                                [(self.layer3[i].conv1, 'weight') for i in range(6)] + \
+                                [(self.layer3[i].conv2, 'weight') for i in range(6)] + \
+                                [(self.layer3[i].conv3, 'weight') for i in range(6)] + \
+                                [(self.layer4[i].conv1, 'weight') for i in range(3)] + \
+                                [(self.layer4[i].conv2, 'weight') for i in range(3)] + \
+                                [(self.layer4[i].conv3, 'weight') for i in range(3)]
+        for module, name in paras_to_prune:
+            prune.l1_unstructured(module, name=name, amount=prune_ratio)
+        
+    
+    # 移除模型中剪枝相关的key-value，便于测试和保存
+    def remove_prune(self):
+        paras_to_prune = [(self.conv1, 'weight')] + \
+                                [(self.layer1[i].conv1, 'weight') for i in range(3)] + \
+                                [(self.layer1[i].conv2, 'weight') for i in range(3)] + \
+                                [(self.layer1[i].conv3, 'weight') for i in range(3)] + \
+                                [(self.layer2[i].conv1, 'weight') for i in range(4)] + \
+                                [(self.layer2[i].conv2, 'weight') for i in range(4)] + \
+                                [(self.layer2[i].conv3, 'weight') for i in range(4)] + \
+                                [(self.layer3[i].conv1, 'weight') for i in range(6)] + \
+                                [(self.layer3[i].conv2, 'weight') for i in range(6)] + \
+                                [(self.layer3[i].conv3, 'weight') for i in range(6)] + \
+                                [(self.layer4[i].conv1, 'weight') for i in range(3)] + \
+                                [(self.layer4[i].conv2, 'weight') for i in range(3)] + \
+                                [(self.layer4[i].conv3, 'weight') for i in range(3)]
+        for module, name in paras_to_prune:
+            prune.remove(module, name)
 
 
 if __name__ == "__main__":
     model = BirdClf()
+    model.model_compress()
+    model.remove_prune()
     x = torch.randn(64, 3, 224, 224)
     print(model(x).shape)

@@ -1,0 +1,1306 @@
+2023-05-29 12:08:30,757 - INFO test.py(107): config: {'model': {'dest': 'model.BirdClf', 'paras': {'embed_size': 525}}, 'data': {'img_size': 224, 'data_path': 'data', 'augment': True, 'resized_crop': True, 'herizon_flip': True, 'vertical_flip': True, 'random_affine': False, 'batch_size': 128, 'num_workers': 8}, 'loss': {'dest': 'loss.CrossEntropyLoss', 'weight': 'None', 'reduction': 'mean', 'label_smoothing': 0.2}, 'optimizer': {'type': 'Adam', 'lr': 0.0002, 'weight_decay': 0.001, 'momentum': 0.9}, 'scheduler': {'type': 'CosineAnnealingLR', 'T_max': 30, 'eta_min': 1e-07, 'step_size': 11, 'gamma': 0.1}, 'resume': True, 'ckpt_path': 'res/train_pretrain_05-29_10-34-31/ckpts/epoch_25_acc_0.975238.pth', 'max_epochs': 30, 'val_interval': 1, 'accuracy_thre': 5, 'random_seed': 42}
+2023-05-29 12:08:31,041 - INFO model.py(66): load checkpoint from res/train_pretrain_05-29_10-34-31/ckpts/epoch_25_acc_0.975238.pth, missing keys: [], unexpected keys: []
+2023-05-29 12:08:37,961 - INFO test.py(37): test Accuray: 0.990476
+2023-05-29 12:08:37,972 - INFO test.py(40): test macro avg: {'precision': 0.9922653061224489, 'recall': 0.9904761904761905, 'f1-score': 0.9903906463906464, 'support': 2625}
+2023-05-29 12:08:37,973 - INFO test.py(41): test weighted avg: {'precision': 0.9922653061224489, 'recall': 0.9904761904761905, 'f1-score': 0.9903906463906463, 'support': 2625}
+2023-05-29 14:07:36,530 - INFO test.py(108): config: {'model': {'dest': 'model.BirdClf', 'paras': {'embed_size': 525}}, 'data': {'img_size': 224, 'data_path': 'data', 'augment': True, 'resized_crop': True, 'herizon_flip': True, 'vertical_flip': True, 'random_affine': False, 'batch_size': 128, 'num_workers': 8}, 'loss': {'dest': 'loss.CrossEntropyLoss', 'weight': 'None', 'reduction': 'mean', 'label_smoothing': 0.2}, 'optimizer': {'type': 'Adam', 'lr': 0.0002, 'weight_decay': 0.001, 'momentum': 0.9}, 'scheduler': {'type': 'CosineAnnealingLR', 'T_max': 30, 'eta_min': 1e-07, 'step_size': 11, 'gamma': 0.1}, 'resume': True, 'ckpt_path': 'res/train_pretrain_05-29_10-34-31/ckpts/epoch_25_acc_0.975238.pth', 'max_epochs': 30, 'val_interval': 1, 'accuracy_thre': 5, 'random_seed': 42}
+2023-05-29 14:07:38,057 - INFO model.py(96): load checkpoint from res/train_pretrain_05-29_10-34-31/ckpts/epoch_25_acc_0.975238.pth, missing keys: [], unexpected keys: []
+2023-05-29 14:07:44,516 - INFO test.py(118): ----------------------------------------------------------------
+        Layer (type)               Output Shape         Param #
+================================================================
+            Conv2d-1         [-1, 64, 112, 112]           9,408
+       BatchNorm2d-2         [-1, 64, 112, 112]             128
+         MaxPool2d-3           [-1, 64, 56, 56]               0
+            Conv2d-4           [-1, 64, 56, 56]           4,096
+       BatchNorm2d-5           [-1, 64, 56, 56]             128
+            Conv2d-6           [-1, 64, 56, 56]          36,864
+       BatchNorm2d-7           [-1, 64, 56, 56]             128
+            Conv2d-8          [-1, 256, 56, 56]          16,384
+       BatchNorm2d-9          [-1, 256, 56, 56]             512
+           Conv2d-10          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-11          [-1, 256, 56, 56]             512
+       BottleNeck-12          [-1, 256, 56, 56]               0
+           Conv2d-13           [-1, 64, 56, 56]          16,384
+      BatchNorm2d-14           [-1, 64, 56, 56]             128
+           Conv2d-15           [-1, 64, 56, 56]          36,864
+      BatchNorm2d-16           [-1, 64, 56, 56]             128
+           Conv2d-17          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-18          [-1, 256, 56, 56]             512
+       BottleNeck-19          [-1, 256, 56, 56]               0
+           Conv2d-20           [-1, 64, 56, 56]          16,384
+      BatchNorm2d-21           [-1, 64, 56, 56]             128
+           Conv2d-22           [-1, 64, 56, 56]          36,864
+      BatchNorm2d-23           [-1, 64, 56, 56]             128
+           Conv2d-24          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-25          [-1, 256, 56, 56]             512
+       BottleNeck-26          [-1, 256, 56, 56]               0
+           Conv2d-27          [-1, 128, 56, 56]          32,768
+      BatchNorm2d-28          [-1, 128, 56, 56]             256
+           Conv2d-29          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-30          [-1, 128, 28, 28]             256
+           Conv2d-31          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-32          [-1, 512, 28, 28]           1,024
+           Conv2d-33          [-1, 512, 28, 28]         131,072
+      BatchNorm2d-34          [-1, 512, 28, 28]           1,024
+       BottleNeck-35          [-1, 512, 28, 28]               0
+           Conv2d-36          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-37          [-1, 128, 28, 28]             256
+           Conv2d-38          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-39          [-1, 128, 28, 28]             256
+           Conv2d-40          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-41          [-1, 512, 28, 28]           1,024
+       BottleNeck-42          [-1, 512, 28, 28]               0
+           Conv2d-43          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-44          [-1, 128, 28, 28]             256
+           Conv2d-45          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-46          [-1, 128, 28, 28]             256
+           Conv2d-47          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-48          [-1, 512, 28, 28]           1,024
+       BottleNeck-49          [-1, 512, 28, 28]               0
+           Conv2d-50          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-51          [-1, 128, 28, 28]             256
+           Conv2d-52          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-53          [-1, 128, 28, 28]             256
+           Conv2d-54          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-55          [-1, 512, 28, 28]           1,024
+       BottleNeck-56          [-1, 512, 28, 28]               0
+           Conv2d-57          [-1, 256, 28, 28]         131,072
+      BatchNorm2d-58          [-1, 256, 28, 28]             512
+           Conv2d-59          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-60          [-1, 256, 14, 14]             512
+           Conv2d-61         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-62         [-1, 1024, 14, 14]           2,048
+           Conv2d-63         [-1, 1024, 14, 14]         524,288
+      BatchNorm2d-64         [-1, 1024, 14, 14]           2,048
+       BottleNeck-65         [-1, 1024, 14, 14]               0
+           Conv2d-66          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-67          [-1, 256, 14, 14]             512
+           Conv2d-68          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-69          [-1, 256, 14, 14]             512
+           Conv2d-70         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-71         [-1, 1024, 14, 14]           2,048
+       BottleNeck-72         [-1, 1024, 14, 14]               0
+           Conv2d-73          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-74          [-1, 256, 14, 14]             512
+           Conv2d-75          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-76          [-1, 256, 14, 14]             512
+           Conv2d-77         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-78         [-1, 1024, 14, 14]           2,048
+       BottleNeck-79         [-1, 1024, 14, 14]               0
+           Conv2d-80          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-81          [-1, 256, 14, 14]             512
+           Conv2d-82          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-83          [-1, 256, 14, 14]             512
+           Conv2d-84         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-85         [-1, 1024, 14, 14]           2,048
+       BottleNeck-86         [-1, 1024, 14, 14]               0
+           Conv2d-87          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-88          [-1, 256, 14, 14]             512
+           Conv2d-89          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-90          [-1, 256, 14, 14]             512
+           Conv2d-91         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-92         [-1, 1024, 14, 14]           2,048
+       BottleNeck-93         [-1, 1024, 14, 14]               0
+           Conv2d-94          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-95          [-1, 256, 14, 14]             512
+           Conv2d-96          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-97          [-1, 256, 14, 14]             512
+           Conv2d-98         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-99         [-1, 1024, 14, 14]           2,048
+      BottleNeck-100         [-1, 1024, 14, 14]               0
+          Conv2d-101          [-1, 512, 14, 14]         524,288
+     BatchNorm2d-102          [-1, 512, 14, 14]           1,024
+          Conv2d-103            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-104            [-1, 512, 7, 7]           1,024
+          Conv2d-105           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-106           [-1, 2048, 7, 7]           4,096
+          Conv2d-107           [-1, 2048, 7, 7]       2,097,152
+     BatchNorm2d-108           [-1, 2048, 7, 7]           4,096
+      BottleNeck-109           [-1, 2048, 7, 7]               0
+          Conv2d-110            [-1, 512, 7, 7]       1,048,576
+     BatchNorm2d-111            [-1, 512, 7, 7]           1,024
+          Conv2d-112            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-113            [-1, 512, 7, 7]           1,024
+          Conv2d-114           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-115           [-1, 2048, 7, 7]           4,096
+      BottleNeck-116           [-1, 2048, 7, 7]               0
+          Conv2d-117            [-1, 512, 7, 7]       1,048,576
+     BatchNorm2d-118            [-1, 512, 7, 7]           1,024
+          Conv2d-119            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-120            [-1, 512, 7, 7]           1,024
+          Conv2d-121           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-122           [-1, 2048, 7, 7]           4,096
+      BottleNeck-123           [-1, 2048, 7, 7]               0
+AdaptiveAvgPool2d-124           [-1, 2048, 1, 1]               0
+          Linear-125                  [-1, 525]       1,075,725
+         BirdClf-126                  [-1, 525]               0
+================================================================
+Total params: 24,583,757
+Trainable params: 24,583,757
+Non-trainable params: 0
+----------------------------------------------------------------
+Input size (MB): 0.57
+Forward/backward pass size (MB): 213.25
+Params size (MB): 93.78
+Estimated Total Size (MB): 307.60
+----------------------------------------------------------------
+
+2023-05-29 14:07:50,193 - INFO test.py(38): test Accuray: 0.990476
+2023-05-29 14:07:50,209 - INFO test.py(41): test macro avg: {'precision': 0.9922653061224489, 'recall': 0.9904761904761905, 'f1-score': 0.9903906463906464, 'support': 2625}
+2023-05-29 14:07:50,209 - INFO test.py(42): test weighted avg: {'precision': 0.9922653061224489, 'recall': 0.9904761904761905, 'f1-score': 0.9903906463906463, 'support': 2625}
+2023-05-29 15:06:53,236 - INFO test.py(195): config: {'model': {'dest': 'model.BirdClf', 'paras': {'embed_size': 525}}, 'data': {'img_size': 224, 'data_path': 'data', 'augment': True, 'resized_crop': True, 'herizon_flip': True, 'vertical_flip': True, 'random_affine': False, 'batch_size': 128, 'num_workers': 8}, 'loss': {'dest': 'loss.CrossEntropyLoss', 'weight': 'None', 'reduction': 'mean', 'label_smoothing': 0.2}, 'optimizer': {'type': 'Adam', 'lr': 0.0002, 'weight_decay': 0.001, 'momentum': 0.9}, 'scheduler': {'type': 'CosineAnnealingLR', 'T_max': 30, 'eta_min': 1e-07, 'step_size': 11, 'gamma': 0.1}, 'resume': True, 'ckpt_path': 'res/train_pretrain_05-29_10-34-31/ckpts/epoch_25_acc_0.975238.pth', 'max_epochs': 30, 'val_interval': 1, 'accuracy_thre': 5, 'random_seed': 42}
+2023-05-29 15:06:53,520 - INFO model.py(97): load checkpoint from res/train_pretrain_05-29_10-34-31/ckpts/epoch_25_acc_0.975238.pth, missing keys: [], unexpected keys: []
+2023-05-29 15:06:59,191 - INFO test.py(205): ----------------------------------------------------------------
+        Layer (type)               Output Shape         Param #
+================================================================
+            Conv2d-1         [-1, 64, 112, 112]           9,408
+       BatchNorm2d-2         [-1, 64, 112, 112]             128
+         MaxPool2d-3           [-1, 64, 56, 56]               0
+            Conv2d-4           [-1, 64, 56, 56]           4,096
+       BatchNorm2d-5           [-1, 64, 56, 56]             128
+            Conv2d-6           [-1, 64, 56, 56]          36,864
+       BatchNorm2d-7           [-1, 64, 56, 56]             128
+            Conv2d-8          [-1, 256, 56, 56]          16,384
+       BatchNorm2d-9          [-1, 256, 56, 56]             512
+           Conv2d-10          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-11          [-1, 256, 56, 56]             512
+       BottleNeck-12          [-1, 256, 56, 56]               0
+           Conv2d-13           [-1, 64, 56, 56]          16,384
+      BatchNorm2d-14           [-1, 64, 56, 56]             128
+           Conv2d-15           [-1, 64, 56, 56]          36,864
+      BatchNorm2d-16           [-1, 64, 56, 56]             128
+           Conv2d-17          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-18          [-1, 256, 56, 56]             512
+       BottleNeck-19          [-1, 256, 56, 56]               0
+           Conv2d-20           [-1, 64, 56, 56]          16,384
+      BatchNorm2d-21           [-1, 64, 56, 56]             128
+           Conv2d-22           [-1, 64, 56, 56]          36,864
+      BatchNorm2d-23           [-1, 64, 56, 56]             128
+           Conv2d-24          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-25          [-1, 256, 56, 56]             512
+       BottleNeck-26          [-1, 256, 56, 56]               0
+           Conv2d-27          [-1, 128, 56, 56]          32,768
+      BatchNorm2d-28          [-1, 128, 56, 56]             256
+           Conv2d-29          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-30          [-1, 128, 28, 28]             256
+           Conv2d-31          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-32          [-1, 512, 28, 28]           1,024
+           Conv2d-33          [-1, 512, 28, 28]         131,072
+      BatchNorm2d-34          [-1, 512, 28, 28]           1,024
+       BottleNeck-35          [-1, 512, 28, 28]               0
+           Conv2d-36          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-37          [-1, 128, 28, 28]             256
+           Conv2d-38          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-39          [-1, 128, 28, 28]             256
+           Conv2d-40          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-41          [-1, 512, 28, 28]           1,024
+       BottleNeck-42          [-1, 512, 28, 28]               0
+           Conv2d-43          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-44          [-1, 128, 28, 28]             256
+           Conv2d-45          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-46          [-1, 128, 28, 28]             256
+           Conv2d-47          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-48          [-1, 512, 28, 28]           1,024
+       BottleNeck-49          [-1, 512, 28, 28]               0
+           Conv2d-50          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-51          [-1, 128, 28, 28]             256
+           Conv2d-52          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-53          [-1, 128, 28, 28]             256
+           Conv2d-54          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-55          [-1, 512, 28, 28]           1,024
+       BottleNeck-56          [-1, 512, 28, 28]               0
+           Conv2d-57          [-1, 256, 28, 28]         131,072
+      BatchNorm2d-58          [-1, 256, 28, 28]             512
+           Conv2d-59          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-60          [-1, 256, 14, 14]             512
+           Conv2d-61         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-62         [-1, 1024, 14, 14]           2,048
+           Conv2d-63         [-1, 1024, 14, 14]         524,288
+      BatchNorm2d-64         [-1, 1024, 14, 14]           2,048
+       BottleNeck-65         [-1, 1024, 14, 14]               0
+           Conv2d-66          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-67          [-1, 256, 14, 14]             512
+           Conv2d-68          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-69          [-1, 256, 14, 14]             512
+           Conv2d-70         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-71         [-1, 1024, 14, 14]           2,048
+       BottleNeck-72         [-1, 1024, 14, 14]               0
+           Conv2d-73          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-74          [-1, 256, 14, 14]             512
+           Conv2d-75          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-76          [-1, 256, 14, 14]             512
+           Conv2d-77         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-78         [-1, 1024, 14, 14]           2,048
+       BottleNeck-79         [-1, 1024, 14, 14]               0
+           Conv2d-80          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-81          [-1, 256, 14, 14]             512
+           Conv2d-82          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-83          [-1, 256, 14, 14]             512
+           Conv2d-84         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-85         [-1, 1024, 14, 14]           2,048
+       BottleNeck-86         [-1, 1024, 14, 14]               0
+           Conv2d-87          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-88          [-1, 256, 14, 14]             512
+           Conv2d-89          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-90          [-1, 256, 14, 14]             512
+           Conv2d-91         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-92         [-1, 1024, 14, 14]           2,048
+       BottleNeck-93         [-1, 1024, 14, 14]               0
+           Conv2d-94          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-95          [-1, 256, 14, 14]             512
+           Conv2d-96          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-97          [-1, 256, 14, 14]             512
+           Conv2d-98         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-99         [-1, 1024, 14, 14]           2,048
+      BottleNeck-100         [-1, 1024, 14, 14]               0
+          Conv2d-101          [-1, 512, 14, 14]         524,288
+     BatchNorm2d-102          [-1, 512, 14, 14]           1,024
+          Conv2d-103            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-104            [-1, 512, 7, 7]           1,024
+          Conv2d-105           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-106           [-1, 2048, 7, 7]           4,096
+          Conv2d-107           [-1, 2048, 7, 7]       2,097,152
+     BatchNorm2d-108           [-1, 2048, 7, 7]           4,096
+      BottleNeck-109           [-1, 2048, 7, 7]               0
+          Conv2d-110            [-1, 512, 7, 7]       1,048,576
+     BatchNorm2d-111            [-1, 512, 7, 7]           1,024
+          Conv2d-112            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-113            [-1, 512, 7, 7]           1,024
+          Conv2d-114           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-115           [-1, 2048, 7, 7]           4,096
+      BottleNeck-116           [-1, 2048, 7, 7]               0
+          Conv2d-117            [-1, 512, 7, 7]       1,048,576
+     BatchNorm2d-118            [-1, 512, 7, 7]           1,024
+          Conv2d-119            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-120            [-1, 512, 7, 7]           1,024
+          Conv2d-121           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-122           [-1, 2048, 7, 7]           4,096
+      BottleNeck-123           [-1, 2048, 7, 7]               0
+AdaptiveAvgPool2d-124           [-1, 2048, 1, 1]               0
+          Linear-125                  [-1, 525]       1,075,725
+         BirdClf-126                  [-1, 525]               0
+================================================================
+Total params: 24,583,757
+Trainable params: 24,583,757
+Non-trainable params: 0
+----------------------------------------------------------------
+Input size (MB): 0.57
+Forward/backward pass size (MB): 213.25
+Params size (MB): 93.78
+Estimated Total Size (MB): 307.60
+----------------------------------------------------------------
+
+2023-05-29 15:07:16,923 - INFO test.py(195): config: {'model': {'dest': 'model.BirdClf', 'paras': {'embed_size': 525}}, 'data': {'img_size': 224, 'data_path': 'data', 'augment': True, 'resized_crop': True, 'herizon_flip': True, 'vertical_flip': True, 'random_affine': False, 'batch_size': 128, 'num_workers': 8}, 'loss': {'dest': 'loss.CrossEntropyLoss', 'weight': 'None', 'reduction': 'mean', 'label_smoothing': 0.2}, 'optimizer': {'type': 'Adam', 'lr': 0.0002, 'weight_decay': 0.001, 'momentum': 0.9}, 'scheduler': {'type': 'CosineAnnealingLR', 'T_max': 30, 'eta_min': 1e-07, 'step_size': 11, 'gamma': 0.1}, 'resume': True, 'ckpt_path': 'res/train_pretrain_05-29_10-34-31/ckpts/epoch_25_acc_0.975238.pth', 'max_epochs': 30, 'val_interval': 1, 'accuracy_thre': 5, 'random_seed': 42}
+2023-05-29 15:07:17,206 - INFO model.py(97): load checkpoint from res/train_pretrain_05-29_10-34-31/ckpts/epoch_25_acc_0.975238.pth, missing keys: [], unexpected keys: []
+2023-05-29 15:07:22,828 - INFO test.py(205): ----------------------------------------------------------------
+        Layer (type)               Output Shape         Param #
+================================================================
+            Conv2d-1         [-1, 64, 112, 112]           9,408
+       BatchNorm2d-2         [-1, 64, 112, 112]             128
+         MaxPool2d-3           [-1, 64, 56, 56]               0
+            Conv2d-4           [-1, 64, 56, 56]           4,096
+       BatchNorm2d-5           [-1, 64, 56, 56]             128
+            Conv2d-6           [-1, 64, 56, 56]          36,864
+       BatchNorm2d-7           [-1, 64, 56, 56]             128
+            Conv2d-8          [-1, 256, 56, 56]          16,384
+       BatchNorm2d-9          [-1, 256, 56, 56]             512
+           Conv2d-10          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-11          [-1, 256, 56, 56]             512
+       BottleNeck-12          [-1, 256, 56, 56]               0
+           Conv2d-13           [-1, 64, 56, 56]          16,384
+      BatchNorm2d-14           [-1, 64, 56, 56]             128
+           Conv2d-15           [-1, 64, 56, 56]          36,864
+      BatchNorm2d-16           [-1, 64, 56, 56]             128
+           Conv2d-17          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-18          [-1, 256, 56, 56]             512
+       BottleNeck-19          [-1, 256, 56, 56]               0
+           Conv2d-20           [-1, 64, 56, 56]          16,384
+      BatchNorm2d-21           [-1, 64, 56, 56]             128
+           Conv2d-22           [-1, 64, 56, 56]          36,864
+      BatchNorm2d-23           [-1, 64, 56, 56]             128
+           Conv2d-24          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-25          [-1, 256, 56, 56]             512
+       BottleNeck-26          [-1, 256, 56, 56]               0
+           Conv2d-27          [-1, 128, 56, 56]          32,768
+      BatchNorm2d-28          [-1, 128, 56, 56]             256
+           Conv2d-29          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-30          [-1, 128, 28, 28]             256
+           Conv2d-31          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-32          [-1, 512, 28, 28]           1,024
+           Conv2d-33          [-1, 512, 28, 28]         131,072
+      BatchNorm2d-34          [-1, 512, 28, 28]           1,024
+       BottleNeck-35          [-1, 512, 28, 28]               0
+           Conv2d-36          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-37          [-1, 128, 28, 28]             256
+           Conv2d-38          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-39          [-1, 128, 28, 28]             256
+           Conv2d-40          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-41          [-1, 512, 28, 28]           1,024
+       BottleNeck-42          [-1, 512, 28, 28]               0
+           Conv2d-43          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-44          [-1, 128, 28, 28]             256
+           Conv2d-45          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-46          [-1, 128, 28, 28]             256
+           Conv2d-47          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-48          [-1, 512, 28, 28]           1,024
+       BottleNeck-49          [-1, 512, 28, 28]               0
+           Conv2d-50          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-51          [-1, 128, 28, 28]             256
+           Conv2d-52          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-53          [-1, 128, 28, 28]             256
+           Conv2d-54          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-55          [-1, 512, 28, 28]           1,024
+       BottleNeck-56          [-1, 512, 28, 28]               0
+           Conv2d-57          [-1, 256, 28, 28]         131,072
+      BatchNorm2d-58          [-1, 256, 28, 28]             512
+           Conv2d-59          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-60          [-1, 256, 14, 14]             512
+           Conv2d-61         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-62         [-1, 1024, 14, 14]           2,048
+           Conv2d-63         [-1, 1024, 14, 14]         524,288
+      BatchNorm2d-64         [-1, 1024, 14, 14]           2,048
+       BottleNeck-65         [-1, 1024, 14, 14]               0
+           Conv2d-66          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-67          [-1, 256, 14, 14]             512
+           Conv2d-68          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-69          [-1, 256, 14, 14]             512
+           Conv2d-70         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-71         [-1, 1024, 14, 14]           2,048
+       BottleNeck-72         [-1, 1024, 14, 14]               0
+           Conv2d-73          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-74          [-1, 256, 14, 14]             512
+           Conv2d-75          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-76          [-1, 256, 14, 14]             512
+           Conv2d-77         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-78         [-1, 1024, 14, 14]           2,048
+       BottleNeck-79         [-1, 1024, 14, 14]               0
+           Conv2d-80          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-81          [-1, 256, 14, 14]             512
+           Conv2d-82          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-83          [-1, 256, 14, 14]             512
+           Conv2d-84         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-85         [-1, 1024, 14, 14]           2,048
+       BottleNeck-86         [-1, 1024, 14, 14]               0
+           Conv2d-87          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-88          [-1, 256, 14, 14]             512
+           Conv2d-89          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-90          [-1, 256, 14, 14]             512
+           Conv2d-91         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-92         [-1, 1024, 14, 14]           2,048
+       BottleNeck-93         [-1, 1024, 14, 14]               0
+           Conv2d-94          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-95          [-1, 256, 14, 14]             512
+           Conv2d-96          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-97          [-1, 256, 14, 14]             512
+           Conv2d-98         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-99         [-1, 1024, 14, 14]           2,048
+      BottleNeck-100         [-1, 1024, 14, 14]               0
+          Conv2d-101          [-1, 512, 14, 14]         524,288
+     BatchNorm2d-102          [-1, 512, 14, 14]           1,024
+          Conv2d-103            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-104            [-1, 512, 7, 7]           1,024
+          Conv2d-105           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-106           [-1, 2048, 7, 7]           4,096
+          Conv2d-107           [-1, 2048, 7, 7]       2,097,152
+     BatchNorm2d-108           [-1, 2048, 7, 7]           4,096
+      BottleNeck-109           [-1, 2048, 7, 7]               0
+          Conv2d-110            [-1, 512, 7, 7]       1,048,576
+     BatchNorm2d-111            [-1, 512, 7, 7]           1,024
+          Conv2d-112            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-113            [-1, 512, 7, 7]           1,024
+          Conv2d-114           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-115           [-1, 2048, 7, 7]           4,096
+      BottleNeck-116           [-1, 2048, 7, 7]               0
+          Conv2d-117            [-1, 512, 7, 7]       1,048,576
+     BatchNorm2d-118            [-1, 512, 7, 7]           1,024
+          Conv2d-119            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-120            [-1, 512, 7, 7]           1,024
+          Conv2d-121           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-122           [-1, 2048, 7, 7]           4,096
+      BottleNeck-123           [-1, 2048, 7, 7]               0
+AdaptiveAvgPool2d-124           [-1, 2048, 1, 1]               0
+          Linear-125                  [-1, 525]       1,075,725
+         BirdClf-126                  [-1, 525]               0
+================================================================
+Total params: 24,583,757
+Trainable params: 24,583,757
+Non-trainable params: 0
+----------------------------------------------------------------
+Input size (MB): 0.57
+Forward/backward pass size (MB): 213.25
+Params size (MB): 93.78
+Estimated Total Size (MB): 307.60
+----------------------------------------------------------------
+
+2023-05-29 15:08:36,877 - INFO test.py(195): config: {'model': {'dest': 'model.BirdClf', 'paras': {'embed_size': 525}}, 'data': {'img_size': 224, 'data_path': 'data', 'augment': True, 'resized_crop': True, 'herizon_flip': True, 'vertical_flip': True, 'random_affine': False, 'batch_size': 128, 'num_workers': 8}, 'loss': {'dest': 'loss.CrossEntropyLoss', 'weight': 'None', 'reduction': 'mean', 'label_smoothing': 0.2}, 'optimizer': {'type': 'Adam', 'lr': 0.0002, 'weight_decay': 0.001, 'momentum': 0.9}, 'scheduler': {'type': 'CosineAnnealingLR', 'T_max': 30, 'eta_min': 1e-07, 'step_size': 11, 'gamma': 0.1}, 'resume': True, 'ckpt_path': 'res/train_pretrain_05-29_10-34-31/ckpts/epoch_25_acc_0.975238.pth', 'max_epochs': 30, 'val_interval': 1, 'accuracy_thre': 5, 'random_seed': 42}
+2023-05-29 15:08:37,169 - INFO model.py(97): load checkpoint from res/train_pretrain_05-29_10-34-31/ckpts/epoch_25_acc_0.975238.pth, missing keys: [], unexpected keys: []
+2023-05-29 15:08:47,474 - INFO test.py(207): ----------------------------------------------------------------
+        Layer (type)               Output Shape         Param #
+================================================================
+            Conv2d-1         [-1, 64, 112, 112]           9,408
+       BatchNorm2d-2         [-1, 64, 112, 112]             128
+         MaxPool2d-3           [-1, 64, 56, 56]               0
+            Conv2d-4           [-1, 64, 56, 56]           4,096
+       BatchNorm2d-5           [-1, 64, 56, 56]             128
+            Conv2d-6           [-1, 64, 56, 56]          36,864
+       BatchNorm2d-7           [-1, 64, 56, 56]             128
+            Conv2d-8          [-1, 256, 56, 56]          16,384
+       BatchNorm2d-9          [-1, 256, 56, 56]             512
+           Conv2d-10          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-11          [-1, 256, 56, 56]             512
+       BottleNeck-12          [-1, 256, 56, 56]               0
+           Conv2d-13           [-1, 64, 56, 56]          16,384
+      BatchNorm2d-14           [-1, 64, 56, 56]             128
+           Conv2d-15           [-1, 64, 56, 56]          36,864
+      BatchNorm2d-16           [-1, 64, 56, 56]             128
+           Conv2d-17          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-18          [-1, 256, 56, 56]             512
+       BottleNeck-19          [-1, 256, 56, 56]               0
+           Conv2d-20           [-1, 64, 56, 56]          16,384
+      BatchNorm2d-21           [-1, 64, 56, 56]             128
+           Conv2d-22           [-1, 64, 56, 56]          36,864
+      BatchNorm2d-23           [-1, 64, 56, 56]             128
+           Conv2d-24          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-25          [-1, 256, 56, 56]             512
+       BottleNeck-26          [-1, 256, 56, 56]               0
+           Conv2d-27          [-1, 128, 56, 56]          32,768
+      BatchNorm2d-28          [-1, 128, 56, 56]             256
+           Conv2d-29          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-30          [-1, 128, 28, 28]             256
+           Conv2d-31          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-32          [-1, 512, 28, 28]           1,024
+           Conv2d-33          [-1, 512, 28, 28]         131,072
+      BatchNorm2d-34          [-1, 512, 28, 28]           1,024
+       BottleNeck-35          [-1, 512, 28, 28]               0
+           Conv2d-36          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-37          [-1, 128, 28, 28]             256
+           Conv2d-38          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-39          [-1, 128, 28, 28]             256
+           Conv2d-40          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-41          [-1, 512, 28, 28]           1,024
+       BottleNeck-42          [-1, 512, 28, 28]               0
+           Conv2d-43          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-44          [-1, 128, 28, 28]             256
+           Conv2d-45          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-46          [-1, 128, 28, 28]             256
+           Conv2d-47          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-48          [-1, 512, 28, 28]           1,024
+       BottleNeck-49          [-1, 512, 28, 28]               0
+           Conv2d-50          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-51          [-1, 128, 28, 28]             256
+           Conv2d-52          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-53          [-1, 128, 28, 28]             256
+           Conv2d-54          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-55          [-1, 512, 28, 28]           1,024
+       BottleNeck-56          [-1, 512, 28, 28]               0
+           Conv2d-57          [-1, 256, 28, 28]         131,072
+      BatchNorm2d-58          [-1, 256, 28, 28]             512
+           Conv2d-59          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-60          [-1, 256, 14, 14]             512
+           Conv2d-61         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-62         [-1, 1024, 14, 14]           2,048
+           Conv2d-63         [-1, 1024, 14, 14]         524,288
+      BatchNorm2d-64         [-1, 1024, 14, 14]           2,048
+       BottleNeck-65         [-1, 1024, 14, 14]               0
+           Conv2d-66          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-67          [-1, 256, 14, 14]             512
+           Conv2d-68          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-69          [-1, 256, 14, 14]             512
+           Conv2d-70         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-71         [-1, 1024, 14, 14]           2,048
+       BottleNeck-72         [-1, 1024, 14, 14]               0
+           Conv2d-73          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-74          [-1, 256, 14, 14]             512
+           Conv2d-75          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-76          [-1, 256, 14, 14]             512
+           Conv2d-77         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-78         [-1, 1024, 14, 14]           2,048
+       BottleNeck-79         [-1, 1024, 14, 14]               0
+           Conv2d-80          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-81          [-1, 256, 14, 14]             512
+           Conv2d-82          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-83          [-1, 256, 14, 14]             512
+           Conv2d-84         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-85         [-1, 1024, 14, 14]           2,048
+       BottleNeck-86         [-1, 1024, 14, 14]               0
+           Conv2d-87          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-88          [-1, 256, 14, 14]             512
+           Conv2d-89          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-90          [-1, 256, 14, 14]             512
+           Conv2d-91         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-92         [-1, 1024, 14, 14]           2,048
+       BottleNeck-93         [-1, 1024, 14, 14]               0
+           Conv2d-94          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-95          [-1, 256, 14, 14]             512
+           Conv2d-96          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-97          [-1, 256, 14, 14]             512
+           Conv2d-98         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-99         [-1, 1024, 14, 14]           2,048
+      BottleNeck-100         [-1, 1024, 14, 14]               0
+          Conv2d-101          [-1, 512, 14, 14]         524,288
+     BatchNorm2d-102          [-1, 512, 14, 14]           1,024
+          Conv2d-103            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-104            [-1, 512, 7, 7]           1,024
+          Conv2d-105           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-106           [-1, 2048, 7, 7]           4,096
+          Conv2d-107           [-1, 2048, 7, 7]       2,097,152
+     BatchNorm2d-108           [-1, 2048, 7, 7]           4,096
+      BottleNeck-109           [-1, 2048, 7, 7]               0
+          Conv2d-110            [-1, 512, 7, 7]       1,048,576
+     BatchNorm2d-111            [-1, 512, 7, 7]           1,024
+          Conv2d-112            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-113            [-1, 512, 7, 7]           1,024
+          Conv2d-114           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-115           [-1, 2048, 7, 7]           4,096
+      BottleNeck-116           [-1, 2048, 7, 7]               0
+          Conv2d-117            [-1, 512, 7, 7]       1,048,576
+     BatchNorm2d-118            [-1, 512, 7, 7]           1,024
+          Conv2d-119            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-120            [-1, 512, 7, 7]           1,024
+          Conv2d-121           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-122           [-1, 2048, 7, 7]           4,096
+      BottleNeck-123           [-1, 2048, 7, 7]               0
+AdaptiveAvgPool2d-124           [-1, 2048, 1, 1]               0
+          Linear-125                  [-1, 525]       1,075,725
+         BirdClf-126                  [-1, 525]               0
+================================================================
+Total params: 24,583,757
+Trainable params: 24,583,757
+Non-trainable params: 0
+----------------------------------------------------------------
+Input size (MB): 0.57
+Forward/backward pass size (MB): 213.25
+Params size (MB): 93.78
+Estimated Total Size (MB): 307.60
+----------------------------------------------------------------
+
+2023-05-29 15:08:53,469 - INFO test.py(42): test Accuray: 0.990476
+2023-05-29 15:08:53,481 - INFO test.py(45): test macro avg: {'precision': 0.9922653061224489, 'recall': 0.9904761904761905, 'f1-score': 0.9903906463906464, 'support': 2625}
+2023-05-29 15:08:53,481 - INFO test.py(46): test weighted avg: {'precision': 0.9922653061224489, 'recall': 0.9904761904761905, 'f1-score': 0.9903906463906463, 'support': 2625}
+2023-05-29 15:10:31,314 - INFO test.py(195): config: {'model': {'dest': 'model.BirdClf', 'paras': {'embed_size': 525}}, 'data': {'img_size': 224, 'data_path': 'data', 'augment': True, 'resized_crop': True, 'herizon_flip': True, 'vertical_flip': True, 'random_affine': False, 'batch_size': 128, 'num_workers': 8}, 'loss': {'dest': 'loss.CrossEntropyLoss', 'weight': 'None', 'reduction': 'mean', 'label_smoothing': 0.2}, 'optimizer': {'type': 'Adam', 'lr': 0.0002, 'weight_decay': 0.001, 'momentum': 0.9}, 'scheduler': {'type': 'CosineAnnealingLR', 'T_max': 30, 'eta_min': 1e-07, 'step_size': 11, 'gamma': 0.1}, 'resume': True, 'ckpt_path': 'res/train_pretrain_05-29_10-34-31/ckpts/epoch_25_acc_0.975238.pth', 'max_epochs': 30, 'val_interval': 1, 'accuracy_thre': 5, 'random_seed': 42}
+2023-05-29 15:10:31,604 - INFO model.py(97): load checkpoint from res/train_pretrain_05-29_10-34-31/ckpts/epoch_25_acc_0.975238.pth, missing keys: [], unexpected keys: []
+2023-05-29 15:10:40,524 - INFO test.py(207): ----------------------------------------------------------------
+        Layer (type)               Output Shape         Param #
+================================================================
+            Conv2d-1         [-1, 64, 112, 112]           9,408
+       BatchNorm2d-2         [-1, 64, 112, 112]             128
+         MaxPool2d-3           [-1, 64, 56, 56]               0
+            Conv2d-4           [-1, 64, 56, 56]           4,096
+       BatchNorm2d-5           [-1, 64, 56, 56]             128
+            Conv2d-6           [-1, 64, 56, 56]          36,864
+       BatchNorm2d-7           [-1, 64, 56, 56]             128
+            Conv2d-8          [-1, 256, 56, 56]          16,384
+       BatchNorm2d-9          [-1, 256, 56, 56]             512
+           Conv2d-10          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-11          [-1, 256, 56, 56]             512
+       BottleNeck-12          [-1, 256, 56, 56]               0
+           Conv2d-13           [-1, 64, 56, 56]          16,384
+      BatchNorm2d-14           [-1, 64, 56, 56]             128
+           Conv2d-15           [-1, 64, 56, 56]          36,864
+      BatchNorm2d-16           [-1, 64, 56, 56]             128
+           Conv2d-17          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-18          [-1, 256, 56, 56]             512
+       BottleNeck-19          [-1, 256, 56, 56]               0
+           Conv2d-20           [-1, 64, 56, 56]          16,384
+      BatchNorm2d-21           [-1, 64, 56, 56]             128
+           Conv2d-22           [-1, 64, 56, 56]          36,864
+      BatchNorm2d-23           [-1, 64, 56, 56]             128
+           Conv2d-24          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-25          [-1, 256, 56, 56]             512
+       BottleNeck-26          [-1, 256, 56, 56]               0
+           Conv2d-27          [-1, 128, 56, 56]          32,768
+      BatchNorm2d-28          [-1, 128, 56, 56]             256
+           Conv2d-29          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-30          [-1, 128, 28, 28]             256
+           Conv2d-31          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-32          [-1, 512, 28, 28]           1,024
+           Conv2d-33          [-1, 512, 28, 28]         131,072
+      BatchNorm2d-34          [-1, 512, 28, 28]           1,024
+       BottleNeck-35          [-1, 512, 28, 28]               0
+           Conv2d-36          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-37          [-1, 128, 28, 28]             256
+           Conv2d-38          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-39          [-1, 128, 28, 28]             256
+           Conv2d-40          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-41          [-1, 512, 28, 28]           1,024
+       BottleNeck-42          [-1, 512, 28, 28]               0
+           Conv2d-43          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-44          [-1, 128, 28, 28]             256
+           Conv2d-45          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-46          [-1, 128, 28, 28]             256
+           Conv2d-47          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-48          [-1, 512, 28, 28]           1,024
+       BottleNeck-49          [-1, 512, 28, 28]               0
+           Conv2d-50          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-51          [-1, 128, 28, 28]             256
+           Conv2d-52          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-53          [-1, 128, 28, 28]             256
+           Conv2d-54          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-55          [-1, 512, 28, 28]           1,024
+       BottleNeck-56          [-1, 512, 28, 28]               0
+           Conv2d-57          [-1, 256, 28, 28]         131,072
+      BatchNorm2d-58          [-1, 256, 28, 28]             512
+           Conv2d-59          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-60          [-1, 256, 14, 14]             512
+           Conv2d-61         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-62         [-1, 1024, 14, 14]           2,048
+           Conv2d-63         [-1, 1024, 14, 14]         524,288
+      BatchNorm2d-64         [-1, 1024, 14, 14]           2,048
+       BottleNeck-65         [-1, 1024, 14, 14]               0
+           Conv2d-66          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-67          [-1, 256, 14, 14]             512
+           Conv2d-68          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-69          [-1, 256, 14, 14]             512
+           Conv2d-70         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-71         [-1, 1024, 14, 14]           2,048
+       BottleNeck-72         [-1, 1024, 14, 14]               0
+           Conv2d-73          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-74          [-1, 256, 14, 14]             512
+           Conv2d-75          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-76          [-1, 256, 14, 14]             512
+           Conv2d-77         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-78         [-1, 1024, 14, 14]           2,048
+       BottleNeck-79         [-1, 1024, 14, 14]               0
+           Conv2d-80          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-81          [-1, 256, 14, 14]             512
+           Conv2d-82          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-83          [-1, 256, 14, 14]             512
+           Conv2d-84         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-85         [-1, 1024, 14, 14]           2,048
+       BottleNeck-86         [-1, 1024, 14, 14]               0
+           Conv2d-87          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-88          [-1, 256, 14, 14]             512
+           Conv2d-89          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-90          [-1, 256, 14, 14]             512
+           Conv2d-91         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-92         [-1, 1024, 14, 14]           2,048
+       BottleNeck-93         [-1, 1024, 14, 14]               0
+           Conv2d-94          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-95          [-1, 256, 14, 14]             512
+           Conv2d-96          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-97          [-1, 256, 14, 14]             512
+           Conv2d-98         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-99         [-1, 1024, 14, 14]           2,048
+      BottleNeck-100         [-1, 1024, 14, 14]               0
+          Conv2d-101          [-1, 512, 14, 14]         524,288
+     BatchNorm2d-102          [-1, 512, 14, 14]           1,024
+          Conv2d-103            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-104            [-1, 512, 7, 7]           1,024
+          Conv2d-105           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-106           [-1, 2048, 7, 7]           4,096
+          Conv2d-107           [-1, 2048, 7, 7]       2,097,152
+     BatchNorm2d-108           [-1, 2048, 7, 7]           4,096
+      BottleNeck-109           [-1, 2048, 7, 7]               0
+          Conv2d-110            [-1, 512, 7, 7]       1,048,576
+     BatchNorm2d-111            [-1, 512, 7, 7]           1,024
+          Conv2d-112            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-113            [-1, 512, 7, 7]           1,024
+          Conv2d-114           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-115           [-1, 2048, 7, 7]           4,096
+      BottleNeck-116           [-1, 2048, 7, 7]               0
+          Conv2d-117            [-1, 512, 7, 7]       1,048,576
+     BatchNorm2d-118            [-1, 512, 7, 7]           1,024
+          Conv2d-119            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-120            [-1, 512, 7, 7]           1,024
+          Conv2d-121           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-122           [-1, 2048, 7, 7]           4,096
+      BottleNeck-123           [-1, 2048, 7, 7]               0
+AdaptiveAvgPool2d-124           [-1, 2048, 1, 1]               0
+          Linear-125                  [-1, 525]       1,075,725
+         BirdClf-126                  [-1, 525]               0
+================================================================
+Total params: 24,583,757
+Trainable params: 24,583,757
+Non-trainable params: 0
+----------------------------------------------------------------
+Input size (MB): 0.57
+Forward/backward pass size (MB): 213.25
+Params size (MB): 93.78
+Estimated Total Size (MB): 307.60
+----------------------------------------------------------------
+
+2023-05-29 15:10:46,395 - INFO test.py(42): test Accuray: 0.990476
+2023-05-29 15:10:46,412 - INFO test.py(45): test macro avg: {'precision': 0.9922653061224489, 'recall': 0.9904761904761905, 'f1-score': 0.9903906463906464, 'support': 2625}
+2023-05-29 15:10:46,412 - INFO test.py(46): test weighted avg: {'precision': 0.9922653061224489, 'recall': 0.9904761904761905, 'f1-score': 0.9903906463906463, 'support': 2625}
+2023-05-29 15:13:32,655 - INFO test.py(195): config: {'model': {'dest': 'model.BirdClf', 'paras': {'embed_size': 525}}, 'data': {'img_size': 224, 'data_path': 'data', 'augment': True, 'resized_crop': True, 'herizon_flip': True, 'vertical_flip': True, 'random_affine': False, 'batch_size': 128, 'num_workers': 8}, 'loss': {'dest': 'loss.CrossEntropyLoss', 'weight': 'None', 'reduction': 'mean', 'label_smoothing': 0.2}, 'optimizer': {'type': 'Adam', 'lr': 0.0002, 'weight_decay': 0.001, 'momentum': 0.9}, 'scheduler': {'type': 'CosineAnnealingLR', 'T_max': 30, 'eta_min': 1e-07, 'step_size': 11, 'gamma': 0.1}, 'resume': True, 'ckpt_path': 'res/train_pretrain_05-29_10-34-31/ckpts/epoch_25_acc_0.975238.pth', 'max_epochs': 30, 'val_interval': 1, 'accuracy_thre': 5, 'random_seed': 42}
+2023-05-29 15:13:32,950 - INFO model.py(97): load checkpoint from res/train_pretrain_05-29_10-34-31/ckpts/epoch_25_acc_0.975238.pth, missing keys: [], unexpected keys: []
+2023-05-29 15:13:42,697 - INFO test.py(207): ----------------------------------------------------------------
+        Layer (type)               Output Shape         Param #
+================================================================
+            Conv2d-1         [-1, 64, 112, 112]           9,408
+       BatchNorm2d-2         [-1, 64, 112, 112]             128
+         MaxPool2d-3           [-1, 64, 56, 56]               0
+            Conv2d-4           [-1, 64, 56, 56]           4,096
+       BatchNorm2d-5           [-1, 64, 56, 56]             128
+            Conv2d-6           [-1, 64, 56, 56]          36,864
+       BatchNorm2d-7           [-1, 64, 56, 56]             128
+            Conv2d-8          [-1, 256, 56, 56]          16,384
+       BatchNorm2d-9          [-1, 256, 56, 56]             512
+           Conv2d-10          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-11          [-1, 256, 56, 56]             512
+       BottleNeck-12          [-1, 256, 56, 56]               0
+           Conv2d-13           [-1, 64, 56, 56]          16,384
+      BatchNorm2d-14           [-1, 64, 56, 56]             128
+           Conv2d-15           [-1, 64, 56, 56]          36,864
+      BatchNorm2d-16           [-1, 64, 56, 56]             128
+           Conv2d-17          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-18          [-1, 256, 56, 56]             512
+       BottleNeck-19          [-1, 256, 56, 56]               0
+           Conv2d-20           [-1, 64, 56, 56]          16,384
+      BatchNorm2d-21           [-1, 64, 56, 56]             128
+           Conv2d-22           [-1, 64, 56, 56]          36,864
+      BatchNorm2d-23           [-1, 64, 56, 56]             128
+           Conv2d-24          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-25          [-1, 256, 56, 56]             512
+       BottleNeck-26          [-1, 256, 56, 56]               0
+           Conv2d-27          [-1, 128, 56, 56]          32,768
+      BatchNorm2d-28          [-1, 128, 56, 56]             256
+           Conv2d-29          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-30          [-1, 128, 28, 28]             256
+           Conv2d-31          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-32          [-1, 512, 28, 28]           1,024
+           Conv2d-33          [-1, 512, 28, 28]         131,072
+      BatchNorm2d-34          [-1, 512, 28, 28]           1,024
+       BottleNeck-35          [-1, 512, 28, 28]               0
+           Conv2d-36          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-37          [-1, 128, 28, 28]             256
+           Conv2d-38          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-39          [-1, 128, 28, 28]             256
+           Conv2d-40          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-41          [-1, 512, 28, 28]           1,024
+       BottleNeck-42          [-1, 512, 28, 28]               0
+           Conv2d-43          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-44          [-1, 128, 28, 28]             256
+           Conv2d-45          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-46          [-1, 128, 28, 28]             256
+           Conv2d-47          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-48          [-1, 512, 28, 28]           1,024
+       BottleNeck-49          [-1, 512, 28, 28]               0
+           Conv2d-50          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-51          [-1, 128, 28, 28]             256
+           Conv2d-52          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-53          [-1, 128, 28, 28]             256
+           Conv2d-54          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-55          [-1, 512, 28, 28]           1,024
+       BottleNeck-56          [-1, 512, 28, 28]               0
+           Conv2d-57          [-1, 256, 28, 28]         131,072
+      BatchNorm2d-58          [-1, 256, 28, 28]             512
+           Conv2d-59          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-60          [-1, 256, 14, 14]             512
+           Conv2d-61         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-62         [-1, 1024, 14, 14]           2,048
+           Conv2d-63         [-1, 1024, 14, 14]         524,288
+      BatchNorm2d-64         [-1, 1024, 14, 14]           2,048
+       BottleNeck-65         [-1, 1024, 14, 14]               0
+           Conv2d-66          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-67          [-1, 256, 14, 14]             512
+           Conv2d-68          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-69          [-1, 256, 14, 14]             512
+           Conv2d-70         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-71         [-1, 1024, 14, 14]           2,048
+       BottleNeck-72         [-1, 1024, 14, 14]               0
+           Conv2d-73          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-74          [-1, 256, 14, 14]             512
+           Conv2d-75          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-76          [-1, 256, 14, 14]             512
+           Conv2d-77         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-78         [-1, 1024, 14, 14]           2,048
+       BottleNeck-79         [-1, 1024, 14, 14]               0
+           Conv2d-80          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-81          [-1, 256, 14, 14]             512
+           Conv2d-82          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-83          [-1, 256, 14, 14]             512
+           Conv2d-84         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-85         [-1, 1024, 14, 14]           2,048
+       BottleNeck-86         [-1, 1024, 14, 14]               0
+           Conv2d-87          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-88          [-1, 256, 14, 14]             512
+           Conv2d-89          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-90          [-1, 256, 14, 14]             512
+           Conv2d-91         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-92         [-1, 1024, 14, 14]           2,048
+       BottleNeck-93         [-1, 1024, 14, 14]               0
+           Conv2d-94          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-95          [-1, 256, 14, 14]             512
+           Conv2d-96          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-97          [-1, 256, 14, 14]             512
+           Conv2d-98         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-99         [-1, 1024, 14, 14]           2,048
+      BottleNeck-100         [-1, 1024, 14, 14]               0
+          Conv2d-101          [-1, 512, 14, 14]         524,288
+     BatchNorm2d-102          [-1, 512, 14, 14]           1,024
+          Conv2d-103            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-104            [-1, 512, 7, 7]           1,024
+          Conv2d-105           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-106           [-1, 2048, 7, 7]           4,096
+          Conv2d-107           [-1, 2048, 7, 7]       2,097,152
+     BatchNorm2d-108           [-1, 2048, 7, 7]           4,096
+      BottleNeck-109           [-1, 2048, 7, 7]               0
+          Conv2d-110            [-1, 512, 7, 7]       1,048,576
+     BatchNorm2d-111            [-1, 512, 7, 7]           1,024
+          Conv2d-112            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-113            [-1, 512, 7, 7]           1,024
+          Conv2d-114           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-115           [-1, 2048, 7, 7]           4,096
+      BottleNeck-116           [-1, 2048, 7, 7]               0
+          Conv2d-117            [-1, 512, 7, 7]       1,048,576
+     BatchNorm2d-118            [-1, 512, 7, 7]           1,024
+          Conv2d-119            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-120            [-1, 512, 7, 7]           1,024
+          Conv2d-121           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-122           [-1, 2048, 7, 7]           4,096
+      BottleNeck-123           [-1, 2048, 7, 7]               0
+AdaptiveAvgPool2d-124           [-1, 2048, 1, 1]               0
+          Linear-125                  [-1, 525]       1,075,725
+         BirdClf-126                  [-1, 525]               0
+================================================================
+Total params: 24,583,757
+Trainable params: 24,583,757
+Non-trainable params: 0
+----------------------------------------------------------------
+Input size (MB): 0.57
+Forward/backward pass size (MB): 213.25
+Params size (MB): 93.78
+Estimated Total Size (MB): 307.60
+----------------------------------------------------------------
+
+2023-05-29 15:13:47,439 - INFO test.py(42): test Accuray: 0.990476
+2023-05-29 15:13:47,451 - INFO test.py(45): test macro avg: {'precision': 0.9922653061224489, 'recall': 0.9904761904761905, 'f1-score': 0.9903906463906464, 'support': 2625}
+2023-05-29 15:13:47,452 - INFO test.py(46): test weighted avg: {'precision': 0.9922653061224489, 'recall': 0.9904761904761905, 'f1-score': 0.9903906463906463, 'support': 2625}
+2023-05-29 15:14:45,430 - INFO test.py(195): config: {'model': {'dest': 'model.BirdClf', 'paras': {'embed_size': 525}}, 'data': {'img_size': 224, 'data_path': 'data', 'augment': True, 'resized_crop': True, 'herizon_flip': True, 'vertical_flip': True, 'random_affine': False, 'batch_size': 128, 'num_workers': 8}, 'loss': {'dest': 'loss.CrossEntropyLoss', 'weight': 'None', 'reduction': 'mean', 'label_smoothing': 0.2}, 'optimizer': {'type': 'Adam', 'lr': 0.0002, 'weight_decay': 0.001, 'momentum': 0.9}, 'scheduler': {'type': 'CosineAnnealingLR', 'T_max': 30, 'eta_min': 1e-07, 'step_size': 11, 'gamma': 0.1}, 'resume': True, 'ckpt_path': 'res/train_pretrain_05-29_10-34-31/ckpts/epoch_25_acc_0.975238.pth', 'max_epochs': 30, 'val_interval': 1, 'accuracy_thre': 5, 'random_seed': 42}
+2023-05-29 15:14:45,721 - INFO model.py(97): load checkpoint from res/train_pretrain_05-29_10-34-31/ckpts/epoch_25_acc_0.975238.pth, missing keys: [], unexpected keys: []
+2023-05-29 15:14:55,490 - INFO test.py(207): ----------------------------------------------------------------
+        Layer (type)               Output Shape         Param #
+================================================================
+            Conv2d-1         [-1, 64, 112, 112]           9,408
+       BatchNorm2d-2         [-1, 64, 112, 112]             128
+         MaxPool2d-3           [-1, 64, 56, 56]               0
+            Conv2d-4           [-1, 64, 56, 56]           4,096
+       BatchNorm2d-5           [-1, 64, 56, 56]             128
+            Conv2d-6           [-1, 64, 56, 56]          36,864
+       BatchNorm2d-7           [-1, 64, 56, 56]             128
+            Conv2d-8          [-1, 256, 56, 56]          16,384
+       BatchNorm2d-9          [-1, 256, 56, 56]             512
+           Conv2d-10          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-11          [-1, 256, 56, 56]             512
+       BottleNeck-12          [-1, 256, 56, 56]               0
+           Conv2d-13           [-1, 64, 56, 56]          16,384
+      BatchNorm2d-14           [-1, 64, 56, 56]             128
+           Conv2d-15           [-1, 64, 56, 56]          36,864
+      BatchNorm2d-16           [-1, 64, 56, 56]             128
+           Conv2d-17          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-18          [-1, 256, 56, 56]             512
+       BottleNeck-19          [-1, 256, 56, 56]               0
+           Conv2d-20           [-1, 64, 56, 56]          16,384
+      BatchNorm2d-21           [-1, 64, 56, 56]             128
+           Conv2d-22           [-1, 64, 56, 56]          36,864
+      BatchNorm2d-23           [-1, 64, 56, 56]             128
+           Conv2d-24          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-25          [-1, 256, 56, 56]             512
+       BottleNeck-26          [-1, 256, 56, 56]               0
+           Conv2d-27          [-1, 128, 56, 56]          32,768
+      BatchNorm2d-28          [-1, 128, 56, 56]             256
+           Conv2d-29          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-30          [-1, 128, 28, 28]             256
+           Conv2d-31          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-32          [-1, 512, 28, 28]           1,024
+           Conv2d-33          [-1, 512, 28, 28]         131,072
+      BatchNorm2d-34          [-1, 512, 28, 28]           1,024
+       BottleNeck-35          [-1, 512, 28, 28]               0
+           Conv2d-36          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-37          [-1, 128, 28, 28]             256
+           Conv2d-38          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-39          [-1, 128, 28, 28]             256
+           Conv2d-40          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-41          [-1, 512, 28, 28]           1,024
+       BottleNeck-42          [-1, 512, 28, 28]               0
+           Conv2d-43          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-44          [-1, 128, 28, 28]             256
+           Conv2d-45          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-46          [-1, 128, 28, 28]             256
+           Conv2d-47          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-48          [-1, 512, 28, 28]           1,024
+       BottleNeck-49          [-1, 512, 28, 28]               0
+           Conv2d-50          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-51          [-1, 128, 28, 28]             256
+           Conv2d-52          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-53          [-1, 128, 28, 28]             256
+           Conv2d-54          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-55          [-1, 512, 28, 28]           1,024
+       BottleNeck-56          [-1, 512, 28, 28]               0
+           Conv2d-57          [-1, 256, 28, 28]         131,072
+      BatchNorm2d-58          [-1, 256, 28, 28]             512
+           Conv2d-59          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-60          [-1, 256, 14, 14]             512
+           Conv2d-61         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-62         [-1, 1024, 14, 14]           2,048
+           Conv2d-63         [-1, 1024, 14, 14]         524,288
+      BatchNorm2d-64         [-1, 1024, 14, 14]           2,048
+       BottleNeck-65         [-1, 1024, 14, 14]               0
+           Conv2d-66          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-67          [-1, 256, 14, 14]             512
+           Conv2d-68          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-69          [-1, 256, 14, 14]             512
+           Conv2d-70         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-71         [-1, 1024, 14, 14]           2,048
+       BottleNeck-72         [-1, 1024, 14, 14]               0
+           Conv2d-73          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-74          [-1, 256, 14, 14]             512
+           Conv2d-75          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-76          [-1, 256, 14, 14]             512
+           Conv2d-77         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-78         [-1, 1024, 14, 14]           2,048
+       BottleNeck-79         [-1, 1024, 14, 14]               0
+           Conv2d-80          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-81          [-1, 256, 14, 14]             512
+           Conv2d-82          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-83          [-1, 256, 14, 14]             512
+           Conv2d-84         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-85         [-1, 1024, 14, 14]           2,048
+       BottleNeck-86         [-1, 1024, 14, 14]               0
+           Conv2d-87          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-88          [-1, 256, 14, 14]             512
+           Conv2d-89          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-90          [-1, 256, 14, 14]             512
+           Conv2d-91         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-92         [-1, 1024, 14, 14]           2,048
+       BottleNeck-93         [-1, 1024, 14, 14]               0
+           Conv2d-94          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-95          [-1, 256, 14, 14]             512
+           Conv2d-96          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-97          [-1, 256, 14, 14]             512
+           Conv2d-98         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-99         [-1, 1024, 14, 14]           2,048
+      BottleNeck-100         [-1, 1024, 14, 14]               0
+          Conv2d-101          [-1, 512, 14, 14]         524,288
+     BatchNorm2d-102          [-1, 512, 14, 14]           1,024
+          Conv2d-103            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-104            [-1, 512, 7, 7]           1,024
+          Conv2d-105           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-106           [-1, 2048, 7, 7]           4,096
+          Conv2d-107           [-1, 2048, 7, 7]       2,097,152
+     BatchNorm2d-108           [-1, 2048, 7, 7]           4,096
+      BottleNeck-109           [-1, 2048, 7, 7]               0
+          Conv2d-110            [-1, 512, 7, 7]       1,048,576
+     BatchNorm2d-111            [-1, 512, 7, 7]           1,024
+          Conv2d-112            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-113            [-1, 512, 7, 7]           1,024
+          Conv2d-114           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-115           [-1, 2048, 7, 7]           4,096
+      BottleNeck-116           [-1, 2048, 7, 7]               0
+          Conv2d-117            [-1, 512, 7, 7]       1,048,576
+     BatchNorm2d-118            [-1, 512, 7, 7]           1,024
+          Conv2d-119            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-120            [-1, 512, 7, 7]           1,024
+          Conv2d-121           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-122           [-1, 2048, 7, 7]           4,096
+      BottleNeck-123           [-1, 2048, 7, 7]               0
+AdaptiveAvgPool2d-124           [-1, 2048, 1, 1]               0
+          Linear-125                  [-1, 525]       1,075,725
+         BirdClf-126                  [-1, 525]               0
+================================================================
+Total params: 24,583,757
+Trainable params: 24,583,757
+Non-trainable params: 0
+----------------------------------------------------------------
+Input size (MB): 0.57
+Forward/backward pass size (MB): 213.25
+Params size (MB): 93.78
+Estimated Total Size (MB): 307.60
+----------------------------------------------------------------
+
+2023-05-29 15:15:01,429 - INFO test.py(42): test Accuray: 0.990476
+2023-05-29 15:15:01,441 - INFO test.py(45): test macro avg: {'precision': 0.9922653061224489, 'recall': 0.9904761904761905, 'f1-score': 0.9903906463906464, 'support': 2625}
+2023-05-29 15:15:01,441 - INFO test.py(46): test weighted avg: {'precision': 0.9922653061224489, 'recall': 0.9904761904761905, 'f1-score': 0.9903906463906463, 'support': 2625}
+2023-05-29 15:16:08,825 - INFO test.py(196): config: {'model': {'dest': 'model.BirdClf', 'paras': {'embed_size': 525}}, 'data': {'img_size': 224, 'data_path': 'data', 'augment': True, 'resized_crop': True, 'herizon_flip': True, 'vertical_flip': True, 'random_affine': False, 'batch_size': 128, 'num_workers': 8}, 'loss': {'dest': 'loss.CrossEntropyLoss', 'weight': 'None', 'reduction': 'mean', 'label_smoothing': 0.2}, 'optimizer': {'type': 'Adam', 'lr': 0.0002, 'weight_decay': 0.001, 'momentum': 0.9}, 'scheduler': {'type': 'CosineAnnealingLR', 'T_max': 30, 'eta_min': 1e-07, 'step_size': 11, 'gamma': 0.1}, 'resume': True, 'ckpt_path': 'res/train_pretrain_05-29_10-34-31/ckpts/epoch_25_acc_0.975238.pth', 'max_epochs': 30, 'val_interval': 1, 'accuracy_thre': 5, 'random_seed': 42}
+2023-05-29 15:16:09,113 - INFO model.py(97): load checkpoint from res/train_pretrain_05-29_10-34-31/ckpts/epoch_25_acc_0.975238.pth, missing keys: [], unexpected keys: []
+2023-05-29 15:16:22,360 - INFO test.py(178): CAM visualization finished!
+2023-05-29 15:16:22,392 - INFO test.py(208): ----------------------------------------------------------------
+        Layer (type)               Output Shape         Param #
+================================================================
+            Conv2d-1         [-1, 64, 112, 112]           9,408
+       BatchNorm2d-2         [-1, 64, 112, 112]             128
+         MaxPool2d-3           [-1, 64, 56, 56]               0
+            Conv2d-4           [-1, 64, 56, 56]           4,096
+       BatchNorm2d-5           [-1, 64, 56, 56]             128
+            Conv2d-6           [-1, 64, 56, 56]          36,864
+       BatchNorm2d-7           [-1, 64, 56, 56]             128
+            Conv2d-8          [-1, 256, 56, 56]          16,384
+       BatchNorm2d-9          [-1, 256, 56, 56]             512
+           Conv2d-10          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-11          [-1, 256, 56, 56]             512
+       BottleNeck-12          [-1, 256, 56, 56]               0
+           Conv2d-13           [-1, 64, 56, 56]          16,384
+      BatchNorm2d-14           [-1, 64, 56, 56]             128
+           Conv2d-15           [-1, 64, 56, 56]          36,864
+      BatchNorm2d-16           [-1, 64, 56, 56]             128
+           Conv2d-17          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-18          [-1, 256, 56, 56]             512
+       BottleNeck-19          [-1, 256, 56, 56]               0
+           Conv2d-20           [-1, 64, 56, 56]          16,384
+      BatchNorm2d-21           [-1, 64, 56, 56]             128
+           Conv2d-22           [-1, 64, 56, 56]          36,864
+      BatchNorm2d-23           [-1, 64, 56, 56]             128
+           Conv2d-24          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-25          [-1, 256, 56, 56]             512
+       BottleNeck-26          [-1, 256, 56, 56]               0
+           Conv2d-27          [-1, 128, 56, 56]          32,768
+      BatchNorm2d-28          [-1, 128, 56, 56]             256
+           Conv2d-29          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-30          [-1, 128, 28, 28]             256
+           Conv2d-31          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-32          [-1, 512, 28, 28]           1,024
+           Conv2d-33          [-1, 512, 28, 28]         131,072
+      BatchNorm2d-34          [-1, 512, 28, 28]           1,024
+       BottleNeck-35          [-1, 512, 28, 28]               0
+           Conv2d-36          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-37          [-1, 128, 28, 28]             256
+           Conv2d-38          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-39          [-1, 128, 28, 28]             256
+           Conv2d-40          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-41          [-1, 512, 28, 28]           1,024
+       BottleNeck-42          [-1, 512, 28, 28]               0
+           Conv2d-43          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-44          [-1, 128, 28, 28]             256
+           Conv2d-45          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-46          [-1, 128, 28, 28]             256
+           Conv2d-47          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-48          [-1, 512, 28, 28]           1,024
+       BottleNeck-49          [-1, 512, 28, 28]               0
+           Conv2d-50          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-51          [-1, 128, 28, 28]             256
+           Conv2d-52          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-53          [-1, 128, 28, 28]             256
+           Conv2d-54          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-55          [-1, 512, 28, 28]           1,024
+       BottleNeck-56          [-1, 512, 28, 28]               0
+           Conv2d-57          [-1, 256, 28, 28]         131,072
+      BatchNorm2d-58          [-1, 256, 28, 28]             512
+           Conv2d-59          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-60          [-1, 256, 14, 14]             512
+           Conv2d-61         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-62         [-1, 1024, 14, 14]           2,048
+           Conv2d-63         [-1, 1024, 14, 14]         524,288
+      BatchNorm2d-64         [-1, 1024, 14, 14]           2,048
+       BottleNeck-65         [-1, 1024, 14, 14]               0
+           Conv2d-66          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-67          [-1, 256, 14, 14]             512
+           Conv2d-68          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-69          [-1, 256, 14, 14]             512
+           Conv2d-70         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-71         [-1, 1024, 14, 14]           2,048
+       BottleNeck-72         [-1, 1024, 14, 14]               0
+           Conv2d-73          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-74          [-1, 256, 14, 14]             512
+           Conv2d-75          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-76          [-1, 256, 14, 14]             512
+           Conv2d-77         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-78         [-1, 1024, 14, 14]           2,048
+       BottleNeck-79         [-1, 1024, 14, 14]               0
+           Conv2d-80          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-81          [-1, 256, 14, 14]             512
+           Conv2d-82          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-83          [-1, 256, 14, 14]             512
+           Conv2d-84         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-85         [-1, 1024, 14, 14]           2,048
+       BottleNeck-86         [-1, 1024, 14, 14]               0
+           Conv2d-87          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-88          [-1, 256, 14, 14]             512
+           Conv2d-89          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-90          [-1, 256, 14, 14]             512
+           Conv2d-91         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-92         [-1, 1024, 14, 14]           2,048
+       BottleNeck-93         [-1, 1024, 14, 14]               0
+           Conv2d-94          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-95          [-1, 256, 14, 14]             512
+           Conv2d-96          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-97          [-1, 256, 14, 14]             512
+           Conv2d-98         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-99         [-1, 1024, 14, 14]           2,048
+      BottleNeck-100         [-1, 1024, 14, 14]               0
+          Conv2d-101          [-1, 512, 14, 14]         524,288
+     BatchNorm2d-102          [-1, 512, 14, 14]           1,024
+          Conv2d-103            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-104            [-1, 512, 7, 7]           1,024
+          Conv2d-105           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-106           [-1, 2048, 7, 7]           4,096
+          Conv2d-107           [-1, 2048, 7, 7]       2,097,152
+     BatchNorm2d-108           [-1, 2048, 7, 7]           4,096
+      BottleNeck-109           [-1, 2048, 7, 7]               0
+          Conv2d-110            [-1, 512, 7, 7]       1,048,576
+     BatchNorm2d-111            [-1, 512, 7, 7]           1,024
+          Conv2d-112            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-113            [-1, 512, 7, 7]           1,024
+          Conv2d-114           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-115           [-1, 2048, 7, 7]           4,096
+      BottleNeck-116           [-1, 2048, 7, 7]               0
+          Conv2d-117            [-1, 512, 7, 7]       1,048,576
+     BatchNorm2d-118            [-1, 512, 7, 7]           1,024
+          Conv2d-119            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-120            [-1, 512, 7, 7]           1,024
+          Conv2d-121           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-122           [-1, 2048, 7, 7]           4,096
+      BottleNeck-123           [-1, 2048, 7, 7]               0
+AdaptiveAvgPool2d-124           [-1, 2048, 1, 1]               0
+          Linear-125                  [-1, 525]       1,075,725
+         BirdClf-126                  [-1, 525]               0
+================================================================
+Total params: 24,583,757
+Trainable params: 24,583,757
+Non-trainable params: 0
+----------------------------------------------------------------
+Input size (MB): 0.57
+Forward/backward pass size (MB): 213.25
+Params size (MB): 93.78
+Estimated Total Size (MB): 307.60
+----------------------------------------------------------------
+
+2023-05-29 15:16:27,908 - INFO test.py(42): test Accuray: 0.990476
+2023-05-29 15:16:27,924 - INFO test.py(45): test macro avg: {'precision': 0.9922653061224489, 'recall': 0.9904761904761905, 'f1-score': 0.9903906463906464, 'support': 2625}
+2023-05-29 15:16:27,924 - INFO test.py(46): test weighted avg: {'precision': 0.9922653061224489, 'recall': 0.9904761904761905, 'f1-score': 0.9903906463906463, 'support': 2625}
+2023-05-29 15:17:50,548 - INFO test.py(197): config: {'model': {'dest': 'model.BirdClf', 'paras': {'embed_size': 525}}, 'data': {'img_size': 224, 'data_path': 'data', 'augment': True, 'resized_crop': True, 'herizon_flip': True, 'vertical_flip': True, 'random_affine': False, 'batch_size': 128, 'num_workers': 8}, 'loss': {'dest': 'loss.CrossEntropyLoss', 'weight': 'None', 'reduction': 'mean', 'label_smoothing': 0.2}, 'optimizer': {'type': 'Adam', 'lr': 0.0002, 'weight_decay': 0.001, 'momentum': 0.9}, 'scheduler': {'type': 'CosineAnnealingLR', 'T_max': 30, 'eta_min': 1e-07, 'step_size': 11, 'gamma': 0.1}, 'resume': True, 'ckpt_path': 'res/train_pretrain_05-29_10-34-31/ckpts/epoch_25_acc_0.975238.pth', 'max_epochs': 30, 'val_interval': 1, 'accuracy_thre': 5, 'random_seed': 42}
+2023-05-29 15:17:50,854 - INFO model.py(97): load checkpoint from res/train_pretrain_05-29_10-34-31/ckpts/epoch_25_acc_0.975238.pth, missing keys: [], unexpected keys: []
+2023-05-29 15:18:04,585 - INFO test.py(178): CAM visualization finished!
+2023-05-29 15:18:04,620 - INFO test.py(209): ----------------------------------------------------------------
+        Layer (type)               Output Shape         Param #
+================================================================
+            Conv2d-1         [-1, 64, 112, 112]           9,408
+       BatchNorm2d-2         [-1, 64, 112, 112]             128
+         MaxPool2d-3           [-1, 64, 56, 56]               0
+            Conv2d-4           [-1, 64, 56, 56]           4,096
+       BatchNorm2d-5           [-1, 64, 56, 56]             128
+            Conv2d-6           [-1, 64, 56, 56]          36,864
+       BatchNorm2d-7           [-1, 64, 56, 56]             128
+            Conv2d-8          [-1, 256, 56, 56]          16,384
+       BatchNorm2d-9          [-1, 256, 56, 56]             512
+           Conv2d-10          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-11          [-1, 256, 56, 56]             512
+       BottleNeck-12          [-1, 256, 56, 56]               0
+           Conv2d-13           [-1, 64, 56, 56]          16,384
+      BatchNorm2d-14           [-1, 64, 56, 56]             128
+           Conv2d-15           [-1, 64, 56, 56]          36,864
+      BatchNorm2d-16           [-1, 64, 56, 56]             128
+           Conv2d-17          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-18          [-1, 256, 56, 56]             512
+       BottleNeck-19          [-1, 256, 56, 56]               0
+           Conv2d-20           [-1, 64, 56, 56]          16,384
+      BatchNorm2d-21           [-1, 64, 56, 56]             128
+           Conv2d-22           [-1, 64, 56, 56]          36,864
+      BatchNorm2d-23           [-1, 64, 56, 56]             128
+           Conv2d-24          [-1, 256, 56, 56]          16,384
+      BatchNorm2d-25          [-1, 256, 56, 56]             512
+       BottleNeck-26          [-1, 256, 56, 56]               0
+           Conv2d-27          [-1, 128, 56, 56]          32,768
+      BatchNorm2d-28          [-1, 128, 56, 56]             256
+           Conv2d-29          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-30          [-1, 128, 28, 28]             256
+           Conv2d-31          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-32          [-1, 512, 28, 28]           1,024
+           Conv2d-33          [-1, 512, 28, 28]         131,072
+      BatchNorm2d-34          [-1, 512, 28, 28]           1,024
+       BottleNeck-35          [-1, 512, 28, 28]               0
+           Conv2d-36          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-37          [-1, 128, 28, 28]             256
+           Conv2d-38          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-39          [-1, 128, 28, 28]             256
+           Conv2d-40          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-41          [-1, 512, 28, 28]           1,024
+       BottleNeck-42          [-1, 512, 28, 28]               0
+           Conv2d-43          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-44          [-1, 128, 28, 28]             256
+           Conv2d-45          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-46          [-1, 128, 28, 28]             256
+           Conv2d-47          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-48          [-1, 512, 28, 28]           1,024
+       BottleNeck-49          [-1, 512, 28, 28]               0
+           Conv2d-50          [-1, 128, 28, 28]          65,536
+      BatchNorm2d-51          [-1, 128, 28, 28]             256
+           Conv2d-52          [-1, 128, 28, 28]         147,456
+      BatchNorm2d-53          [-1, 128, 28, 28]             256
+           Conv2d-54          [-1, 512, 28, 28]          65,536
+      BatchNorm2d-55          [-1, 512, 28, 28]           1,024
+       BottleNeck-56          [-1, 512, 28, 28]               0
+           Conv2d-57          [-1, 256, 28, 28]         131,072
+      BatchNorm2d-58          [-1, 256, 28, 28]             512
+           Conv2d-59          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-60          [-1, 256, 14, 14]             512
+           Conv2d-61         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-62         [-1, 1024, 14, 14]           2,048
+           Conv2d-63         [-1, 1024, 14, 14]         524,288
+      BatchNorm2d-64         [-1, 1024, 14, 14]           2,048
+       BottleNeck-65         [-1, 1024, 14, 14]               0
+           Conv2d-66          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-67          [-1, 256, 14, 14]             512
+           Conv2d-68          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-69          [-1, 256, 14, 14]             512
+           Conv2d-70         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-71         [-1, 1024, 14, 14]           2,048
+       BottleNeck-72         [-1, 1024, 14, 14]               0
+           Conv2d-73          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-74          [-1, 256, 14, 14]             512
+           Conv2d-75          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-76          [-1, 256, 14, 14]             512
+           Conv2d-77         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-78         [-1, 1024, 14, 14]           2,048
+       BottleNeck-79         [-1, 1024, 14, 14]               0
+           Conv2d-80          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-81          [-1, 256, 14, 14]             512
+           Conv2d-82          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-83          [-1, 256, 14, 14]             512
+           Conv2d-84         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-85         [-1, 1024, 14, 14]           2,048
+       BottleNeck-86         [-1, 1024, 14, 14]               0
+           Conv2d-87          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-88          [-1, 256, 14, 14]             512
+           Conv2d-89          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-90          [-1, 256, 14, 14]             512
+           Conv2d-91         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-92         [-1, 1024, 14, 14]           2,048
+       BottleNeck-93         [-1, 1024, 14, 14]               0
+           Conv2d-94          [-1, 256, 14, 14]         262,144
+      BatchNorm2d-95          [-1, 256, 14, 14]             512
+           Conv2d-96          [-1, 256, 14, 14]         589,824
+      BatchNorm2d-97          [-1, 256, 14, 14]             512
+           Conv2d-98         [-1, 1024, 14, 14]         262,144
+      BatchNorm2d-99         [-1, 1024, 14, 14]           2,048
+      BottleNeck-100         [-1, 1024, 14, 14]               0
+          Conv2d-101          [-1, 512, 14, 14]         524,288
+     BatchNorm2d-102          [-1, 512, 14, 14]           1,024
+          Conv2d-103            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-104            [-1, 512, 7, 7]           1,024
+          Conv2d-105           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-106           [-1, 2048, 7, 7]           4,096
+          Conv2d-107           [-1, 2048, 7, 7]       2,097,152
+     BatchNorm2d-108           [-1, 2048, 7, 7]           4,096
+      BottleNeck-109           [-1, 2048, 7, 7]               0
+          Conv2d-110            [-1, 512, 7, 7]       1,048,576
+     BatchNorm2d-111            [-1, 512, 7, 7]           1,024
+          Conv2d-112            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-113            [-1, 512, 7, 7]           1,024
+          Conv2d-114           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-115           [-1, 2048, 7, 7]           4,096
+      BottleNeck-116           [-1, 2048, 7, 7]               0
+          Conv2d-117            [-1, 512, 7, 7]       1,048,576
+     BatchNorm2d-118            [-1, 512, 7, 7]           1,024
+          Conv2d-119            [-1, 512, 7, 7]       2,359,296
+     BatchNorm2d-120            [-1, 512, 7, 7]           1,024
+          Conv2d-121           [-1, 2048, 7, 7]       1,048,576
+     BatchNorm2d-122           [-1, 2048, 7, 7]           4,096
+      BottleNeck-123           [-1, 2048, 7, 7]               0
+AdaptiveAvgPool2d-124           [-1, 2048, 1, 1]               0
+          Linear-125                  [-1, 525]       1,075,725
+         BirdClf-126                  [-1, 525]               0
+================================================================
+Total params: 24,583,757
+Trainable params: 24,583,757
+Non-trainable params: 0
+----------------------------------------------------------------
+Input size (MB): 0.57
+Forward/backward pass size (MB): 213.25
+Params size (MB): 93.78
+Estimated Total Size (MB): 307.60
+----------------------------------------------------------------
+
+2023-05-29 15:18:10,625 - INFO test.py(42): test Accuray: 0.990476
+2023-05-29 15:18:10,637 - INFO test.py(45): test macro avg: {'precision': 0.9922653061224489, 'recall': 0.9904761904761905, 'f1-score': 0.9903906463906464, 'support': 2625}
+2023-05-29 15:18:10,638 - INFO test.py(46): test weighted avg: {'precision': 0.9922653061224489, 'recall': 0.9904761904761905, 'f1-score': 0.9903906463906463, 'support': 2625}

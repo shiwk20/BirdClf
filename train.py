@@ -86,7 +86,11 @@ def main():
     
     if config.resume:
         cur_epoch, optim_state_dict, train_accs, val_accs, train_losses, lrs = model.load_ckpt(config.ckpt_path, logger)
-        
+    
+    if model.compress:
+        model.model_compress()
+        model.remove_prune()
+    
     model.train()
     model.to(device)
     model = torch.nn.SyncBatchNorm.convert_sync_batchnorm(model)
@@ -136,6 +140,9 @@ def main():
     accuracy_flag = 0
     try:
         for epoch in range(cur_epoch, config.max_epochs):
+            if model.module.compress:
+                model.module.model_compress()
+                model.module.remove_prune()
             train_sampler.set_epoch(epoch)
             # train
             model.train()
@@ -143,7 +150,10 @@ def main():
             lrs.append(optimizer.param_groups[0]['lr'])
 
             logger.info('Epoch: {}, Loss: {:.6f}, lr: {:.8f}'.format(epoch, train_losses[-1], lrs[-1]))
-
+            if model.module.compress:
+                model.module.model_compress()
+                model.module.remove_prune()
+            
             if dist.get_rank() == 0 and (epoch + 1) % config.val_interval == 0:
                 # validation
                 model.eval()

@@ -1,5 +1,0 @@
-2023-05-27 10:29:33,144 - INFO test.py(107): config: {'model': {'dest': 'model.BirdClf', 'paras': {'embed_size': 525}}, 'data': {'img_size': 224, 'data_path': 'data', 'augment': False, 'batch_size': 128, 'num_workers': 8}, 'loss': {'dest': 'loss.CrossEntropyLoss', 'weight': 'None', 'reduction': 'mean', 'label_smoothing': 0.2}, 'optimizer': {'type': 'Adam', 'lr': 0.0002, 'weight_decay': 0.001, 'momentum': 0.9}, 'resume': True, 'ckpt_path': 'res/train_R_hyperpara_05-27_02-22-13/ckpts/epoch_15_acc_0.931810.pth', 'max_epochs': 50, 'val_interval': 1, 'accuracy_thre': 5, 'random_seed': 42}
-2023-05-27 10:29:33,431 - INFO model.py(95): load checkpoint from res/train_R_hyperpara_05-27_02-22-13/ckpts/epoch_15_acc_0.931810.pth, missing keys: [], unexpected keys: []
-2023-05-27 10:29:40,234 - INFO test.py(37): test Accuray: 0.952762
-2023-05-27 10:29:40,246 - INFO test.py(40): test macro avg: {'precision': 0.9598730158730158, 'recall': 0.9527619047619048, 'f1-score': 0.951414701700416, 'support': 2625}
-2023-05-27 10:29:40,246 - INFO test.py(41): test weighted avg: {'precision': 0.9598730158730158, 'recall': 0.9527619047619048, 'f1-score': 0.951414701700416, 'support': 2625}
