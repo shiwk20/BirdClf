@@ -1,5 +1,5 @@
 model:
-  dest: model.BirdClf_R
+  dest: model.BirdClf
   paras:
     embed_size: 525
 
@@ -27,14 +27,10 @@ optimizer:
   momentum: 0.9
 
 scheduler:
-  type: 'ReduceLROnPlateau'  # ReduceLROnPlateau CosineAnnealingLR, StepLR 
-  mode: 'min'
-  verbose: True
-  factor: 0.1
-  patience: 10
+  type: 'StepLR'  # CosineAnnealingLR, StepLR 
   T_max: 50
   eta_min: 1e-7
-  step_size: 10
+  step_size: 11
   gamma: 0.1
   
 resume: True

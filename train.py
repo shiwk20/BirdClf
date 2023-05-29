@@ -126,9 +126,7 @@ def main():
     if optim_state_dict is not None:
         optimizer.load_state_dict(optim_state_dict)
     
-    if config.scheduler.type == 'ReduceLROnPlateau':
-        scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, mode = config.scheduler.mode, factor = config.scheduler.factor, patience=config.scheduler.patience, verbose=config.scheduler.verbose)
-    elif config.scheduler.type == 'CosineAnnealingLR':
+    if config.scheduler.type == 'CosineAnnealingLR':
         scheduler = lr_scheduler.CosineAnnealingLR(optimizer, T_max = config.scheduler.T_max, eta_min = config.scheduler.eta_min)
     elif config.scheduler.type == 'StepLR':
         scheduler = lr_scheduler.StepLR(optimizer, step_size = config.scheduler.step_size, gamma = config.scheduler.gamma)

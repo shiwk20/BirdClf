@@ -10,7 +10,7 @@ data:
   resized_crop: True
   herizon_flip: True
   vertical_flip: True
-  random_affine: True
+  random_affine: False
   batch_size: 128
   num_workers: 8
 
@@ -27,14 +27,14 @@ optimizer:
   momentum: 0.9
 
 scheduler:
-  type: 'StepLR'  # CosineAnnealingLR, StepLR 
+  type: 'CosineAnnealingLR'  # CosineAnnealingLR, StepLR 
   T_max: 50
   eta_min: 1e-7
   step_size: 11
   gamma: 0.1
   
-resume: False
-ckpt_path: ''
+resume: True
+ckpt_path: 'res/train_R_pretrain_05-29_02-46-29/ckpts/epoch_13_acc_0.947048.pth'
 max_epochs: 50
 val_interval: 1
 accuracy_thre: 5

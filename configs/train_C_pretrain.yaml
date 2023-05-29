@@ -1,5 +1,5 @@
 model:
-  dest: model.BirdClf
+  dest: model.BirdClf_C
   paras:
     embed_size: 525
 
@@ -10,7 +10,7 @@ data:
   resized_crop: True
   herizon_flip: True
   vertical_flip: True
-  random_affine: True
+  random_affine: False
   batch_size: 128
   num_workers: 8
 
@@ -27,15 +27,15 @@ optimizer:
   momentum: 0.9
 
 scheduler:
-  type: 'StepLR'  # CosineAnnealingLR, StepLR 
-  T_max: 50
+  type: 'CosineAnnealingLR'  # CosineAnnealingLR, StepLR 
+  T_max: 30
   eta_min: 1e-7
   step_size: 11
   gamma: 0.1
   
-resume: False
-ckpt_path: ''
-max_epochs: 50
+resume: True
+ckpt_path: 'checkpoints/convnext_base-6075fbad.pth'
+max_epochs: 30
 val_interval: 1
 accuracy_thre: 5
 random_seed: 42

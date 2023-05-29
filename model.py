@@ -53,8 +53,36 @@ class BottleNeck(nn.Module):
         return out
 
 class BirdClf(nn.Module):
-    def __init__(self):
+    def __init__(self, embed_size: int = 525):
         super().__init__()
+        self.conv1 = nn.Conv2d(3, 64, kernel_size = 7, stride = 2, padding = 3, bias = False)
+        self.bn1 = nn.BatchNorm2d(64)
+        self.maxpool = nn.MaxPool2d(kernel_size = 3, stride = 2, padding = 1)
+        
+        self.layer1 = make_layer(64, 256, block_num = 3, stride = 1)
+        self.layer2 = make_layer(256, 512, block_num = 4, stride = 2)
+        self.layer3 = make_layer(512, 1024, block_num = 6, stride = 2)
+        self.layer4 = make_layer(1024, 2048, block_num = 3, stride = 2)
+        
+        self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
+        self.emb = nn.Linear(2048, embed_size)
+
+    def forward(self, x):
+        x = self.conv1(x)
+        x = self.bn1(x)
+        x = F.relu(x)
+        x = self.maxpool(x)
+
+        x = self.layer1(x)
+        x = self.layer2(x)
+        x = self.layer3(x)
+        x = self.layer4(x)
+        x = self.avgpool(x)
+        
+        x = x.flatten(1)
+        x = self.emb(x)
+        
+        return x
     
     def load_ckpt(self, ckpt_path, logger):
         states = torch.load(ckpt_path, map_location="cpu")
@@ -110,54 +138,8 @@ class BirdClf(nn.Module):
         torch.save(states, save_path)
         logger.info('save ckpt to {}'.format(save_path)) 
 
-# use ResNet50 as backbone
-class BirdClf_R(BirdClf):
-    def __init__(self, embed_size: int = 525):
-        super().__init__()
-        self.conv1 = nn.Conv2d(3, 64, kernel_size = 7, stride = 2, padding = 3, bias = False)
-        self.bn1 = nn.BatchNorm2d(64)
-        self.maxpool = nn.MaxPool2d(kernel_size = 3, stride = 2, padding = 1)
-        
-        self.layer1 = make_layer(64, 256, block_num = 3, stride = 1)
-        self.layer2 = make_layer(256, 512, block_num = 4, stride = 2)
-        self.layer3 = make_layer(512, 1024, block_num = 6, stride = 2)
-        self.layer4 = make_layer(1024, 2048, block_num = 3, stride = 2)
-        
-        self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
-        self.emb = nn.Linear(2048, embed_size)
-
-    def forward(self, x):
-        x = self.conv1(x)
-        x = self.bn1(x)
-        x = F.relu(x)
-        x = self.maxpool(x)
-
-        x = self.layer1(x)
-        x = self.layer2(x)
-        x = self.layer3(x)
-        x = self.layer4(x)
-        x = self.avgpool(x)
-        
-        x = x.flatten(1)
-        x = self.emb(x)
-        
-        return x
-
-
-
-class BirdClf_C(BirdClf):
-    def __init__(self, embed_size: int = 525):
-        super().__init__()
-        self.backbone = convnext_base()
-        self.emb = nn.Linear(self.backbone.classifier[-1].in_features, embed_size)
-        self.backbone.classifier[-1] = nn.Identity()
-    
-    def forward(self, x):
-        x = self.backbone(x)
-        x = self.emb(x)
-        return x
 
 if __name__ == "__main__":
-    model = BirdClf_R()
+    model = BirdClf()
     x = torch.randn(64, 3, 224, 224)
     print(model(x).shape)
