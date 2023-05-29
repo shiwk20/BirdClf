@@ -1,0 +1,192 @@
+2023-05-29 18:05:18,731 - INFO train.py(247): res_path: res/train_test_class_05-29_18-05-18
+2023-05-29 18:05:18,731 - INFO train.py(248): config: {'model': {'dest': 'model.BirdClf', 'paras': {'embed_size': 16}}, 'data': {'img_size': 224, 'data_path': 'data/test_class/2', 'augment': True, 'resized_crop': True, 'herizon_flip': True, 'vertical_flip': True, 'random_affine': False, 'batch_size': 32, 'num_workers': 8}, 'loss': {'dest': 'loss.CrossEntropyLoss', 'weight': 'None', 'reduction': 'mean', 'label_smoothing': 0.2}, 'optimizer': {'type': 'Adam', 'lr': 0.0005, 'weight_decay': 0.001, 'momentum': 0.9}, 'scheduler': {'type': 'CosineAnnealingLR', 'T_max': 200, 'eta_min': 1e-07, 'step_size': 11, 'gamma': 0.1}, 'resume': False, 'ckpt_path': '', 'max_epochs': 100, 'val_interval': 1, 'accuracy_thre': 10, 'random_seed': 42}
+2023-05-29 18:05:18,736 - INFO train.py(247): res_path: res/train_test_class_05-29_18-05-18
+2023-05-29 18:05:18,736 - INFO train.py(248): config: {'model': {'dest': 'model.BirdClf', 'paras': {'embed_size': 16}}, 'data': {'img_size': 224, 'data_path': 'data/test_class/2', 'augment': True, 'resized_crop': True, 'herizon_flip': True, 'vertical_flip': True, 'random_affine': False, 'batch_size': 32, 'num_workers': 8}, 'loss': {'dest': 'loss.CrossEntropyLoss', 'weight': 'None', 'reduction': 'mean', 'label_smoothing': 0.2}, 'optimizer': {'type': 'Adam', 'lr': 0.0005, 'weight_decay': 0.001, 'momentum': 0.9}, 'scheduler': {'type': 'CosineAnnealingLR', 'T_max': 200, 'eta_min': 1e-07, 'step_size': 11, 'gamma': 0.1}, 'resume': False, 'ckpt_path': '', 'max_epochs': 100, 'val_interval': 1, 'accuracy_thre': 10, 'random_seed': 42}
+2023-05-29 18:05:18,753 - INFO distributed_c10d.py(228): Added key: store_based_barrier_key:1 to store for rank: 0
+2023-05-29 18:05:18,758 - INFO distributed_c10d.py(228): Added key: store_based_barrier_key:1 to store for rank: 1
+2023-05-29 18:05:18,758 - INFO distributed_c10d.py(262): Rank 1: Completed store-based barrier for key:store_based_barrier_key:1 with 2 nodes.
+2023-05-29 18:05:18,764 - INFO distributed_c10d.py(262): Rank 0: Completed store-based barrier for key:store_based_barrier_key:1 with 2 nodes.
+2023-05-29 18:05:26,508 - INFO distributed.py(948): Reducer buckets have been rebuilt in this iteration.
+2023-05-29 18:05:26,508 - INFO distributed.py(948): Reducer buckets have been rebuilt in this iteration.
+2023-05-29 18:08:40,498 - INFO train.py(152): Epoch: 0, Loss: 2.122994, lr: 0.00050000
+2023-05-29 18:08:40,498 - INFO train.py(152): Epoch: 0, Loss: 2.163911, lr: 0.00050000
+2023-05-29 18:08:44,910 - INFO test.py(42): train Accuray: 0.333333
+2023-05-29 18:08:44,916 - INFO test.py(45): train macro avg: {'precision': 0.42137257720813154, 'recall': 0.3201326282676742, 'f1-score': 0.25508890781367455, 'support': 1254}
+2023-05-29 18:08:44,916 - INFO test.py(46): train weighted avg: {'precision': 0.41847879825296963, 'recall': 0.3333333333333333, 'f1-score': 0.26156803501160786, 'support': 1254}
+2023-05-29 18:08:45,528 - INFO test.py(42): val Accuray: 0.287500
+2023-05-29 18:08:45,531 - INFO test.py(45): val macro avg: {'precision': 0.2226973684210526, 'recall': 0.2875, 'f1-score': 0.20626803751803752, 'support': 80}
+2023-05-29 18:08:45,531 - INFO test.py(46): val weighted avg: {'precision': 0.22269736842105264, 'recall': 0.2875, 'f1-score': 0.20626803751803752, 'support': 80}
+2023-05-29 18:08:45,917 - INFO model.py(142): save ckpt to res/train_test_class_05-29_18-05-18/ckpts/epoch_0_acc_0.287500.pth
+2023-05-29 18:09:09,570 - INFO train.py(152): Epoch: 1, Loss: 1.465025, lr: 0.00049997
+2023-05-29 18:09:09,574 - INFO train.py(152): Epoch: 1, Loss: 1.502640, lr: 0.00049997
+2023-05-29 18:09:13,855 - INFO test.py(42): train Accuray: 0.452153
+2023-05-29 18:09:13,863 - INFO test.py(45): train macro avg: {'precision': 0.49209456979169297, 'recall': 0.4504785208765469, 'f1-score': 0.4090086388296482, 'support': 1254}
+2023-05-29 18:09:13,863 - INFO test.py(46): train weighted avg: {'precision': 0.4970132940623192, 'recall': 0.45215311004784686, 'f1-score': 0.411922919962093, 'support': 1254}
+2023-05-29 18:09:14,468 - INFO test.py(42): val Accuray: 0.450000
+2023-05-29 18:09:14,471 - INFO test.py(45): val macro avg: {'precision': 0.4447229853479854, 'recall': 0.44999999999999996, 'f1-score': 0.39679423603572206, 'support': 80}
+2023-05-29 18:09:14,471 - INFO test.py(46): val weighted avg: {'precision': 0.4447229853479853, 'recall': 0.45, 'f1-score': 0.3967942360357221, 'support': 80}
+2023-05-29 18:09:14,860 - INFO model.py(142): save ckpt to res/train_test_class_05-29_18-05-18/ckpts/epoch_1_acc_0.450000.pth
+2023-05-29 18:09:39,062 - INFO train.py(152): Epoch: 2, Loss: 1.388357, lr: 0.00049988
+2023-05-29 18:09:39,064 - INFO train.py(152): Epoch: 2, Loss: 1.322321, lr: 0.00049988
+2023-05-29 18:09:43,305 - INFO test.py(42): train Accuray: 0.534290
+2023-05-29 18:09:43,310 - INFO test.py(45): train macro avg: {'precision': 0.5473884777907574, 'recall': 0.5250040973145743, 'f1-score': 0.5045017256714921, 'support': 1254}
+2023-05-29 18:09:43,310 - INFO test.py(46): train weighted avg: {'precision': 0.553464735453854, 'recall': 0.5342902711323764, 'f1-score': 0.511951044112885, 'support': 1254}
+2023-05-29 18:09:43,937 - INFO test.py(42): val Accuray: 0.587500
+2023-05-29 18:09:43,940 - INFO test.py(45): val macro avg: {'precision': 0.5498263888888888, 'recall': 0.5875, 'f1-score': 0.5418088855588856, 'support': 80}
+2023-05-29 18:09:43,940 - INFO test.py(46): val weighted avg: {'precision': 0.5498263888888889, 'recall': 0.5875, 'f1-score': 0.5418088855588856, 'support': 80}
+2023-05-29 18:09:44,373 - INFO model.py(142): save ckpt to res/train_test_class_05-29_18-05-18/ckpts/epoch_2_acc_0.587500.pth
+2023-05-29 18:10:07,798 - INFO train.py(152): Epoch: 3, Loss: 1.238730, lr: 0.00049972
+2023-05-29 18:10:07,803 - INFO train.py(152): Epoch: 3, Loss: 1.206032, lr: 0.00049972
+2023-05-29 18:10:11,805 - INFO test.py(42): train Accuray: 0.634769
+2023-05-29 18:10:11,810 - INFO test.py(45): train macro avg: {'precision': 0.6606157473018428, 'recall': 0.6234269290618699, 'f1-score': 0.6169895602685942, 'support': 1254}
+2023-05-29 18:10:11,810 - INFO test.py(46): train weighted avg: {'precision': 0.6661288885404338, 'recall': 0.6347687400318979, 'f1-score': 0.6256447181345468, 'support': 1254}
+2023-05-29 18:10:12,422 - INFO test.py(42): val Accuray: 0.612500
+2023-05-29 18:10:12,425 - INFO test.py(45): val macro avg: {'precision': 0.6534722222222222, 'recall': 0.6125, 'f1-score': 0.5975559163059163, 'support': 80}
+2023-05-29 18:10:12,425 - INFO test.py(46): val weighted avg: {'precision': 0.6534722222222221, 'recall': 0.6125, 'f1-score': 0.5975559163059163, 'support': 80}
+2023-05-29 18:10:12,850 - INFO model.py(142): save ckpt to res/train_test_class_05-29_18-05-18/ckpts/epoch_3_acc_0.612500.pth
+2023-05-29 18:10:37,346 - INFO train.py(152): Epoch: 4, Loss: 1.154290, lr: 0.00049951
+2023-05-29 18:10:37,347 - INFO train.py(152): Epoch: 4, Loss: 1.110149, lr: 0.00049951
+2023-05-29 18:10:40,875 - INFO test.py(42): train Accuray: 0.657097
+2023-05-29 18:10:40,880 - INFO test.py(45): train macro avg: {'precision': 0.6952143646820598, 'recall': 0.651444372795196, 'f1-score': 0.6365748881166782, 'support': 1254}
+2023-05-29 18:10:40,880 - INFO test.py(46): train weighted avg: {'precision': 0.7078680606061282, 'recall': 0.6570972886762361, 'f1-score': 0.6448618896431296, 'support': 1254}
+2023-05-29 18:10:41,500 - INFO test.py(42): val Accuray: 0.675000
+2023-05-29 18:10:41,507 - INFO test.py(45): val macro avg: {'precision': 0.6948277417027418, 'recall': 0.675, 'f1-score': 0.637885551948052, 'support': 80}
+2023-05-29 18:10:41,507 - INFO test.py(46): val weighted avg: {'precision': 0.6948277417027418, 'recall': 0.675, 'f1-score': 0.6378855519480519, 'support': 80}
+2023-05-29 18:10:41,915 - INFO model.py(142): save ckpt to res/train_test_class_05-29_18-05-18/ckpts/epoch_4_acc_0.675000.pth
+2023-05-29 18:11:06,321 - INFO train.py(152): Epoch: 5, Loss: 0.971697, lr: 0.00049923
+2023-05-29 18:11:06,323 - INFO train.py(152): Epoch: 5, Loss: 1.015580, lr: 0.00049923
+2023-05-29 18:11:10,106 - INFO test.py(42): train Accuray: 0.501595
+2023-05-29 18:11:10,111 - INFO test.py(45): train macro avg: {'precision': 0.6003294649103055, 'recall': 0.4951418567734105, 'f1-score': 0.47742260753450283, 'support': 1254}
+2023-05-29 18:11:10,111 - INFO test.py(46): train weighted avg: {'precision': 0.5952705282601253, 'recall': 0.5015948963317385, 'f1-score': 0.476407922732022, 'support': 1254}
+2023-05-29 18:11:10,758 - INFO test.py(42): val Accuray: 0.512500
+2023-05-29 18:11:10,761 - INFO test.py(45): val macro avg: {'precision': 0.48413825757575757, 'recall': 0.5125, 'f1-score': 0.46128264097014093, 'support': 80}
+2023-05-29 18:11:10,761 - INFO test.py(46): val weighted avg: {'precision': 0.4841382575757575, 'recall': 0.5125, 'f1-score': 0.461282640970141, 'support': 80}
+2023-05-29 18:11:10,762 - INFO train.py(169): accuracy_flag: 1
+2023-05-29 18:11:35,035 - INFO train.py(152): Epoch: 6, Loss: 1.078448, lr: 0.00049889
+2023-05-29 18:11:35,046 - INFO train.py(152): Epoch: 6, Loss: 1.065398, lr: 0.00049889
+2023-05-29 18:11:39,273 - INFO test.py(42): train Accuray: 0.657895
+2023-05-29 18:11:39,279 - INFO test.py(45): train macro avg: {'precision': 0.7066340407705103, 'recall': 0.6623131975583636, 'f1-score': 0.6577020432055627, 'support': 1254}
+2023-05-29 18:11:39,279 - INFO test.py(46): train weighted avg: {'precision': 0.7116803323624787, 'recall': 0.6578947368421053, 'f1-score': 0.6570720847331141, 'support': 1254}
+2023-05-29 18:11:39,909 - INFO test.py(42): val Accuray: 0.662500
+2023-05-29 18:11:39,913 - INFO test.py(45): val macro avg: {'precision': 0.7376736111111111, 'recall': 0.6625000000000001, 'f1-score': 0.6526900183150184, 'support': 80}
+2023-05-29 18:11:39,913 - INFO test.py(46): val weighted avg: {'precision': 0.7376736111111111, 'recall': 0.6625, 'f1-score': 0.6526900183150184, 'support': 80}
+2023-05-29 18:11:39,913 - INFO train.py(169): accuracy_flag: 2
+2023-05-29 18:12:04,645 - INFO train.py(152): Epoch: 7, Loss: 0.913619, lr: 0.00049849
+2023-05-29 18:12:04,646 - INFO train.py(152): Epoch: 7, Loss: 0.834444, lr: 0.00049849
+2023-05-29 18:12:08,461 - INFO test.py(42): train Accuray: 0.687400
+2023-05-29 18:12:08,465 - INFO test.py(45): train macro avg: {'precision': 0.7182514234923949, 'recall': 0.6833988226093723, 'f1-score': 0.6632669577380932, 'support': 1254}
+2023-05-29 18:12:08,466 - INFO test.py(46): train weighted avg: {'precision': 0.7216686038315905, 'recall': 0.6874003189792663, 'f1-score': 0.6677353150808054, 'support': 1254}
+2023-05-29 18:12:09,077 - INFO test.py(42): val Accuray: 0.687500
+2023-05-29 18:12:09,080 - INFO test.py(45): val macro avg: {'precision': 0.7497767857142857, 'recall': 0.6875, 'f1-score': 0.6532266344766344, 'support': 80}
+2023-05-29 18:12:09,080 - INFO test.py(46): val weighted avg: {'precision': 0.7497767857142857, 'recall': 0.6875, 'f1-score': 0.6532266344766345, 'support': 80}
+2023-05-29 18:12:09,457 - INFO model.py(142): save ckpt to res/train_test_class_05-29_18-05-18/ckpts/epoch_7_acc_0.687500.pth
+2023-05-29 18:12:34,173 - INFO train.py(152): Epoch: 8, Loss: 0.872369, lr: 0.00049803
+2023-05-29 18:12:34,176 - INFO train.py(152): Epoch: 8, Loss: 0.875364, lr: 0.00049803
+2023-05-29 18:12:38,055 - INFO test.py(42): train Accuray: 0.741627
+2023-05-29 18:12:38,061 - INFO test.py(45): train macro avg: {'precision': 0.7542087854730702, 'recall': 0.7288835564972838, 'f1-score': 0.7221440435771156, 'support': 1254}
+2023-05-29 18:12:38,061 - INFO test.py(46): train weighted avg: {'precision': 0.7625612610933077, 'recall': 0.7416267942583732, 'f1-score': 0.7341407232996666, 'support': 1254}
+2023-05-29 18:12:38,715 - INFO test.py(42): val Accuray: 0.737500
+2023-05-29 18:12:38,719 - INFO test.py(45): val macro avg: {'precision': 0.8196045274170274, 'recall': 0.7375, 'f1-score': 0.7197512556887558, 'support': 80}
+2023-05-29 18:12:38,719 - INFO test.py(46): val weighted avg: {'precision': 0.8196045274170274, 'recall': 0.7375, 'f1-score': 0.7197512556887556, 'support': 80}
+2023-05-29 18:12:39,142 - INFO model.py(142): save ckpt to res/train_test_class_05-29_18-05-18/ckpts/epoch_8_acc_0.737500.pth
+2023-05-29 18:13:03,057 - INFO train.py(152): Epoch: 9, Loss: 0.822928, lr: 0.00049751
+2023-05-29 18:13:03,067 - INFO train.py(152): Epoch: 9, Loss: 0.831142, lr: 0.00049751
+2023-05-29 18:13:06,991 - INFO test.py(42): train Accuray: 0.723285
+2023-05-29 18:13:06,995 - INFO test.py(45): train macro avg: {'precision': 0.7485837067975794, 'recall': 0.7202979838421137, 'f1-score': 0.712765518662256, 'support': 1254}
+2023-05-29 18:13:06,996 - INFO test.py(46): train weighted avg: {'precision': 0.7583714079713542, 'recall': 0.7232854864433812, 'f1-score': 0.7185382269367212, 'support': 1254}
+2023-05-29 18:13:07,642 - INFO test.py(42): val Accuray: 0.862500
+2023-05-29 18:13:07,646 - INFO test.py(45): val macro avg: {'precision': 0.8834821428571429, 'recall': 0.8625, 'f1-score': 0.8637310606060606, 'support': 80}
+2023-05-29 18:13:07,646 - INFO test.py(46): val weighted avg: {'precision': 0.8834821428571429, 'recall': 0.8625, 'f1-score': 0.8637310606060605, 'support': 80}
+2023-05-29 18:13:08,034 - INFO model.py(142): save ckpt to res/train_test_class_05-29_18-05-18/ckpts/epoch_9_acc_0.862500.pth
+2023-05-29 18:13:33,008 - INFO train.py(152): Epoch: 10, Loss: 0.746772, lr: 0.00049692
+2023-05-29 18:13:33,010 - INFO train.py(152): Epoch: 10, Loss: 0.773284, lr: 0.00049692
+2023-05-29 18:13:37,210 - INFO test.py(42): train Accuray: 0.660287
+2023-05-29 18:13:37,220 - INFO test.py(45): train macro avg: {'precision': 0.74049298341394, 'recall': 0.6428361879280673, 'f1-score': 0.631509765881388, 'support': 1254}
+2023-05-29 18:13:37,221 - INFO test.py(46): train weighted avg: {'precision': 0.739217543656909, 'recall': 0.6602870813397129, 'f1-score': 0.641770077770286, 'support': 1254}
+2023-05-29 18:13:38,023 - INFO test.py(42): val Accuray: 0.600000
+2023-05-29 18:13:38,025 - INFO test.py(45): val macro avg: {'precision': 0.6917715964590965, 'recall': 0.6000000000000001, 'f1-score': 0.565776629771195, 'support': 80}
+2023-05-29 18:13:38,025 - INFO test.py(46): val weighted avg: {'precision': 0.6917715964590965, 'recall': 0.6, 'f1-score': 0.565776629771195, 'support': 80}
+2023-05-29 18:13:38,025 - INFO train.py(169): accuracy_flag: 1
+2023-05-29 18:14:03,157 - INFO train.py(152): Epoch: 11, Loss: 0.703317, lr: 0.00049628
+2023-05-29 18:14:03,171 - INFO train.py(152): Epoch: 11, Loss: 0.716138, lr: 0.00049628
+2023-05-29 18:14:07,322 - INFO test.py(42): train Accuray: 0.708931
+2023-05-29 18:14:07,335 - INFO test.py(45): train macro avg: {'precision': 0.7451049789332039, 'recall': 0.7029097309981938, 'f1-score': 0.6943650971394479, 'support': 1254}
+2023-05-29 18:14:07,335 - INFO test.py(46): train weighted avg: {'precision': 0.7611738121144577, 'recall': 0.7089314194577353, 'f1-score': 0.7053269468236913, 'support': 1254}
+2023-05-29 18:14:08,186 - INFO test.py(42): val Accuray: 0.725000
+2023-05-29 18:14:08,193 - INFO test.py(45): val macro avg: {'precision': 0.7452110389610389, 'recall': 0.7250000000000001, 'f1-score': 0.701402417027417, 'support': 80}
+2023-05-29 18:14:08,194 - INFO test.py(46): val weighted avg: {'precision': 0.7452110389610389, 'recall': 0.725, 'f1-score': 0.7014024170274169, 'support': 80}
+2023-05-29 18:14:08,194 - INFO train.py(169): accuracy_flag: 2
+2023-05-29 18:14:32,840 - INFO train.py(152): Epoch: 12, Loss: 0.728360, lr: 0.00049557
+2023-05-29 18:14:32,844 - INFO train.py(152): Epoch: 12, Loss: 0.688629, lr: 0.00049557
+2023-05-29 18:14:36,625 - INFO test.py(42): train Accuray: 0.799841
+2023-05-29 18:14:36,633 - INFO test.py(45): train macro avg: {'precision': 0.8070200013889705, 'recall': 0.790908188339538, 'f1-score': 0.7902662621328562, 'support': 1254}
+2023-05-29 18:14:36,633 - INFO test.py(46): train weighted avg: {'precision': 0.8076608266083631, 'recall': 0.7998405103668261, 'f1-score': 0.7951022691370945, 'support': 1254}
+2023-05-29 18:14:37,335 - INFO test.py(42): val Accuray: 0.862500
+2023-05-29 18:14:37,339 - INFO test.py(45): val macro avg: {'precision': 0.8821428571428571, 'recall': 0.8625, 'f1-score': 0.8572736291486291, 'support': 80}
+2023-05-29 18:14:37,339 - INFO test.py(46): val weighted avg: {'precision': 0.8821428571428573, 'recall': 0.8625, 'f1-score': 0.8572736291486291, 'support': 80}
+2023-05-29 18:14:37,339 - INFO train.py(169): accuracy_flag: 3
+2023-05-29 18:15:02,665 - INFO train.py(152): Epoch: 13, Loss: 0.635128, lr: 0.00049481
+2023-05-29 18:15:02,688 - INFO train.py(152): Epoch: 13, Loss: 0.671704, lr: 0.00049481
+2023-05-29 18:15:06,564 - INFO test.py(42): train Accuray: 0.814195
+2023-05-29 18:15:06,576 - INFO test.py(45): train macro avg: {'precision': 0.8146472976840291, 'recall': 0.8131982474990445, 'f1-score': 0.808665479987789, 'support': 1254}
+2023-05-29 18:15:06,577 - INFO test.py(46): train weighted avg: {'precision': 0.815886790331982, 'recall': 0.8141945773524721, 'f1-score': 0.8095521763174888, 'support': 1254}
+2023-05-29 18:15:07,183 - INFO test.py(42): val Accuray: 0.837500
+2023-05-29 18:15:07,187 - INFO test.py(45): val macro avg: {'precision': 0.8814484126984128, 'recall': 0.8375, 'f1-score': 0.8389926046176046, 'support': 80}
+2023-05-29 18:15:07,187 - INFO test.py(46): val weighted avg: {'precision': 0.8814484126984127, 'recall': 0.8375, 'f1-score': 0.8389926046176047, 'support': 80}
+2023-05-29 18:15:07,187 - INFO train.py(169): accuracy_flag: 4
+2023-05-29 18:15:31,476 - INFO train.py(152): Epoch: 14, Loss: 0.673877, lr: 0.00049398
+2023-05-29 18:15:31,489 - INFO train.py(152): Epoch: 14, Loss: 0.649771, lr: 0.00049398
+2023-05-29 18:15:35,509 - INFO test.py(42): train Accuray: 0.732057
+2023-05-29 18:15:35,517 - INFO test.py(45): train macro avg: {'precision': 0.7591391718394513, 'recall': 0.7306327490093276, 'f1-score': 0.7175666285572869, 'support': 1254}
+2023-05-29 18:15:35,517 - INFO test.py(46): train weighted avg: {'precision': 0.7668034601010105, 'recall': 0.7320574162679426, 'f1-score': 0.7226385548015581, 'support': 1254}
+2023-05-29 18:15:36,342 - INFO test.py(42): val Accuray: 0.787500
+2023-05-29 18:15:36,345 - INFO test.py(45): val macro avg: {'precision': 0.8602543290043291, 'recall': 0.7875000000000001, 'f1-score': 0.7740688131313131, 'support': 80}
+2023-05-29 18:15:36,345 - INFO test.py(46): val weighted avg: {'precision': 0.860254329004329, 'recall': 0.7875, 'f1-score': 0.7740688131313131, 'support': 80}
+2023-05-29 18:15:36,345 - INFO train.py(169): accuracy_flag: 5
+2023-05-29 18:16:00,877 - INFO train.py(152): Epoch: 15, Loss: 0.580000, lr: 0.00049309
+2023-05-29 18:16:00,899 - INFO train.py(152): Epoch: 15, Loss: 0.639887, lr: 0.00049309
+2023-05-29 18:16:05,089 - INFO test.py(42): train Accuray: 0.749601
+2023-05-29 18:16:05,094 - INFO test.py(45): train macro avg: {'precision': 0.7833975905000259, 'recall': 0.7438250288220712, 'f1-score': 0.7373239342467054, 'support': 1254}
+2023-05-29 18:16:05,094 - INFO test.py(46): train weighted avg: {'precision': 0.7858350725759572, 'recall': 0.7496012759170654, 'f1-score': 0.7414272037221837, 'support': 1254}
+2023-05-29 18:16:05,670 - INFO test.py(42): val Accuray: 0.700000
+2023-05-29 18:16:05,672 - INFO test.py(45): val macro avg: {'precision': 0.7397817460317461, 'recall': 0.7000000000000001, 'f1-score': 0.6928391053391053, 'support': 80}
+2023-05-29 18:16:05,673 - INFO test.py(46): val weighted avg: {'precision': 0.739781746031746, 'recall': 0.7, 'f1-score': 0.6928391053391054, 'support': 80}
+2023-05-29 18:16:05,673 - INFO train.py(169): accuracy_flag: 6
+2023-05-29 18:16:29,476 - INFO train.py(152): Epoch: 16, Loss: 0.565010, lr: 0.00049215
+2023-05-29 18:16:29,484 - INFO train.py(152): Epoch: 16, Loss: 0.612455, lr: 0.00049215
+2023-05-29 18:16:33,348 - INFO test.py(42): train Accuray: 0.783892
+2023-05-29 18:16:33,352 - INFO test.py(45): train macro avg: {'precision': 0.7978855125154268, 'recall': 0.7805991514204704, 'f1-score': 0.7790786962320353, 'support': 1254}
+2023-05-29 18:16:33,352 - INFO test.py(46): train weighted avg: {'precision': 0.7971382883498679, 'recall': 0.7838915470494418, 'f1-score': 0.7806439218756348, 'support': 1254}
+2023-05-29 18:16:33,970 - INFO test.py(42): val Accuray: 0.800000
+2023-05-29 18:16:33,974 - INFO test.py(45): val macro avg: {'precision': 0.8166666666666667, 'recall': 0.8, 'f1-score': 0.7950806138306139, 'support': 80}
+2023-05-29 18:16:33,975 - INFO test.py(46): val weighted avg: {'precision': 0.8166666666666668, 'recall': 0.8, 'f1-score': 0.7950806138306138, 'support': 80}
+2023-05-29 18:16:33,975 - INFO train.py(169): accuracy_flag: 7
+2023-05-29 18:16:58,547 - INFO train.py(152): Epoch: 17, Loss: 0.612613, lr: 0.00049114
+2023-05-29 18:16:58,548 - INFO train.py(152): Epoch: 17, Loss: 0.583945, lr: 0.00049114
+2023-05-29 18:17:02,674 - INFO test.py(42): train Accuray: 0.758373
+2023-05-29 18:17:02,679 - INFO test.py(45): train macro avg: {'precision': 0.7906925014685868, 'recall': 0.7505526766892987, 'f1-score': 0.7321145499986886, 'support': 1254}
+2023-05-29 18:17:02,679 - INFO test.py(46): train weighted avg: {'precision': 0.7972045603679019, 'recall': 0.7583732057416268, 'f1-score': 0.7419383768158825, 'support': 1254}
+2023-05-29 18:17:03,282 - INFO test.py(42): val Accuray: 0.775000
+2023-05-29 18:17:03,285 - INFO test.py(45): val macro avg: {'precision': 0.7730902777777777, 'recall': 0.7749999999999999, 'f1-score': 0.7442710067710068, 'support': 80}
+2023-05-29 18:17:03,285 - INFO test.py(46): val weighted avg: {'precision': 0.7730902777777777, 'recall': 0.775, 'f1-score': 0.7442710067710067, 'support': 80}
+2023-05-29 18:17:03,285 - INFO train.py(169): accuracy_flag: 8
+2023-05-29 18:17:27,474 - INFO train.py(152): Epoch: 18, Loss: 0.624583, lr: 0.00049008
+2023-05-29 18:17:27,480 - INFO train.py(152): Epoch: 18, Loss: 0.578675, lr: 0.00049008
+2023-05-29 18:17:31,705 - INFO test.py(42): train Accuray: 0.786284
+2023-05-29 18:17:31,715 - INFO test.py(45): train macro avg: {'precision': 0.819363081405705, 'recall': 0.7789821680205973, 'f1-score': 0.7715614321017663, 'support': 1254}
+2023-05-29 18:17:31,716 - INFO test.py(46): train weighted avg: {'precision': 0.826616027409223, 'recall': 0.7862838915470495, 'f1-score': 0.779882120108197, 'support': 1254}
+2023-05-29 18:17:32,326 - INFO test.py(42): val Accuray: 0.700000
+2023-05-29 18:17:32,329 - INFO test.py(45): val macro avg: {'precision': 0.7359623015873016, 'recall': 0.7, 'f1-score': 0.6831349206349207, 'support': 80}
+2023-05-29 18:17:32,329 - INFO test.py(46): val weighted avg: {'precision': 0.7359623015873016, 'recall': 0.7, 'f1-score': 0.6831349206349207, 'support': 80}
+2023-05-29 18:17:32,329 - INFO train.py(169): accuracy_flag: 9
+2023-05-29 18:17:56,289 - INFO train.py(152): Epoch: 19, Loss: 0.521408, lr: 0.00048895
+2023-05-29 18:17:56,290 - INFO train.py(152): Epoch: 19, Loss: 0.527670, lr: 0.00048895
+2023-05-29 18:18:00,488 - INFO test.py(42): train Accuray: 0.845295
+2023-05-29 18:18:00,500 - INFO test.py(45): train macro avg: {'precision': 0.8531910761520081, 'recall': 0.8419696151116407, 'f1-score': 0.8427574705368668, 'support': 1254}
+2023-05-29 18:18:00,500 - INFO test.py(46): train weighted avg: {'precision': 0.8558805739001982, 'recall': 0.8452950558213717, 'f1-score': 0.8456794152978446, 'support': 1254}
+2023-05-29 18:18:01,148 - INFO test.py(42): val Accuray: 0.837500
+2023-05-29 18:18:01,151 - INFO test.py(45): val macro avg: {'precision': 0.8669642857142857, 'recall': 0.8375000000000001, 'f1-score': 0.8417759324009324, 'support': 80}
+2023-05-29 18:18:01,151 - INFO test.py(46): val weighted avg: {'precision': 0.8669642857142857, 'recall': 0.8375, 'f1-score': 0.8417759324009324, 'support': 80}
+2023-05-29 18:18:01,152 - INFO train.py(169): accuracy_flag: 10
+2023-05-29 18:18:01,555 - INFO model.py(142): save ckpt to res/train_test_class_05-29_18-05-18/ckpts/epoch_19_acc_0.837500.pth
+2023-05-29 18:18:01,555 - INFO train.py(180): Training finished! Training time: 0:12:42.824925

@@ -1,0 +1,41 @@
+model:
+  dest: model.BirdClf
+  paras:
+    embed_size: 16
+
+data:
+  img_size: 224
+  data_path: 'data/test_class/2'
+  augment: True
+  resized_crop: True
+  herizon_flip: True
+  vertical_flip: True
+  random_affine: False
+  batch_size: 32
+  num_workers: 8
+
+loss:
+  dest: loss.CrossEntropyLoss
+  weight: None
+  reduction: 'mean'
+  label_smoothing: 0.2
+
+optimizer:
+  type: 'Adam'  # AdamW, SGD, Adam
+  lr: 5e-4
+  weight_decay: 1e-3
+  momentum: 0.9
+
+scheduler:
+  type: 'CosineAnnealingLR'  # CosineAnnealingLR, StepLR 
+  T_max: 200
+  eta_min: 1e-7
+  step_size: 11
+  gamma: 0.1
+  
+resume: False
+ckpt_path: ''
+max_epochs: 100
+val_interval: 1
+accuracy_thre: 10
+random_seed: 42
