@@ -2,72 +2,30 @@
 
 首先，建立一个python虚拟环境，如`conda create -n BirdClf python=3.8`, 然后使用 `pip install -r requirements.txt` 来安装必要的python库。
 
-其次，由于有些文件过大，网络学堂没有上传，因此在清华云盘进行下载
+其次，由于有些文件过大，网络学堂没有上传，因此在清华云盘进行下载，云盘链接是[url](https://cloud.tsinghua.edu.cn/d/f5f64c3752f44e059c80/)。云盘中除原始数据集外有7个文件，其中，resnet50-0676ba61.pth是ResNet50预训练文件，请放在checkpoints/下；test_class.zip是为了进行样本类别分析的小数据集，请将其解压为test_class然后放在data/下；test_balance.zip是为了进行样本均衡度分析的小数据集，请将其解压为test_class然后放在data/下。由于进行了非常多实验，有很多ckpt，此处只选取了四个，分别是基本方法部分的最优模型(res/train_05-26_23-35-32/ckpts/epoch_13_acc_0.881143.pth)、进行学习率的调整后不使用预训练的SOTA模型(res/train_lr_05-28_23-13-51/ckpts/epoch_46_acc_0.960381.pth)、
+使用预训练后的SOTA模型(res/train_pretrain_05-29_10-34-31/ckpts/epoch_25_acc_0.975238.pth)、使用模型压缩后的最优模型(res/train_compress_05-29_13-50-51/ckpts/epoch_28_acc_0.979048.pth)，若想用它们进行测试，请放入对应的文件夹下。
 
-## Face align
+## 获取小数据集
 
-You can align face image by mtcnn or landmark. For mtcnn, run `bash face_detect/run_mtcnn.sh` to get mtcnn face detection results by 8 gpus, then run `face_detect/process_mtcnn.py` to merge mtcnn results and evaluate them. For landmark, run `python face_detect/landmark.py` to get landmark face detection results and evaluate them.
+如报告所述，获取小数据集主要是为了对样本类比和均衡度进行测试。直接在dataset.py文件中运行select_class函数和select_balance函数即可，可以修改其参数。
 
-* ckpt `shape_predictor_68_face_landmarks.dat` for landmark face detection can be downloaded  here: [url](download%20https://cloud.tsinghua.edu.cn/d/90f476668cb0498f9882/). put it under `checkpoints/`.
+## 训练
 
-Then, run `python face_align -t mtcnn` or `python face_align -t landmark` to align images of both training_set and test_pair. The default crop size for mtcnn is (112, 96), for landmark is (112, 112). you can edit it in face_align.py.
-
-You can download the face detection and face align results here: [url](download%20https://cloud.tsinghua.edu.cn/d/90f476668cb0498f9882/). Uncompress `data.tar.gz` and put it In the root directory.
-
-**The file structure of data dir is:**
+要训练模型，运行`bash train.sh`：
 
 ```
-data/
-├── test/
-    ├── landmark/
-    ├──align112x112/
-    ├──eval_landmark/
-    ├──landmarks/
-    ├── mtcnn/
-        ├──align112x96/
-    ├──eval_mtcnn/
-    ├──mtcnns/
-    ├── test_pair/
-├── train/
-    ├── landmark/
-    ├──align112x112/
-    ├──eval_landmark/
-    ├──indexes/
-    ├──landmarks/
-    ├──error_lmk.json
-    ├── mtcnn/
-        ├──align112x96/
-    ├──eval_mtcnn/
-    ├──indexes/
-    ├──mtcnns/
-    ├── training_set/
-├── dataset.zip
+PORT=$(comm -23 <(seq 49152 65535 | sort) <(ss -Htan | awk '{print $4}' | cut -d':' -f2 | sort -u) | shuf | head -n 1)
+CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nproc_per_node=2 --master_port=$PORT train.py --config configs/train_test_balance.yaml
 ```
+第一行是获取端口号，第二行是运行train.py，可在其中修改GPU，修改配置文件。此外，也可以修改configs/下的各种配置文件中的配置和参数。其中，train.yaml指基础方法的配置文件，加hyperpara代表这是超参数调整的配置文件，加compress代表它是模型压缩的配置文件，以此类推。
 
-## Train
+训练的所有结果已经在res文件夹下保存，各个文件夹代表的模型在报告中已经指出。
 
-* `{align_type}` refer to `mtcnn` or `landmark`.
+## 测试与评估
 
-Run `bash train.sh` to train the model:
-
+测试与评估主要在test.py文件中实现。直接运行`bash test.sh`即可：
 ```
-CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nproc_per_node=2 --master_port=23756 train_ddp.py --type {align_type}
+python test.py --device 0 --config 'res/train_test_balance_05-29_19-40-16/config.yaml' --N_imgs 4
 ```
+其中，device是GPU号，config是配置文件路径，此处注意一定要将resume设为True并写上合理的ckpt_path。N_imgs是可视化图每行的图片数。运行之后就可以得到这个文件在测试集的Accuracy、Precision等指标，得到可视化图，获取模型统计信息。
 
-Also, you can edit `configs/train_{align_type}.yaml` to change training params, like batch_size, max_epochs, val_interval and triplets_num.
-
-The pretrained models can be downloaded here: [url](download%20https://cloud.tsinghua.edu.cn/d/90f476668cb0498f9882/). After download, put `landmark_last_acc_0.8549.pth` in `log\ckpt\landmark_last_acc_0.8549.pth`; put `mtcnn_last_acc_0.8693.pth` in `log\ckpt\mtcnn_last_acc_0.8693.pth`.
-
-What's more, My training logs for the pretrained models are in `log\logs\train_{align_type}.log`.
-
-## Evaluate
-
-Run `python evaluate.py --type {align_type} --val_ratio 0.85 --seed 0` to evaluate model. My evaluate logs for the pretrained models are in `log\logs\evaluate_{align_type}.log`.
-
-## Test
-
-Run `python test.py --type {align_type}` to get test results. My test logs are in `log\logs\test_{align_type}.log` and the test results are in `test_{align_type}.txt`.
-
-## Acknowledgements
-
-[CosFace_pytorch](https://github.com/MuggleWang/CosFace_pytorch), [facenet](https://github.com/tbmoon/facenet), [face-parsing.PyTorch](https://github.com/zllrunning/face-parsing.PyTorch).
