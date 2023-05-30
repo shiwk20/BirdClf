@@ -1,6 +1,5 @@
 from torch import nn
 import torch
-import numpy as np
 
 class CrossEntropyLoss(nn.Module):
     def __init__(self, weight=None, reduction='mean', label_smoothing=0.0):

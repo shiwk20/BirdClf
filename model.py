@@ -3,7 +3,6 @@ import torch
 import torch.nn.functional as F
 import os
 from torch.nn.utils import prune
-from torchvision.models import convnext_base
 
 def make_layer(in_channel, out_channel, block_num, stride):
     Blocks = []

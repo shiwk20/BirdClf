@@ -12,10 +12,9 @@ from torch import nn
 warnings.filterwarnings("ignore")
 from torch.utils.data import DataLoader
 from tqdm import tqdm
-import json
 from dataset import TestDataset
 from utils import get_logger, instantiation, set_seed
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, confusion_matrix, ConfusionMatrixDisplay
 import argparse
 import matplotlib.pyplot as plt
 
@@ -44,7 +43,21 @@ def evaluate(model, dataloader, logger, device, type):
         output_dict = classification_report(labels, preds, output_dict=True, digits=4)
         logger.info(f'{type} macro avg: {output_dict["macro avg"]}')
         logger.info(f'{type} weighted avg: {output_dict["weighted avg"]}')
-        
+        # 类别数小于等于20
+        if len(labels) / 5 <= 20 and type == 'test':
+            logger.info(f'{type} report: \n{classification_report(labels, preds, digits=4)}')
+            # 混淆矩阵
+            plt.rcdefaults()
+            plt.rcParams['font.size'] = '8'
+            plt.figure(dpi=400)
+            cm = confusion_matrix(labels, preds)
+            disp = ConfusionMatrixDisplay(confusion_matrix=cm)
+            disp.plot(values_format='d', xticks_rotation='vertical', ax=None)
+            plt.title("Confusion Matrix of %s"%(type))
+            plt.savefig(os.path.join(res_path, 'imgs', "confusion_matrix.png"), bbox_inches = 'tight')
+            plt.close()
+            plt.rcdefaults()
+
         return Accuray
 
 # 训练记录曲线, 包括loss, acc和lr曲线
@@ -193,12 +206,17 @@ if __name__ == "__main__":
     res_path = res_path = os.path.dirname(os.path.dirname(config.ckpt_path))
     log_path = os.path.join(res_path, 'logs')
     model_name = os.path.basename(config.ckpt_path)[:-4]
+    if os.path.isfile(os.path.join(log_path, f'test_{model_name}.log')):
+        os.remove(os.path.join(log_path, f'test_{model_name}.log'))
     logger = get_logger(log_path, 'test_' + model_name)
     logger.info('config: {}'.format(config))
     
     # model
     model = instantiation(config.model)
     _, _, _, _, _, _ = model.load_ckpt(config.ckpt_path, logger)
+    if model.compress:
+        model.model_compress()
+        model.remove_prune()   
     model.eval()
     model.to(device)
     

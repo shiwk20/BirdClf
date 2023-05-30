@@ -1,7 +1,6 @@
-# 来源: https://github.com/sksq96/pytorch-summary/tree/345d898d84507b848e92dab4629e03405e19afce
+# 参考：https://github.com/sksq96/pytorch-summary/tree/345d898d84507b848e92dab4629e03405e19afce
 import torch
 import torch.nn as nn
-from torch.autograd import Variable
 
 from collections import OrderedDict
 import numpy as np

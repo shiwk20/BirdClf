@@ -1,23 +1,8 @@
-# FaceRecg - PRML project of 2022-Autumn
+# BirdClf - 人工智能基础大作业二
 
-Weikang Shi, 2020011365, [shiwk20@mails.tsinghua.edu.cn](mailto:shiwk20@mails.tsinghua.edu.cn)
+首先，建立一个python虚拟环境，如`conda create -n BirdClf python=3.8`, 然后使用 `pip install -r requirements.txt` 来安装必要的python库。
 
-## Requirements
-
-* **dlib**
-* **imutils**
-* **mtcnn**
-* **numpy**
-* **omegaconf**
-* **opencv-python**
-* **Pillow**
-* **scikit-learn**
-* **tensorflow-gpu**
-* **torch**=**=1.11.0**
-* **torchvision==0.12.0**
-* **tqdm**
-
-Firstly create a conda environment by `conda create -n FaceRecg python=3.8`, then Install the necessary packages using `pip install -r requirements.txt`.
+其次，由于有些文件过大，网络学堂没有上传，因此在清华云盘进行下载
 
 ## Face align
 

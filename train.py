@@ -8,8 +8,6 @@ import shutil
 import warnings
 warnings.filterwarnings("ignore")
 import os
-from torch.cuda.amp import autocast
-import numpy as np
 from omegaconf import OmegaConf
 from torch.utils.data.distributed import DistributedSampler
 from torch.utils.data import DataLoader

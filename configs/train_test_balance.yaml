@@ -5,7 +5,7 @@ model:
 
 data:
   img_size: 224
-  data_path: 'data/test_balance/4'
+  data_path: 'data/test_balance/2'
   augment: True
   resized_crop: True
   herizon_flip: True

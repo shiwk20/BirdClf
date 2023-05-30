@@ -1,1 +1,1 @@
-python test.py --device 0 --config 'res/train_test_class_05-29_16-23-42/config.yaml' --N_imgs 3
+python test.py --device 0 --config 'res/train_test_balance_05-29_19-40-16/config.yaml' --N_imgs 4
